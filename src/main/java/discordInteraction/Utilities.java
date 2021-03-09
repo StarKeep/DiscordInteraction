@@ -1,6 +1,10 @@
 package discordInteraction;
 
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 import discordInteraction.card.Card;
 import discordInteraction.card.FlavorType;
 import discordInteraction.command.QueuedCommandSingleTargeted;
@@ -8,6 +12,7 @@ import discordInteraction.command.QueuedCommandTargetless;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 
+import javax.swing.text.AbstractDocument;
 import java.util.ArrayList;
 
 public class Utilities {
@@ -246,6 +251,12 @@ public class Utilities {
             else
                 output += " " + flavor.toString();
         return output;
+    }
+
+    // Shortcut
+    public static void applyPower(AbstractCreature target, AbstractPower power){
+        ApplyPowerAction action = new ApplyPowerAction(target, target, power);
+        AbstractDungeon.actionManager.addToBottom(action);
     }
 
     public static String getStartOfInProgressBattleMessage(){

@@ -2,12 +2,14 @@ package discordInteraction.card;
 
 import basemod.devcommands.power.Power;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import discordInteraction.Main;
+import discordInteraction.Utilities;
 import discordInteraction.command.Result;
 
 import javax.swing.text.AbstractDocument;
@@ -42,34 +44,15 @@ public class ToxicAttitude extends CardTargetless {
 
     @Override
     public Result activate(AbstractPlayer player) {
-        boolean existed = false;
+        PoisonPower power = new PoisonPower(player, player, 5);
 
-        for (AbstractPower power : player.powers)
-            if (power instanceof PoisonPower)
-            {
-                power.amount += 5;
-                existed = true;
-                break;
-            }
-
-        if (!existed)
-            player.powers.add(new PoisonPower(player, player, 5));
+        Utilities.applyPower(player, power);
 
         for (AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters) {
-            existed = false;
+            power = new PoisonPower(monster, monster, 5);
 
-            for (AbstractPower power : monster.powers)
-                if (power instanceof PoisonPower)
-                {
-                    power.amount += 5;
-                    existed = true;
-                    break;
-                }
-
-            if (!existed)
-                monster.powers.add(new PoisonPower(monster, monster, 5));
+            Utilities.applyPower(monster, power);
         }
-
 
         return new Result(true, "You applied 5 poison to all entities in the battle.");
     }
