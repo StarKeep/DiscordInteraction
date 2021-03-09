@@ -1,6 +1,7 @@
 package discordInteraction.card;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import discordInteraction.command.Result;
 
@@ -35,7 +36,16 @@ public class LayerItOn extends CardTargetless {
 
     @Override
     public Result activate(AbstractPlayer player) {
-        player.powers.add(new WeakPower(player, 2, false));
+        boolean existed = false;
+        for (AbstractPower power : player.powers)
+            if (power instanceof WeakPower)
+            {
+                power.amount += 2;
+                existed = true;
+                break;
+            }
+        if (!existed)
+            player.powers.add(new WeakPower(player, 2, false));
         player.addBlock(12);
         return new Result(true, "You applied 12 block and 2 weak to the streamer.");
     }
