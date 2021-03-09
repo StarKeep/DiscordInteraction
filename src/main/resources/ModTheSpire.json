@@ -1,0 +1,10 @@
+{
+  "modid": "DiscordInteraction",
+  "name": "Discord Interaction",
+  "author_list": ["StarKelp"],
+  "description": "Allows viewers to interact with your game via discord bot commands.",
+  "version": "0.1.0",
+  "sts_version": "03-29-2018",
+  "mts_version": "2.6.0",
+  "dependencies": ["basemod"]
+}
