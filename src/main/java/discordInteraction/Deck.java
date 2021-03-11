@@ -16,8 +16,13 @@ public class Deck {
         return cards.get(type);
     }
 
+    private int highestCost;
+
+    public int getHighestCost(){ return highestCost; }
+
     public Deck() {
         cards = new HashMap<FlavorType, ArrayList<Card>>();
+        highestCost = 1;
 
         for (FlavorType type : FlavorType.values())
             cards.put(type, new ArrayList<Card>());
@@ -33,6 +38,7 @@ public class Deck {
                 Card.setTextureForCard(cardType);
 
                 Card card = cardType.newInstance();
+                highestCost = Math.max(highestCost, card.getCost());
                 if (Arrays.stream(card.getFlavorTypes()).anyMatch(FlavorType.basic::equals))
                     cards.get(FlavorType.basic).add(card);
                 if (Arrays.stream(card.getFlavorTypes()).anyMatch(FlavorType.support::equals))

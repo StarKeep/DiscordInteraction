@@ -55,7 +55,9 @@ public class Hand {
         ArrayList<Card> cardPool = new ArrayList<Card>();
 
         for(FlavorType type : flavorTypes)
-            cardPool.addAll(Main.deck.getCardsByFlavorType(type));
+            for(Card card : Main.deck.getCardsByFlavorType(type))
+                for(int x = 0; x < Main.deck.getHighestCost(); x++)
+                    cardPool.add(card);
 
         while(pointsToDraw > 0 && cards.size() < capacity){
             int toDraw = Main.random.nextInt(cardPool.size() + 1) - 1;
