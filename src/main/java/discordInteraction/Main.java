@@ -238,8 +238,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         // Update our battle message to remove our commands now that they've been executed.
         Main.battle.setLastBattleUpdate(LocalDateTime.now());
         Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getListOfEnemies(false) +
-                    "\n" + Utilities.getUpcomingViewerCards()).queue();
+            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getListOfEnemies(false)).queue();
         }));
 
         return true;
