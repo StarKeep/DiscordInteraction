@@ -2,11 +2,11 @@ package discordInteraction;
 
 import discordInteraction.card.Card;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import discordInteraction.card.FlavorType;
 import org.reflections.Reflections;
 
 public class Deck {
@@ -27,7 +27,11 @@ public class Deck {
         Reflections reflections = new Reflections(Card.class);
 
         for( Class<? extends Card> cardType : reflections.getSubTypesOf(Card.class)){
+            if (Modifier.isAbstract(cardType.getModifiers()))
+                continue;
             try {
+                Card.setTextureForCard(cardType);
+
                 Card card = cardType.newInstance();
                 if (Arrays.stream(card.getFlavorTypes()).anyMatch(FlavorType.basic::equals))
                     cards.get(FlavorType.basic).add(card);

@@ -6,13 +6,11 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import discordInteraction.card.Card;
-import discordInteraction.card.FlavorType;
 import discordInteraction.command.QueuedCommandSingleTargeted;
 import discordInteraction.command.QueuedCommandTargetless;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import javax.swing.text.AbstractDocument;
 import java.util.ArrayList;
 
 public class Utilities {
@@ -86,7 +84,8 @@ public class Utilities {
         Hand viewerHand = Main.viewers.get(viewer);
 
         if (viewerHand.getCards().size() == 0)
-            return new String[] {"You do not currently have a hand. You'll draw cards when the streamer starts a new game, reaches a new act, or reaches a campfire."};
+            return new String[] {"You do not currently have a hand. You'll draw cards when the streamer starts a new game, " +
+                    "wins a battle, reaches a campfire, or starts a new act."};
 
         String[] result = new String[1 + ((viewerHand.getCards().size() - 1) / 3)];
         for(int x = 0; x < viewerHand.getCards().size(); x+=3) {

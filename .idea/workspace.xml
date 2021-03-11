@@ -4,7 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="446d7c20-6171-4d45-a79a-541eb7f78d7f" name="Default Changelist" comment="" />
+    <list default="true" id="446d7c20-6171-4d45-a79a-541eb7f78d7f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/FriendlyMinions.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/FlavorType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/ViewerMinion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/armorup.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/layeriton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/poke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/syphon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/toxicattitude.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/unpoke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/monsters/Viewer.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Battle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Battle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Deck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Hand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/FlavorType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/command/ChatCommandType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/ChatCommandType.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +62,10 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectId" id="1pMUCvzDZLetfP4YkaQkwmBT0Si" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -43,18 +79,24 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/discordIntegration" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" />
     <property name="project.structure.last.edited" value="Facets" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.35402298" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\pc\Documents\repos\DiscordInteraction\src\main\resources\images\flavors" />
+      <recent name="C:\Users\pc\Documents\repos\DiscordInteraction\src\main\resources\images" />
+      <recent name="C:\Users\pc\Documents\repos\DiscordInteraction\src\main\resources\images\monsters" />
+      <recent name="C:\Users\pc\Documents\repos\DiscordInteraction" />
       <recent name="C:\Users\pc\IdeaProjects\DiscordInteraction\src\main\resources\images" />
-      <recent name="C:\Users\pc\IdeaProjects\DiscordInteraction" />
-      <recent name="C:\Users\pc\IdeaProjects\DiscordInteraction\src\main\resources" />
+    </key>
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="discordInteraction" />
     </key>
   </component>
   <component name="RunManager">
@@ -74,11 +116,68 @@
       <option name="presentableId" value="Default" />
       <updated>1614992329953</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added Toxic Attitude&#10;&#10;Fixed a bug where Layer It On was incorrectly failing to stack with other instances of the weak debuff.">
+      <created>1615267642834</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1615267642834</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Config changes">
+      <created>1615267908345</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1615267908345</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Updated cards that apply powers to do so correctly.">
+      <created>1615302005456</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1615302005457</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Slight update to how monster id's are handled to make the error message better.">
+      <created>1615302557244</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1615302557244</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+    <MESSAGE value="Added Toxic Attitude&#10;&#10;Fixed a bug where Layer It On was incorrectly failing to stack with other instances of the weak debuff." />
+    <MESSAGE value="Config changes" />
+    <MESSAGE value="Updated cards that apply powers to do so correctly." />
+    <MESSAGE value="Slight update to how monster id's are handled to make the error message better." />
+    <option name="LAST_COMMIT_MESSAGE" value="Slight update to how monster id's are handled to make the error message better." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/discordInteraction/card/Card.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

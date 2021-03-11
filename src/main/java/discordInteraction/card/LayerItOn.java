@@ -1,8 +1,8 @@
 package discordInteraction.card;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.WeakPower;
+import discordInteraction.FlavorType;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
 

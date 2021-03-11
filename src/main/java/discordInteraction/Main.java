@@ -1,25 +1,29 @@
 package discordInteraction;
 
 import basemod.interfaces.*;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.ui.panels.AbstractPanel;
 import discordInteraction.command.QueuedCommandTargetless;
 import discordInteraction.command.QueuedCommandSingleTargeted;
 import discordInteraction.command.Result;
+import kobting.friendlyminions.helpers.BasePlayerMinionHelper;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import basemod.BaseMod;
 import basemod.interfaces.PreMonsterTurnSubscriber;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import sun.java2d.pipe.RenderingEngine;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -28,14 +32,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Consumer;
 
 import static discordInteraction.Utilities.*;
 
 
 @SpireInitializer
 public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnStartBattleSubscriber,
-        PostCampfireSubscriber, StartActSubscriber {
-    private static final String BOT_TOKEN = "enterTokenHere";
+        PostCampfireSubscriber, StartActSubscriber, StartGameSubscriber {
+    private static final String BOT_TOKEN = "botTokenHere";
 
     public static final Logger logger = LogManager.getLogger(Main.class.getName());
 
@@ -52,7 +57,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
             try {
                 config.createNewFile();
                 FileWriter init = new FileWriter(config);
-                init.write("ServerName:TextChannelName");
+                init.write("ServerName:ChannelName");
                 init.close();
             } catch (Exception e) { }
     }
@@ -128,9 +133,6 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     }
 
     public static void initialize() {
-        // Register our cards.
-        deck = new Deck();
-
         // Setup our random generator.
         random = new Random();
 
@@ -169,6 +171,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
                 }
                 if (channel != null)
                     break;
+                attempt++;
             } catch (Exception e) {
                 attempt++;
             }
@@ -202,6 +205,11 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
     @Override
     public boolean receivePreMonsterTurn(AbstractMonster monster) {
+        // Add any viewers that join mid fight.
+        for(User viewer : viewers.keySet())
+            if (!battle.hasViewerMonster(viewer))
+                battle.addViewerMonster(viewer);
+
         // Send viewer commands. Start with targeted, so they hopefully don't miss their target
         while (hasAnotherTargetedCommand()){
             QueuedCommandSingleTargeted command = getNextTargetedCommand();
@@ -212,6 +220,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
             } else{
                 sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
             }
+            battle.getViewerMonster(command.getViewer()).clearMoves();
         }
 
         while (hasAnotherTargetlessCommand()){
@@ -223,6 +232,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
             } else{
                 sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
             }
+            battle.getViewerMonster(command.getViewer()).clearMoves();
         }
 
         return true;
@@ -240,10 +250,24 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
                 battle.setBattleMessageID(message.getId());
             }));
         }
+
+        // Spawn in viewers.
+        for (User user : viewers.keySet()) {
+            battle.addViewerMonster(user);
+            sendHandToViewer(user);
+            sendMessageToUser(user, "A new fight has begun!");
+        }
     }
 
     @Override
     public void receivePostBattle(AbstractRoom abstractRoom) {
+        // Victory! Let all viewers draw 1 more card.
+        for(User viewer : viewers.keySet()){
+            viewers.get(viewer).draw(1);
+            sendHandToViewer(viewer);
+            sendMessageToUser(viewer, "You have drawn a new card due to victory in battle.");
+        }
+
         // Refund any cards that weren't cast in time due to the player rudely winning the fight.
         while (hasAnotherTargetedCommand()){
             QueuedCommandSingleTargeted command = getNextTargetedCommand();
@@ -263,6 +287,9 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
             message.editMessage(Utilities.getEndOfBattleMessage()).queue();
             battle.setBattleMessageID(null);
         }));
+
+        // Remove all of our stored viewers.
+        battle.removeAllViewerMonsters();
 
         // Let the rest of the program know the fight ended.
         battle.setIsInBattle(true);
@@ -287,5 +314,15 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
             sendHandToViewer(viewer);
             sendMessageToUser(viewer, "You have drawn a new hand of cards due to a new game or new act.");
         }
+    }
+
+    @Override
+    public void receiveStartGame() {
+        // Register our cards.
+        if (deck == null)
+            deck = new Deck();
+
+        if (channel != null)
+            channel.sendMessage(AbstractDungeon.player.name + " has started a game in this channel! Type !join to join in.").queue();
     }
 }

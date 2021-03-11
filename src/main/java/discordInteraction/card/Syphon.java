@@ -3,6 +3,7 @@ package discordInteraction.card;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.command.Result;
 

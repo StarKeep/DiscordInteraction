@@ -1,6 +1,7 @@
 package discordInteraction.card;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import discordInteraction.FlavorType;
 import discordInteraction.command.Result;
 
 public class UnPoke extends CardTargetless {

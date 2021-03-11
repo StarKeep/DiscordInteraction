@@ -8,8 +8,8 @@ public enum ChatCommandType {
     cast,
     play,
     enemies,
-    listallflavors,
-    getflavors,
+    getallflavors,
+    flavors,
     addflavor,
     removeflavor,
     debugmeafullhandofcards

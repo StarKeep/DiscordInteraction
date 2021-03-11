@@ -1,4 +1,4 @@
-package discordInteraction.card;
+package discordInteraction;
 
 public enum FlavorType {
     basic,  // Means it can always be drawn.

@@ -58,6 +58,13 @@
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>friendlyminions</groupId>
+      <artifactId>FriendlyMinions</artifactId>
+      <version>0.2.0</version>
+      <scope>system</scope>
+      <systemPath>E:/Steam/steamapps/workshop/content/646570/1612426481/FriendlyMinions.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>com.megacrit.cardcrawl</groupId>
       <artifactId>slaythespire</artifactId>
       <version>016</version>

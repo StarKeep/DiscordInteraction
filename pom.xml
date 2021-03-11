@@ -12,6 +12,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>friendlyminions</groupId>
+            <artifactId>FriendlyMinions</artifactId>
+            <version>0.2.0</version>
+            <scope>system</scope>
+            <systemPath>E:/Steam/steamapps/workshop/content/646570/1612426481/FriendlyMinions.jar</systemPath> <!-- WARNING -->
+        </dependency>
+        <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.9.12</version>

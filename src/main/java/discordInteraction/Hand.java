@@ -1,7 +1,6 @@
 package discordInteraction;
 
 import discordInteraction.card.Card;
-import discordInteraction.card.FlavorType;
 
 import java.util.ArrayList;
 

@@ -1,18 +1,12 @@
 package discordInteraction.card;
 
-import basemod.devcommands.power.Power;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.events.AbstractEvent;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.PoisonPower;
-import com.megacrit.cardcrawl.powers.WeakPower;
+import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
-
-import javax.swing.text.AbstractDocument;
 
 public class ToxicAttitude extends CardTargetless {
     @Override

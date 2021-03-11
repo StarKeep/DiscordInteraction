@@ -4,11 +4,11 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import discordInteraction.card.Card;
 import discordInteraction.card.CardTargeted;
 import discordInteraction.card.CardTargetless;
-import discordInteraction.card.FlavorType;
 import discordInteraction.command.ChatCommandType;
 import discordInteraction.command.QueuedCommandBase;
 import discordInteraction.command.QueuedCommandSingleTargeted;
 import discordInteraction.command.QueuedCommandTargetless;
+import kobting.friendlyminions.monsters.MinionMove;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -37,7 +37,10 @@ public class MessageListener extends ListenerAdapter {
                 default: // If they enter ANYTHING else, and its been 5 minutes since our last notice, let the chat know some basic information.
                     if (LocalDateTime.now().minusMinutes(5).isAfter(Main.lastMessageSent)) {
                         Main.lastMessageSent = LocalDateTime.now();
-                        event.getChannel().sendMessage("The only supported command in public chat is !join, in order to join the currently active game. Please message me !help for any additional assistance.").queue();
+                        if (Main.deck == null)
+                            event.getChannel().sendMessage("The game has not yet been started. Keep an eye out for a notification when the game can be joined. Please message me !help for any additional assistance.").queue();
+                        else
+                            event.getChannel().sendMessage("The only supported command in public chat is !join, in order to join a currently active game. Please message me !help for any additional assistance.").queue();
                     }
                     break;
 
@@ -72,10 +75,10 @@ public class MessageListener extends ListenerAdapter {
                     case enemies: // Give them a list of enemies.
                         sendMessageToUser(event.getAuthor(), getListOfEnemies(true));
                         break;
-                    case listallflavors: // All flavors registered in the program.
+                    case getallflavors: // All flavors registered in the program.
                         sendMessageToUser(event.getAuthor(), getFlavorList());
                         break;
-                    case getflavors: // All flavors that the user specifically has.
+                    case flavors: // All flavors that the user specifically has.
                         handleGetFlavorsCommand(event.getAuthor());
                         break;
                     case addflavor:
@@ -135,6 +138,12 @@ public class MessageListener extends ListenerAdapter {
     }
 
     private void handlePlayCommand(User user, String[] parts) {
+        // If they join middle battle; they have to wait to spawn in first.
+        if (!Main.battle.hasViewerMonster(user)){
+            sendMessageToUser(user, "You have not yet spawned into the game, please wait until the next turn.");
+            return;
+        }
+
         // If they send us only !cast or !play, we can't really do much.
         if (parts.length < 2) {
             sendMessageToUser(user, "Unsupported command. You must include at least a card name or number.");
@@ -278,6 +287,14 @@ public class MessageListener extends ListenerAdapter {
             Main.addToTargetedQueue(new QueuedCommandSingleTargeted(user,
                     (CardTargeted) card, targets));
 
+        // Update their monster display to showcase their card's primary flavor.
+        MinionMove move = new MinionMove(card.getName(), Main.battle.getViewerMonster(user),
+                Card.getTextureForCard(card.getClass()), card.getDescription(), () -> {
+        });
+
+        Main.battle.getViewerMonster(user).addMove(move);
+        Main.battle.getViewerMonster(user).rollMove();
+
         // Update our battle message to showcase the newly queued command.
         Main.battle.setLastBattleUpdate(LocalDateTime.now());
         Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
@@ -285,6 +302,8 @@ public class MessageListener extends ListenerAdapter {
                     "\n" + Utilities.getUpcomingViewerCards()).queue();
         }));
     }
+
+
 
     private void handleHelpCommand(User user) {
         sendMessageToUser(user, "" +
@@ -296,8 +315,8 @@ public class MessageListener extends ListenerAdapter {
                 "Target must be the numeric identifier of a monster, or multiple " +
                 "comma separated numeric identifiers.\n" +
                 "!enemies - Outputs an updated list of monsters and their targeting ids, which are in square brackets.\n" +
-                "!listallflavors - Show all card flavors currently in game.\n" +
-                "!getflavors - Show all flavors that you currently allow.\n" +
+                "!getallflavors - Show all card flavors currently in game.\n" +
+                "!flavors - Show all flavors that you currently allow.\n" +
                 "!addflavor - Add a flavor to your allowed list.\n" +
                 "!removeflavor - Remove a flavor from your allowed list."
         );
@@ -305,9 +324,17 @@ public class MessageListener extends ListenerAdapter {
 
     private void handleJoinCommand(User user){
         if (!Main.viewers.containsKey(user.getId())) {
+            if (Main.deck == null) {
+                sendMessageToUser(user, "Sorry, the game has yet to be started. Please wait for a notice to join.");
+                return;
+            }
             Main.viewers.put(user, new Hand());
             sendMessageToUser(user,
                     "Welcome to the game! Please type !help in this private channel for additional information on commands.");
+            if (Main.battle.isInBattle()){
+                sendHandToViewer(user);
+                sendMessageToUser(user, "A battle is currently occuring, you will appear in game at the start of the next turn: Current enemies and their targeting ID's: " + Utilities.getListOfEnemies(true));
+            }
         } else
             sendMessageToUser(user,
                     "You have already joined a game, type !help in this private chat for additional information.");
