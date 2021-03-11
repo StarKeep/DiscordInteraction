@@ -53,8 +53,7 @@ public abstract class CardTargeted extends CardTargetless {
         if (targets == null
          || targets.monsters.size() == 0
          || targets.areMonstersBasicallyDead()
-         || targets.monsters.size() < getTargetCountMin()
-         || targets.monsters.size() > getTargetCountMax())
+         || targets.monsters.size() < getTargetCountMin())
             return false;
         return true;
     }
