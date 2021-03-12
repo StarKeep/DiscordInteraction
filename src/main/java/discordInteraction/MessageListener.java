@@ -282,10 +282,19 @@ public class MessageListener extends ListenerAdapter {
         // Queue either a targetless or targeted command as needed.
         if (targets.size() == 0) {
             Main.addToTargetlessQueue(new QueuedCommandTargetless(user, (CardTargetless) card));
+            // Let the player know their card is queued.
+            sendMessageToUser(user, card.getName() + " has been queued up successfully.");
         }
-        else
+        else {
             Main.addToTargetedQueue(new QueuedCommandSingleTargeted(user,
                     (CardTargeted) card, targets));
+            // Let the player know their card is queued.
+            String targetedString = targets.get(0).name;
+            if (targets.size() > 1)
+                for(int x = 1; x < targets.size(); x++)
+                    targetedString += ", " + targets.get(x).name;
+            sendMessageToUser(user, card.getName() + " has been queued up successfully, targeting " + targetedString + ".");
+        }
 
         // Update their monster display to showcase their card's primary flavor.
         MinionMove move = new MinionMove(card.getName(), Main.battle.getViewerMonster(user),
