@@ -330,5 +330,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
         if (channel != null)
             channel.sendMessage(AbstractDungeon.player.name + " has started a game in this channel! Type !join to join in.").queue();
+
+        MinionConfigHelper.MinionAttackTargetChance = 0;
     }
 }
