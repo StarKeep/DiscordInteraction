@@ -242,7 +242,7 @@ public class MessageListener extends ListenerAdapter {
                         id = Integer.parseInt(raw);
                     } catch (Exception ee) {
                     }
-                    if (id >= 0 && id < Main.battle.getBattleRoom().monsters.monsters.size()) {
+                    if (id >= 0 && id <= Main.battle.getBattleRoom().monsters.monsters.size()) {
                         AbstractMonster target = Main.battle.getBattleRoom().monsters.monsters.get(id-1);
                         if (target.isDeadOrEscaped())
                             failed.add("Invalid monster id of " + id);

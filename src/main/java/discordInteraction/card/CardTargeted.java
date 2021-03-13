@@ -32,7 +32,7 @@ public abstract class CardTargeted extends CardTargetless {
         for(AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters)
             if (targets != null && targets.monsters.size() >= getTargetCountMax())
                 break;
-            else if (!monster.isDeadOrEscaped() && ThreadLocalRandom.current().nextBoolean())
+            else if (!monster.isDeadOrEscaped())
                 if (targets == null)
                     targets = new MonsterGroup(monster);
                 else
