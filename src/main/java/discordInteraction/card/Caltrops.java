@@ -4,8 +4,10 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.powers.ThornsPower;
 import discordInteraction.FlavorType;
+import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 public class Caltrops extends CardTargeted {
     @Override
@@ -46,8 +48,8 @@ public class Caltrops extends CardTargeted {
     }
 
     @Override
-    protected Result apply(AbstractPlayer player, MonsterGroup targets) {
-        Utilities.applyPower(targets.monsters.get(0), new ThornsPower(targets.monsters.get(0), 4));
+    protected Result apply(User user, AbstractPlayer player, MonsterGroup targets) {
+        Utilities.applyPower(Main.battle.getViewerMonster(user), targets.monsters.get(0), new ThornsPower(targets.monsters.get(0), 4));
         return new Result(true, "You applied 4 thorns to " + targets.monsters.get(0).name);
     }
 }

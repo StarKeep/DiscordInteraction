@@ -3,8 +3,10 @@ package discordInteraction.card;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import discordInteraction.FlavorType;
+import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 public class LayerItOn extends CardTargetless {
     @Override
@@ -36,8 +38,8 @@ public class LayerItOn extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
-        Utilities.applyPower(player, new WeakPower(player, 2, false));
+    public Result activate(User user, AbstractPlayer player) {
+        Utilities.applyPower(Main.battle.getViewerMonster(user), player, new WeakPower(player, 2, false));
         player.addBlock(12);
         return new Result(true, "You applied 12 block and 2 weak to the streamer.");
     }

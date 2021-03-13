@@ -3,6 +3,7 @@ package discordInteraction.card;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import discordInteraction.FlavorType;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 public class UnPoke extends CardTargetless {
     @Override
@@ -33,7 +34,7 @@ public class UnPoke extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
+    public Result activate(User user, AbstractPlayer player) {
         player.heal(3, true);
         return new Result(true, "You healed " + player.name + " for 3 health.");
     }

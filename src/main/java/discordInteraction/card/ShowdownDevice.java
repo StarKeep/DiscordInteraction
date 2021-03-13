@@ -8,6 +8,7 @@ import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 public class ShowdownDevice extends CardTargetless {
     @Override
@@ -38,11 +39,11 @@ public class ShowdownDevice extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
-        Utilities.applyPower(player, new RitualPower(player, 3, true));
+    public Result activate(User user, AbstractPlayer player) {
+        Utilities.applyPower(player, Main.battle.getViewerMonster(user), new RitualPower(player, 3, true));
         for (AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters)
             if (!monster.isDeadOrEscaped())
-                Utilities.applyPower(monster, new RitualPower(monster, 3, false));
+                Utilities.applyPower(monster, Main.battle.getViewerMonster(user), new RitualPower(monster, 3, false));
 
         return new Result(true, "You have started the showdown device. Ritual 3 has been applied to all targets.");
     }

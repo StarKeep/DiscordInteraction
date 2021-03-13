@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import discordInteraction.FlavorType;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -44,7 +45,7 @@ public class Fatigue extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
+    public Result activate(User user, AbstractPlayer player) {
         if (player.discardPile.size() == 0)
             return new Result(false, "There are no cards in the discard pile.");
 

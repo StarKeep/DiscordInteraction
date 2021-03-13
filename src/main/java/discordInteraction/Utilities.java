@@ -266,8 +266,8 @@ public class Utilities {
     }
 
     // Shortcut
-    public static void applyPower(AbstractCreature target, AbstractPower power){
-        ApplyPowerAction action = new ApplyPowerAction(target, target, power);
+    public static void applyPower(AbstractCreature source, AbstractCreature target, AbstractPower power){
+        ApplyPowerAction action = new ApplyPowerAction(target, source, power);
         AbstractDungeon.actionManager.addToBottom(action);
     }
 

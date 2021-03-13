@@ -49,11 +49,11 @@ public class RiskingItAllForAFriend extends CardTriggerOnPlayerDamage {
             damageToTake -= player.currentBlock;
             if (damageToTake < viewer.currentHealth) {
                 Main.battle.getViewerMonster(user).damage(new DamageInfo(damageInfo.owner, damageToTake, DamageInfo.DamageType.NORMAL));
-                return new ResultWithInt(true, "You absorbed " + damageToTake + " of the incoming damage.", incomingDamage -= damageToTake);
+                return new ResultWithInt(true, "You absorbed " + damageToTake + " of the incoming damage.", incomingDamage - damageToTake);
             } else {
                 Main.battle.getViewerMonster(user).damage(new DamageInfo(damageInfo.owner, damageToTake, DamageInfo.DamageType.NORMAL));
                 Main.battle.removeViewerMonster(user, true);
-                return new ResultWithInt(true, "You took fatal damage that would have hit the player, absorbing " + damageToTake + " damage that their block would not have stopped.", incomingDamage -= damageToTake);
+                return new ResultWithInt(true, "You took fatal damage that would have hit the player, absorbing " + damageToTake + " damage that their block would not have stopped.", incomingDamage - damageToTake);
             }
         }
         if (damageToTake < viewer.currentHealth) {

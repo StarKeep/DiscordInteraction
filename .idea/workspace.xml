@@ -5,12 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="446d7c20-6171-4d45-a79a-541eb7f78d7f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Rarity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Antidote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Antidote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Caltrops.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Caltrops.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/DeathByAThousandPokes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/DeathByAThousandPokes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Fatigue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Fatigue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/NeurotoxinGas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/NeurotoxinGas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Panacea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Panacea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/RiskingItAllForAFriend.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/RiskingItAllForAFriend.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShivStorm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShivStorm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShowdownDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShowdownDevice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/command/queue/CommandQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/queue/CommandQueue.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +36,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -186,7 +200,49 @@
       <option name="project" value="LOCAL" />
       <updated>1615606980114</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Fixed some bugs related to a viewer dying mid game.&#10;&#10;Commenting out all code related to flavor text output due to potential discord message size limitations.&#10;&#10;Cards now display their rarity on them.&#10;&#10;Fixed a bug where cards were no longer being removed on cast due to prior changes.&#10;&#10;Updated some of Risking it all for a Friend's response text.">
+      <created>1615640007139</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1615640007139</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Updated card draw to allow for both random and basic values.&#10;&#10;This effectively allows viewers to always draw at least one fun card, than get the pokes to even out their deck afterwards.">
+      <created>1615642782638</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1615642782638</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Increase base Viewer Minion health to 35.">
+      <created>1615643144872</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1615643144872</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added Death by a Thousand Pokes.&#10;&#10;Touched up the drawing card messages in a few locations.">
+      <created>1615643813057</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1615643813057</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Added Caltrops">
+      <created>1615644412146</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1615644412146</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Fixed targeting bugs.">
+      <created>1615663262020</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1615663262020</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,7 +274,13 @@
     <MESSAGE value="Stop minions from being able to be targeted. Hopefully." />
     <MESSAGE value="Added in Antidote, Fatigue, Neurotoxin Gas, Panacea, and Showdown Device" />
     <MESSAGE value="Updated the card queue system to be more easily expanded in the future.&#10;&#10;Used new card queue code to apply a new trigger style of card, which will activate whenever the player takes damage.&#10;&#10;Make it so viewers that die in a battle cannot respawn, so that cards which interact with health can have side effects.&#10;&#10;Added Risking it all for a Friend and Shiv Storm." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the card queue system to be more easily expanded in the future.&#10;&#10;Used new card queue code to apply a new trigger style of card, which will activate whenever the player takes damage.&#10;&#10;Make it so viewers that die in a battle cannot respawn, so that cards which interact with health can have side effects.&#10;&#10;Added Risking it all for a Friend and Shiv Storm." />
+    <MESSAGE value="Fixed some bugs related to a viewer dying mid game.&#10;&#10;Commenting out all code related to flavor text output due to potential discord message size limitations.&#10;&#10;Cards now display their rarity on them.&#10;&#10;Fixed a bug where cards were no longer being removed on cast due to prior changes.&#10;&#10;Updated some of Risking it all for a Friend's response text." />
+    <MESSAGE value="Updated card draw to allow for both random and basic values.&#10;&#10;This effectively allows viewers to always draw at least one fun card, than get the pokes to even out their deck afterwards." />
+    <MESSAGE value="Increase base Viewer Minion health to 35." />
+    <MESSAGE value="Added Death by a Thousand Pokes.&#10;&#10;Touched up the drawing card messages in a few locations." />
+    <MESSAGE value="Added Caltrops" />
+    <MESSAGE value="Fixed targeting bugs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed targeting bugs." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -227,6 +289,11 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java</url>
+          <line>236</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

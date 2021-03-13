@@ -44,7 +44,7 @@ public class CommandQueue {
     public void handlePerTurnLogic(){
         while (targeted.hasAnotherCommand()){
             QueuedCommandTargeted command = targeted.getNextCommand();
-            Result result = command.getCard().activate(AbstractDungeon.player, command.getTargets());
+            Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player, command.getTargets());
             if (result.hadResolved()){
                 Main.viewers.get(command.getViewer()).removeCard(command.getCard());
                 sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
@@ -56,7 +56,7 @@ public class CommandQueue {
 
         while (targetless.hasAnotherCommand()){
             QueuedCommandTargetless command = targetless.getNextCommand();
-            Result result = command.getCard().activate(AbstractDungeon.player);
+            Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player);
             if (result.hadResolved()){
                 Main.viewers.get(command.getViewer()).removeCard(command.getCard());
                 sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());

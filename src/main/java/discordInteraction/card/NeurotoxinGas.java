@@ -5,8 +5,10 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import discordInteraction.FlavorType;
+import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 public class NeurotoxinGas extends CardTargeted {
     @Override
@@ -47,9 +49,9 @@ public class NeurotoxinGas extends CardTargeted {
     }
 
     @Override
-    protected Result apply(AbstractPlayer player, MonsterGroup targets) {
+    protected Result apply(User user, AbstractPlayer player, MonsterGroup targets) {
         AbstractMonster target = targets.monsters.get(0);
-        Utilities.applyPower(target, new PoisonPower(target, target, 3));
+        Utilities.applyPower(Main.battle.getViewerMonster(user), target, new PoisonPower(target, Main.battle.getViewerMonster(user), 3));
 
         return new Result(true, "You applied 3 poison to " + target.name + ", for science of course.");
     }

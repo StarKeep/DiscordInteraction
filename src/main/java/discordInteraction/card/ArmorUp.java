@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -52,7 +53,7 @@ public class ArmorUp extends CardTargeted {
     }
 
     @Override
-    public Result apply(AbstractPlayer player, MonsterGroup target) {
+    public Result apply(User user, AbstractPlayer player, MonsterGroup target) {
         AbstractMonster monster = target.monsters.get(0);
         monster.addBlock(3);
         player.addBlock(9);

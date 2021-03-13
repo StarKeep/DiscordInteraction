@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import discordInteraction.Main;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,7 +25,7 @@ public abstract class CardTargeted extends CardTargetless {
     // Allow the card to be queued with no target, in which case it will pick random enemies as its target
     // if there are enough enemies to meet the minimum target count left.
     @Override
-    public Result activate(AbstractPlayer player){
+    public Result activate(User user, AbstractPlayer player){
         if (!hasValidTargets(Main.battle.getBattleRoom().monsters))
             return new Result(false, "Failed to find valid monsters.");
 
@@ -41,18 +42,18 @@ public abstract class CardTargeted extends CardTargetless {
         if (!hasValidTargets(targets))
             return new Result(false, "Invalid number of targets, one or more may have died before your card activated.");
 
-        return activate(player, targets);
+        return activate(user, player, targets);
     }
 
-    public Result activate(AbstractPlayer player, MonsterGroup targets){
+    public Result activate(User user, AbstractPlayer player, MonsterGroup targets){
         if (!hasValidTargets(targets))
             return new Result(false, "Invalid number of targets, one or more may have died before your card activated.");
 
-        return apply(player, targets);
+        return apply(user, player, targets);
     }
 
     // The actual application of the effect. This is left pretty open to allow maximum variety.
-    protected abstract Result apply(AbstractPlayer player, MonsterGroup targets);
+    protected abstract Result apply(User user, AbstractPlayer player, MonsterGroup targets);
 
     protected boolean hasValidTargets(MonsterGroup targets){
         if (targets == null

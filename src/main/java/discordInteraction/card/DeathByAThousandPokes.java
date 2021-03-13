@@ -37,8 +37,8 @@ public class DeathByAThousandPokes extends CardTriggerOnPlayerDamage {
 
     @Override
     public ResultWithInt handleOnPlayerDamageTrigger(int incomingDamage, DamageInfo damageInfo, AbstractPlayer player, User user) {
-        new Poke().activate(player);
-        new UnPoke().activate(player);
+        new Poke().activate(user, player);
+        new UnPoke().activate(user, player);
 
         return new ResultWithInt(true, "You cast a free Poke and UnPoke.", incomingDamage);
     }

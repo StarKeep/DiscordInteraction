@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.cards.tempCards.Shiv;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import discordInteraction.FlavorType;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class ShivStorm extends CardTargetless {
 
     @Override
     public String getDescription() {
-        return "Shuffle 5 Shivs in the player's draw pile. Shuffled all exhausted Shivs into the player's draw pile.";
+        return "Shuffle 5 + X Shivs in the player's draw pile, where X is equal to the number of exhausted Shivs.";
     }
 
     @Override
@@ -38,7 +39,7 @@ public class ShivStorm extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
+    public Result activate(User user, AbstractPlayer player) {
         for (int x = 0; x < 5; x++)
             player.drawPile.addToRandomSpot(new Shiv());
         ArrayList<AbstractCard> cardsToMove = new ArrayList<AbstractCard>();
@@ -46,7 +47,7 @@ public class ShivStorm extends CardTargetless {
             if (card.cardID == Shiv.ID)
                 cardsToMove.add(card);
         for (AbstractCard card : cardsToMove)
-            player.exhaustPile.moveToDeck(card, true);
+            player.drawPile.addToRandomSpot(new Shiv());
         int moved = 5 + cardsToMove.size();
         return new Result(true, "You added " + moved + " Shivs to the player's deck.");
     }

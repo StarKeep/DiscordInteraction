@@ -10,6 +10,7 @@ import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -43,7 +44,7 @@ public class Panacea extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
+    public Result activate(User user, AbstractPlayer player) {
         ArrayList<AbstractCreature> targets = new ArrayList<AbstractCreature>();
         targets.add(player);
         for(AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters)
@@ -52,7 +53,7 @@ public class Panacea extends CardTargetless {
 
         AbstractCreature target = targets.get(ThreadLocalRandom.current().nextInt(targets.size()));
 
-        Utilities.applyPower(target, new ArtifactPower(target, 3));
+        Utilities.applyPower(Main.battle.getViewerMonster(user), target, new ArtifactPower(target, 3));
 
         return new Result(true, "You applied 3 Artifact to " + target.name + ".");
     }

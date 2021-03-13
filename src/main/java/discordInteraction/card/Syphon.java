@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 public class Syphon extends CardTargetless {
     @Override
@@ -36,7 +37,7 @@ public class Syphon extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
+    public Result activate(User user, AbstractPlayer player) {
         int damageDealt = 0;
         for (AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters) {
             if (monster.isDeadOrEscaped())
@@ -46,7 +47,7 @@ public class Syphon extends CardTargetless {
                     damageDealt += 1;
                 else
                     damageDealt += 2;
-            monster.damage(new DamageInfo(player, 2, DamageInfo.DamageType.NORMAL));
+            monster.damage(new DamageInfo(Main.battle.getViewerMonster(user), 2, DamageInfo.DamageType.NORMAL));
         }
         player.heal(damageDealt, true);
         return new Result(true, "You dealt 2 damage to all enemies, and healed " +

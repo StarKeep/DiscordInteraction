@@ -7,6 +7,7 @@ import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 public class ToxicAttitude extends CardTargetless {
     @Override
@@ -37,15 +38,15 @@ public class ToxicAttitude extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
+    public Result activate(User user, AbstractPlayer player) {
         PoisonPower power = new PoisonPower(player, player, 5);
 
-        Utilities.applyPower(player, power);
+        Utilities.applyPower(player, Main.battle.getViewerMonster(user), power);
 
         for (AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters) {
-            power = new PoisonPower(monster, monster, 5);
+            power = new PoisonPower(monster, Main.battle.getViewerMonster(user), 5);
 
-            Utilities.applyPower(monster, power);
+            Utilities.applyPower(Main.battle.getViewerMonster(user), monster, power);
         }
 
         return new Result(true, "You applied 5 poison to all entities in the battle.");

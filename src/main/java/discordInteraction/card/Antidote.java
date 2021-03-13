@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import discordInteraction.FlavorType;
 import discordInteraction.command.Result;
+import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
 
@@ -37,7 +38,7 @@ public class Antidote extends CardTargetless {
     }
 
     @Override
-    public Result activate(AbstractPlayer player) {
+    public Result activate(User user, AbstractPlayer player) {
         int poison = 0;
         if (player.hasPower(PoisonPower.POWER_ID)) {
             AbstractPower power = player.getPower(PoisonPower.POWER_ID);
