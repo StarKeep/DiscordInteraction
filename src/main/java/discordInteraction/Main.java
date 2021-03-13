@@ -183,7 +183,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         for(User viewer : viewers.keySet()){
             viewers.get(viewer).draw(1, 2);
             sendHandToViewer(viewer);
-            sendMessageToUser(viewer, "A battle was won! You have drawn 2 basic and 1 random card.");
+            sendMessageToUser(viewer, "A battle was won! You have drawn 1 random and 2 basic cards, hand size permitting.");
         }
 
         // Refund any cards that weren't cast in time due to the player rudely winning the fight.
@@ -197,7 +197,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         for(User viewer : viewers.keySet()){
             viewers.get(viewer).draw(3 + (AbstractDungeon.actNum / 2), 2);
             sendHandToViewer(viewer);
-            sendMessageToUser(viewer, "You have drawn new cards at the campfire.");
+            sendMessageToUser(viewer, "You have drawn new cards at the campfire, hand size permitting.");
         }
 
         return true;
