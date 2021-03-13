@@ -27,7 +27,7 @@ public class Hand {
     }
 
     public Hand(){
-        capacity = 6;
+        capacity = 10;
         cards = new ArrayList<Card>();
 
         flavorTypes = new ArrayList<>();
