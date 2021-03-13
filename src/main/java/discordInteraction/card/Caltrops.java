@@ -22,7 +22,7 @@ public class Caltrops extends CardTargeted {
 
     @Override
     public String getDescription() {
-        return "Apply Thorns 4 to an enemy. If no target is specified, a random enemy is targeted instead.";
+        return "Apply Thorns 2 to an enemy. If no target is specified, a random enemy is targeted instead.";
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Caltrops extends CardTargeted {
 
     @Override
     protected Result apply(User user, AbstractPlayer player, MonsterGroup targets) {
-        Utilities.applyPower(Main.battle.getViewerMonster(user), targets.monsters.get(0), new ThornsPower(targets.monsters.get(0), 4));
-        return new Result(true, "You applied 4 thorns to " + targets.monsters.get(0).name);
+        Utilities.applyPower(Main.battle.getViewerMonster(user), targets.monsters.get(0), new ThornsPower(targets.monsters.get(0), 2));
+        return new Result(true, "You applied 2 thorns to " + targets.monsters.get(0).name);
     }
 }
