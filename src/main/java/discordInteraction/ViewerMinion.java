@@ -58,7 +58,7 @@ public class ViewerMinion extends AbstractFriendlyMonster {
     }
 
     public ViewerMinion(User user, int offsetX, int offsetY) {
-        super(user.getName(), ID, 20, -3.0F, 10.0F, 5.0F, 5.0F,
+        super(user.getName(), ID, 35, -3.0F, 10.0F, 5.0F, 5.0F,
                 getImageDirectory(user),
                 offsetX, offsetY);
     }
