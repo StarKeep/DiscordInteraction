@@ -5,37 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="446d7c20-6171-4d45-a79a-541eb7f78d7f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/FriendlyMinions.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/FlavorType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/ViewerMinion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/armorup.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/layeriton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/poke.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/syphon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/toxicattitude.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/unpoke.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/monsters/Viewer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTriggerOnPlayerDamage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/RiskingItAllForAFriend.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShivStorm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ViewerCardType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/QueuedCommandTriggerOnPlayerDamage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/ResultWithInt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/queue/CommandQueue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/queue/Queue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/riskingitallforafriend.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/cards/shivstorm.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Battle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Battle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Deck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Hand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Card.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/FlavorType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/command/ChatCommandType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/ChatCommandType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/command/QueuedCommandBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/QueuedCommandBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/command/QueuedCommandSingleTargeted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/QueuedCommandTargeted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/command/QueuedCommandTargetless.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/QueuedCommandTargetless.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +88,9 @@
     <key name="MoveInnerDialog.RECENTS_KEY">
       <recent name="discordInteraction" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="discordInteraction.command.queue" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Slay the Spire" type="JarApplication">
@@ -144,7 +137,63 @@
       <option name="project" value="LOCAL" />
       <updated>1615302557244</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Hopefully one of the last large commits; shifting around a lot of work to make it more easily maintained.">
+      <created>1615488169533</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1615488169533</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Update battle message after executing commands.">
+      <created>1615488570905</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1615488570905</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed a bug where targeted cards wouldn't be able to accept a random target due to an excess safety check that wasn't required.">
+      <created>1615506781958</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1615506781958</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Don't try to requeue viewer orders every turn.">
+      <created>1615507058234</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1615507058234</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Make higher cost cards more rare.">
+      <created>1615507076451</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1615507076451</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Let the player know their card is queued up.&#10;&#10;In the case of targeted cards that aren't given a target; we can't tell them which is going to be randomly hit since we don't even know that yet. That is resolved at activation time.">
+      <created>1615507291496</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1615507291496</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Stop minions from being able to be targeted. Hopefully.">
+      <created>1615532664702</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1615532664702</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added in Antidote, Fatigue, Neurotoxin Gas, Panacea, and Showdown Device">
+      <created>1615532745382</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1615532745382</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -167,16 +216,33 @@
     <MESSAGE value="Config changes" />
     <MESSAGE value="Updated cards that apply powers to do so correctly." />
     <MESSAGE value="Slight update to how monster id's are handled to make the error message better." />
-    <option name="LAST_COMMIT_MESSAGE" value="Slight update to how monster id's are handled to make the error message better." />
+    <MESSAGE value="Hopefully one of the last large commits; shifting around a lot of work to make it more easily maintained." />
+    <MESSAGE value="Update battle message after executing commands." />
+    <MESSAGE value="Fixed a bug where targeted cards wouldn't be able to accept a random target due to an excess safety check that wasn't required." />
+    <MESSAGE value="Don't try to requeue viewer orders every turn." />
+    <MESSAGE value="Make higher cost cards more rare." />
+    <MESSAGE value="Let the player know their card is queued up.&#10;&#10;In the case of targeted cards that aren't given a target; we can't tell them which is going to be randomly hit since we don't even know that yet. That is resolved at activation time." />
+    <MESSAGE value="Stop minions from being able to be targeted. Hopefully." />
+    <MESSAGE value="Added in Antidote, Fatigue, Neurotoxin Gas, Panacea, and Showdown Device" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added in Antidote, Fatigue, Neurotoxin Gas, Panacea, and Showdown Device" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/discordInteraction/card/Card.java</url>
-          <line>12</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/src/main/java/discordInteraction/Main.java</url>
+          <line>229</line>
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/discordInteraction/command/queue/CommandQueue.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

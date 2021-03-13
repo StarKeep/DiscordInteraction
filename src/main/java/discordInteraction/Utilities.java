@@ -6,7 +6,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import discordInteraction.card.Card;
-import discordInteraction.command.QueuedCommandSingleTargeted;
+import discordInteraction.command.QueuedCommandTargeted;
 import discordInteraction.command.QueuedCommandTargetless;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -217,10 +217,10 @@ public class Utilities {
 
     // Get a message showcasing all viewer cards to be resolved.
     public static String getUpcomingViewerCards() {
-        if (!Main.hasAnotherTargetedCommand() && !Main.hasAnotherTargetlessCommand())
+        if (!Main.commandQueue.hasQueuedCommands())
             return "No commands currently queued.";
         StringBuilder sb = new StringBuilder();
-        for (QueuedCommandSingleTargeted command : Main.getQueuedTargetedCommands()) {
+        for (QueuedCommandTargeted command : Main.commandQueue.targeted.getCommands()) {
             sb.append(command.getViewer().getName());
             sb.append(" is going to cast ");
             sb.append(command.getCard().getName());
@@ -231,7 +231,7 @@ public class Utilities {
             sb.append(targets);
             sb.append(".\n");
         }
-        for(QueuedCommandTargetless command : Main.getQueuedTargetlessCommands()){
+        for(QueuedCommandTargetless command : Main.commandQueue.targetless.getCommands()){
             sb.append(command.getViewer().getName());
             sb.append(" is going to cast ");
             sb.append(command.getCard().getName());

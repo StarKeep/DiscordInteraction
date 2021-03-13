@@ -7,13 +7,8 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public class QueuedCommandSingleTargeted extends QueuedCommandBase {
-    private CardTargeted card;
+public class QueuedCommandTargeted extends QueuedCommandBase<CardTargeted> {
     private ArrayList<AbstractMonster> targets;
-
-    public CardTargeted getCard(){
-        return card;
-    }
 
     public ArrayList<AbstractMonster> getTargetsList(){
         return targets;
@@ -29,10 +24,9 @@ public class QueuedCommandSingleTargeted extends QueuedCommandBase {
         return group;
     }
 
-    public QueuedCommandSingleTargeted(User player, CardTargeted card, ArrayList<AbstractMonster> targets){
-        super(player);
+    public QueuedCommandTargeted(User player, CardTargeted card, ArrayList<AbstractMonster> targets){
+        super(player, card);
 
-        this.card = card;
         this.targets = targets;
     }
 }

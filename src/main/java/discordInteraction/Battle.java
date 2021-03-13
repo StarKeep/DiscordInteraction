@@ -21,6 +21,7 @@ public class Battle {
     private AbstractRoom battleRoom;
     private String battleMessageID;
     private HashMap<User, AbstractFriendlyMonster> viewers;
+    private HashSet<User> viewersDeadUntilNextBattle;
 
     public Boolean isInBattle(){
         synchronized (battleLock){
@@ -53,6 +54,10 @@ public class Battle {
         }
     }
 
+    public boolean canUserSpawnIn(User user){
+        return !viewersDeadUntilNextBattle.contains(user);
+    }
+
     public void addViewerMonster(User user){
         if (!viewers.containsKey(user)){
             int x = -1200;
@@ -72,9 +77,11 @@ public class Battle {
             viewers.put(user, viewer);
         }
     }
-    public void removeViewerMonster(User user){
+    public void removeViewerMonster(User user, boolean untilEndOfBattle){
         if (viewers.containsKey(user))
             viewers.remove(user);
+        if (untilEndOfBattle)
+            viewersDeadUntilNextBattle.add(user);
     }
     public void removeAllViewerMonsters(){
         viewers.clear();
@@ -105,10 +112,28 @@ public class Battle {
         }
     }
 
+    public void handlePostBattleLogic(){
+        // End the battle; edit the battle message to showcase the end result.
+        setLastBattleUpdate(LocalDateTime.now());
+        Main.channel.retrieveMessageById(getBattleMessageID()).queue((message -> {
+            message.editMessage(Utilities.getEndOfBattleMessage()).queue();
+            setBattleMessageID(null);
+        }));
+
+        // Remove all of our stored viewers.
+        removeAllViewerMonsters();
+        viewersDeadUntilNextBattle.clear();
+
+        // Let the rest of the program know the fight ended.
+        setIsInBattle(true);
+        setBattleRoom(null);
+    }
+
     public Battle(){
         lastBattleUpdate = LocalDateTime.now();
         inBattle = false;
         battleRoom = null;
         viewers = new HashMap<>();
+        viewersDeadUntilNextBattle = new HashSet<User>();
     }
 }

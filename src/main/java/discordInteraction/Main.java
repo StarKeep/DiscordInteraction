@@ -1,19 +1,13 @@
 package discordInteraction;
 
 import basemod.interfaces.*;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
-import com.megacrit.cardcrawl.ui.panels.AbstractPanel;
-import discordInteraction.command.QueuedCommandTargetless;
-import discordInteraction.command.QueuedCommandSingleTargeted;
-import discordInteraction.command.Result;
-import kobting.friendlyminions.helpers.BasePlayerMinionHelper;
+import discordInteraction.command.queue.CommandQueue;
+import kobting.friendlyminions.helpers.MinionConfigHelper;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
@@ -23,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import basemod.BaseMod;
 import basemod.interfaces.PreMonsterTurnSubscriber;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import sun.java2d.pipe.RenderingEngine;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -32,16 +25,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.Consumer;
 
 import static discordInteraction.Utilities.*;
 
 
 @SpireInitializer
 public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnStartBattleSubscriber,
-        PostCampfireSubscriber, StartActSubscriber, StartGameSubscriber {
-    private static final String BOT_TOKEN = "botTokenHere";
-
+        PostCampfireSubscriber, StartActSubscriber, StartGameSubscriber, OnPlayerDamagedSubscriber {
     public static final Logger logger = LogManager.getLogger(Main.class.getName());
 
     public Main() {
@@ -74,63 +64,8 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public static Deck deck;
     // Holds current battle information.
     public static Battle battle;
-
-    // This should probably be moved out of main in the future.
-    // Here is where we hold all queued commands by viewers until they are executed.
-    // Designed to allow multithreaded input and output.
-    private static Stack<QueuedCommandTargetless> queuedCommands;
-    private static Stack<QueuedCommandSingleTargeted> queuedTargetedCommands;
-
-    private static final Object targetlessLock = new Object();
-    private static final Object targetedLock = new Object();
-
-    public static ArrayList<QueuedCommandTargetless> getQueuedTargetlessCommands(){
-        synchronized (targetlessLock){
-            ArrayList<QueuedCommandTargetless> list = new ArrayList<QueuedCommandTargetless>();
-            for(QueuedCommandTargetless command : queuedCommands)
-                list.add(command);
-            return list;
-        }
-    }
-    public static ArrayList<QueuedCommandSingleTargeted> getQueuedTargetedCommands(){
-        synchronized (targetedLock){
-            ArrayList<QueuedCommandSingleTargeted> list = new ArrayList<QueuedCommandSingleTargeted>();
-            for(QueuedCommandSingleTargeted command : queuedTargetedCommands)
-                list.add(command);
-            return list;
-        }
-    }
-
-    public static void addToTargetlessQueue(QueuedCommandTargetless command){
-        synchronized (targetlessLock){
-            queuedCommands.add(command);
-        }
-    }
-    public static void addToTargetedQueue(QueuedCommandSingleTargeted command){
-        synchronized (targetedLock){
-            queuedTargetedCommands.add(command);
-        }
-    }
-    public static boolean hasAnotherTargetlessCommand(){
-        synchronized (targetlessLock){
-            return queuedCommands != null && !queuedCommands.isEmpty();
-        }
-    }
-    public static boolean hasAnotherTargetedCommand(){
-        synchronized (targetedLock){
-            return queuedTargetedCommands != null && !queuedTargetedCommands.isEmpty();
-        }
-    }
-    public static QueuedCommandTargetless getNextTargetlessCommand(){
-        synchronized (targetlessLock){
-            return queuedCommands.pop();
-        }
-    }
-    public static QueuedCommandSingleTargeted getNextTargetedCommand(){
-        synchronized (targetedLock){
-            return queuedTargetedCommands.pop();
-        }
-    }
+    // Holds current viewer command information.
+    public static CommandQueue commandQueue;
 
     public static void initialize() {
         // Setup our random generator.
@@ -198,8 +133,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         battle = new Battle();
         lastMessageSent = LocalDateTime.now();
         viewers = new HashMap<User, Hand>();
-        queuedCommands = new Stack<QueuedCommandTargetless>();
-        queuedTargetedCommands = new Stack<QueuedCommandSingleTargeted>();
+        commandQueue = new CommandQueue();
         new Main();
     }
 
@@ -207,33 +141,11 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public boolean receivePreMonsterTurn(AbstractMonster monster) {
         // Add any viewers that join mid fight.
         for(User viewer : viewers.keySet())
-            if (!battle.hasViewerMonster(viewer))
+            if (!battle.hasViewerMonster(viewer) && battle.canUserSpawnIn(viewer))
                 battle.addViewerMonster(viewer);
 
         // Send viewer commands. Start with targeted, so they hopefully don't miss their target
-        while (hasAnotherTargetedCommand()){
-            QueuedCommandSingleTargeted command = getNextTargetedCommand();
-            Result result = command.getCard().activate(AbstractDungeon.player, command.getTargets());
-            if (result.hadResolved()){
-                viewers.get(command.getViewer()).removeCard(command.getCard());
-                sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
-            } else{
-                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
-            }
-            battle.getViewerMonster(command.getViewer()).clearMoves();
-        }
-
-        while (hasAnotherTargetlessCommand()){
-            QueuedCommandTargetless command = getNextTargetlessCommand();
-            Result result = command.getCard().activate(AbstractDungeon.player);
-            if (result.hadResolved()){
-                viewers.get(command.getViewer()).removeCard(command.getCard());
-                sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
-            } else{
-                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
-            }
-            battle.getViewerMonster(command.getViewer()).clearMoves();
-        }
+        commandQueue.handlePerTurnLogic();
 
         // Update our battle message to remove our commands now that they've been executed.
         Main.battle.setLastBattleUpdate(LocalDateTime.now());
@@ -275,31 +187,9 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         }
 
         // Refund any cards that weren't cast in time due to the player rudely winning the fight.
-        while (hasAnotherTargetedCommand()){
-            QueuedCommandSingleTargeted command = getNextTargetedCommand();
-            sendMessageToUser(command.getViewer(), "Your " + command.getCard().getName() +
-                    " failed to cast before the battle ended, and has been refunded.");
-        }
+        commandQueue.handlePostBattleLogic();
 
-        while (hasAnotherTargetlessCommand()){
-            QueuedCommandTargetless command = getNextTargetlessCommand();
-            sendMessageToUser(command.getViewer(), "Your " + command.getCard().getName() +
-                    " failed to cast before the battle ended, and has been refunded.");
-        }
-
-        // End the battle; edit the battle message to showcase the end result.
-        battle.setLastBattleUpdate(LocalDateTime.now());
-        channel.retrieveMessageById(battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Utilities.getEndOfBattleMessage()).queue();
-            battle.setBattleMessageID(null);
-        }));
-
-        // Remove all of our stored viewers.
-        battle.removeAllViewerMonsters();
-
-        // Let the rest of the program know the fight ended.
-        battle.setIsInBattle(true);
-        battle.setBattleRoom(null);
+        battle.handlePostBattleLogic();
     }
 
     @Override
@@ -332,5 +222,10 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
             channel.sendMessage(AbstractDungeon.player.name + " has started a game in this channel! Type !join to join in.").queue();
 
         MinionConfigHelper.MinionAttackTargetChance = 0;
+    }
+
+    @Override
+    public int receiveOnPlayerDamaged(int incomingDamage, DamageInfo damageInfo) {
+        return commandQueue.handleOnPlayerDamagedLogic(incomingDamage, damageInfo);
     }
 }

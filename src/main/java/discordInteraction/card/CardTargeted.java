@@ -11,6 +11,11 @@ import discordInteraction.command.Result;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class CardTargeted extends CardTargetless {
+    @Override
+    public ViewerCardType getViewerCardType() {
+        return ViewerCardType.targeted;
+    }
+
     // Cards will be declined if they do not have these number of targets defined.
     // The player does not count for this purpose, purely for monster targets.
     public abstract int getTargetCountMin();
