@@ -57,7 +57,7 @@ public class MessageListener extends ListenerAdapter {
                         handleHelpCommand(event.getAuthor());
                         break;
                     case debugmeafullhandofcards: // Shh.
-                        Main.viewers.get(event.getAuthor()).drawNewHand(10);
+                        Main.viewers.get(event.getAuthor()).drawNewHand(10, 2);
                         sendHandToViewer(event.getAuthor());
                         break;
                     case hand: // Show them their cards in a neat format.

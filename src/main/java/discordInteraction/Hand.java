@@ -1,6 +1,8 @@
 package discordInteraction;
 
 import discordInteraction.card.Card;
+import discordInteraction.card.Poke;
+import discordInteraction.card.UnPoke;
 
 import java.util.ArrayList;
 
@@ -30,9 +32,10 @@ public class Hand {
 
         flavorTypes = new ArrayList<>();
         for (FlavorType flavor : FlavorType.values())
-            flavorTypes.add(flavor);
+            if (flavor != FlavorType.basic)
+                flavorTypes.add(flavor);
 
-        drawNewHand(5);
+        drawNewHand(5, 2);
     }
 
     public void removeCard(Card card){
@@ -51,7 +54,7 @@ public class Hand {
         cards.clear();
     }
 
-    public void draw(int pointsToDraw){
+    public void draw(int pointsToDraw, int basicsToDraw){
         ArrayList<Card> cardPool = new ArrayList<Card>();
 
         for(FlavorType type : flavorTypes)
@@ -67,10 +70,28 @@ public class Hand {
             pointsToDraw -= drawnCard.getCost();
             cards.add(drawnCard);
         }
+
+        drawBasics(basicsToDraw);
     }
 
-    public void drawNewHand(int pointsToDraw){
+    public void drawNewHand(int pointsToDraw, int basicsToDraw){
         discardHand();
-        draw(pointsToDraw);
+        draw(pointsToDraw, basicsToDraw);
+    }
+
+    public void drawBasics(int pointsToDraw){
+        ArrayList<Card> cardPool = new ArrayList<Card>();
+
+        for(Card card : Main.deck.getCardsByFlavorType(FlavorType.basic))
+            cardPool.add(card);
+
+        while(pointsToDraw > 0 && cards.size() < capacity){
+            int toDraw = Main.random.nextInt(cardPool.size() + 1) - 1;
+            if (toDraw < 0)
+                toDraw = 0;
+            Card drawnCard = cardPool.get(toDraw);
+            pointsToDraw -= drawnCard.getCost();
+            cards.add(drawnCard);
+        }
     }
 }
