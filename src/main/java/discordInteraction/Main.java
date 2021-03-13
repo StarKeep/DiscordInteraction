@@ -181,9 +181,9 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public void receivePostBattle(AbstractRoom abstractRoom) {
         // Victory! Let all viewers draw 1 more card.
         for(User viewer : viewers.keySet()){
-            viewers.get(viewer).draw(1, 2);
+            viewers.get(viewer).draw(1, 1);
             listHandForViewer(viewer);
-            sendMessageToUser(viewer, "A battle was won! You have drawn 1 random and 2 basic cards, hand size permitting.");
+            sendMessageToUser(viewer, "A battle was won! You have drawn 1 random and 1 basic card, hand size permitting.");
         }
 
         // Refund any cards that weren't cast in time due to the player rudely winning the fight.
