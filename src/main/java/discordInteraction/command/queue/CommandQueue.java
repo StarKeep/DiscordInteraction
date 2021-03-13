@@ -46,10 +46,10 @@ public class CommandQueue {
             QueuedCommandTargeted command = targeted.getNextCommand();
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player, command.getTargets());
             if (result.hadResolved()){
-                Main.viewers.get(command.getViewer()).removeCard(command.getCard());
                 sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
             } else{
                 sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
+                Main.viewers.get(command.getViewer()).insertCard(command.getCard());
             }
             Main.battle.getViewerMonster(command.getViewer()).clearMoves();
         }
@@ -58,10 +58,10 @@ public class CommandQueue {
             QueuedCommandTargetless command = targetless.getNextCommand();
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player);
             if (result.hadResolved()){
-                Main.viewers.get(command.getViewer()).removeCard(command.getCard());
                 sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
             } else{
                 sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
+                Main.viewers.get(command.getViewer()).insertCard(command.getCard());
             }
             Main.battle.getViewerMonster(command.getViewer()).clearMoves();
         }

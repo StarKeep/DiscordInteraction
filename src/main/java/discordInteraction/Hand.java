@@ -38,6 +38,11 @@ public class Hand {
         drawNewHand(5, 2);
     }
 
+    public void insertCard(Card card){
+        if (cards.size() < capacity)
+            cards.add(card);
+    }
+
     public void removeCard(Card card){
         cards.remove(card);
     }
