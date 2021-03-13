@@ -279,6 +279,9 @@ public class MessageListener extends ListenerAdapter {
             case targeted:
                 if (targets.size() > 0)
                     Main.commandQueue.targeted.add(new QueuedCommandTargeted(user, (CardTargeted) card, targets));
+                else
+                    Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (CardTargetless) card));
+                break;
             case targetless:
                 Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (CardTargetless) card));
                 break;
