@@ -58,12 +58,10 @@ public class MessageListener extends ListenerAdapter {
                         break;
                     case debugmeafullhandofcards: // Shh.
                         Main.viewers.get(event.getAuthor()).drawNewHand(10, 2);
-                        sendHandToViewer(event.getAuthor());
+                        sendMessageToUser(event.getAuthor(), listHandForViewer(event.getAuthor()));
                         break;
-                    case hand: // Show them their cards in a neat format.
-                        sendHandToViewer(event.getAuthor());
-                        break;
-                    case handlist: // Show them their cards in a simple format.
+                    case hand: // Show them their cards.
+                    case handlist:
                         sendMessageToUser(event.getAuthor(), listHandForViewer(event.getAuthor()));
                         break;
                     case cast:
@@ -340,7 +338,7 @@ public class MessageListener extends ListenerAdapter {
             sendMessageToUser(user,
                     "Welcome to the game! Please type !help in this private channel for additional information on commands.");
             if (Main.battle.isInBattle()){
-                sendHandToViewer(user);
+                sendMessageToUser(user, listHandForViewer(user));
                 sendMessageToUser(user, "A battle is currently occuring, you will appear in game at the start of the next turn: Current enemies and their targeting ID's: " + Utilities.getListOfEnemies(true));
             }
         } else

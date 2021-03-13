@@ -172,7 +172,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         // Spawn in viewers.
         for (User user : viewers.keySet()) {
             battle.addViewerMonster(user);
-            sendHandToViewer(user);
+            listHandForViewer(user);
             sendMessageToUser(user, "A new fight has begun!");
         }
     }
@@ -182,7 +182,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         // Victory! Let all viewers draw 1 more card.
         for(User viewer : viewers.keySet()){
             viewers.get(viewer).draw(1, 2);
-            sendHandToViewer(viewer);
+            listHandForViewer(viewer);
             sendMessageToUser(viewer, "A battle was won! You have drawn 1 random and 2 basic cards, hand size permitting.");
         }
 
@@ -196,7 +196,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public boolean receivePostCampfire() {
         for(User viewer : viewers.keySet()){
             viewers.get(viewer).draw(3 + (AbstractDungeon.actNum / 2), 2);
-            sendHandToViewer(viewer);
+            listHandForViewer(viewer);
             sendMessageToUser(viewer, "You have drawn new cards at the campfire, hand size permitting.");
         }
 
@@ -207,7 +207,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public void receiveStartAct() {
         for(User viewer : viewers.keySet()){
             viewers.get(viewer).drawNewHand(5 + (AbstractDungeon.actNum * 2), 2);
-            sendHandToViewer(viewer);
+            listHandForViewer(viewer);
             viewers.get(viewer).drawBasics(2);
             sendMessageToUser(viewer, "You have drawn a new hand of cards due to a new game or new act.");
         }

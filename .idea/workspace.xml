@@ -7,25 +7,8 @@
     <list default="true" id="446d7c20-6171-4d45-a79a-541eb7f78d7f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/Utilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Antidote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Antidote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ArmorUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Caltrops.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Caltrops.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargeted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/CardTargetless.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/DeathByAThousandPokes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/DeathByAThousandPokes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Fatigue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Fatigue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/LayerItOn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/NeurotoxinGas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/NeurotoxinGas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Panacea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Panacea.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Poke.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/RiskingItAllForAFriend.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/RiskingItAllForAFriend.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShivStorm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShivStorm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShowdownDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ShowdownDevice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/Syphon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/ToxicAttitude.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/card/UnPoke.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discordInteraction/command/queue/CommandQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discordInteraction/command/queue/CommandQueue.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615663262020</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Updated all damage cards and all status effects cards to consider the viewer that cast them as their source.">
+      <created>1615668951230</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1615668951230</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -280,7 +270,8 @@
     <MESSAGE value="Added Death by a Thousand Pokes.&#10;&#10;Touched up the drawing card messages in a few locations." />
     <MESSAGE value="Added Caltrops" />
     <MESSAGE value="Fixed targeting bugs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed targeting bugs." />
+    <MESSAGE value="Updated all damage cards and all status effects cards to consider the viewer that cast them as their source." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated all damage cards and all status effects cards to consider the viewer that cast them as their source." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -291,7 +282,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/discordInteraction/MessageListener.java</url>
-          <line>236</line>
+          <line>234</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
