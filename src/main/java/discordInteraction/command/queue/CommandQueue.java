@@ -3,6 +3,7 @@ package discordInteraction.command.queue;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.Main;
+import discordInteraction.Utilities;
 import discordInteraction.card.CardTargetless;
 import discordInteraction.card.CardTriggerOnPlayerDamage;
 import discordInteraction.command.*;
@@ -32,6 +33,9 @@ public class CommandQueue {
             if (command.getViewer() == user)
                 return true;
         for (QueuedCommandBase command : targetless.getCommands())
+            if (command.getViewer() == user)
+                return true;
+        for (QueuedCommandBase command : triggerOnPlayerDamage.getCommands())
             if (command.getViewer() == user)
                 return true;
         return false;
@@ -89,10 +93,11 @@ public class CommandQueue {
 
         ArrayList<QueuedCommandTriggerOnPlayerDamage> randomized = (ArrayList<QueuedCommandTriggerOnPlayerDamage>) triggerOnPlayerDamage.getCommands().clone();
         for(QueuedCommandTriggerOnPlayerDamage command : randomized ){
-            if (damageToReturn <= 0)
+            if (damageToReturn <= 0 || !Main.battle.hasViewerMonster(command.getViewer()))
                 break;
             ResultWithInt result = command.getCard().handleOnPlayerDamageTrigger(incomingDamage, damageInfo, AbstractDungeon.player, command.getViewer());
             damageToReturn = result.getReturnInt();
+            Utilities.sendMessageToUser(command.getViewer(), result.getWhatHappened());
         }
 
         return damageToReturn;

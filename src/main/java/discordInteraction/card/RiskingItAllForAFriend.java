@@ -42,15 +42,16 @@ public class RiskingItAllForAFriend extends CardTriggerOnPlayerDamage {
     @Override
     public ResultWithInt handleOnPlayerDamageTrigger(int incomingDamage, DamageInfo damageInfo, AbstractPlayer player, User user) {
         if (incomingDamage <= player.currentBlock)
-            return new ResultWithInt(false, "The player's block protected them this turn.", incomingDamage);
+            return new ResultWithInt(false, "The player's block protected them.", incomingDamage);
         int damageToTake = incomingDamage;
         AbstractCreature viewer = Main.battle.getViewerMonster(user);
         if (player.currentBlock > 0) {
             damageToTake -= player.currentBlock;
             if (damageToTake < viewer.currentHealth) {
                 Main.battle.getViewerMonster(user).damage(new DamageInfo(damageInfo.owner, damageToTake, DamageInfo.DamageType.NORMAL));
-                return new ResultWithInt(true, "The player has block, so you absorbed " + damageToTake + " of the incoming damage.", incomingDamage -= damageToTake);
+                return new ResultWithInt(true, "You absorbed " + damageToTake + " of the incoming damage.", incomingDamage -= damageToTake);
             } else {
+                Main.battle.getViewerMonster(user).damage(new DamageInfo(damageInfo.owner, damageToTake, DamageInfo.DamageType.NORMAL));
                 Main.battle.removeViewerMonster(user, true);
                 return new ResultWithInt(true, "You took fatal damage that would have hit the player, absorbing " + damageToTake + " damage that their block would not have stopped.", incomingDamage -= damageToTake);
             }
@@ -59,8 +60,9 @@ public class RiskingItAllForAFriend extends CardTriggerOnPlayerDamage {
             Main.battle.getViewerMonster(user).damage(new DamageInfo(damageInfo.owner, damageToTake, DamageInfo.DamageType.NORMAL));
             return new ResultWithInt(true, "You absorbed " + damageToTake + " incoming damage.", 0);
         } else {
+            Main.battle.getViewerMonster(user).damage(new DamageInfo(damageInfo.owner, damageToTake, DamageInfo.DamageType.NORMAL));
             Main.battle.removeViewerMonster(user, true);
-            return new ResultWithInt(true, "You took fatal damage that would have hit the player, absorbing " + damageToTake + " damage before you went down.", incomingDamage -= 0);
+            return new ResultWithInt(true, "You took fatal damage that would have hit the player, absorbing " + damageToTake + " damage before you went down.", 0);
         }
     }
 }

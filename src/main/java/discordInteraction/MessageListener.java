@@ -138,7 +138,10 @@ public class MessageListener extends ListenerAdapter {
     private void handlePlayCommand(User user, String[] parts) {
         // If they join middle battle; they have to wait to spawn in first.
         if (!Main.battle.hasViewerMonster(user)){
-            sendMessageToUser(user, "You have not yet spawned into the game, please wait until the next turn.");
+            if (Main.battle.canUserSpawnIn(user))
+                sendMessageToUser(user, "You have not yet spawned into the game, please wait until the next turn.");
+            else
+                sendMessageToUser(user, "You cannot play cards until the next battle begins.");
             return;
         }
 
@@ -285,9 +288,12 @@ public class MessageListener extends ListenerAdapter {
                 Main.commandQueue.triggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (CardTriggerOnPlayerDamage) card));
                 break;
             default:
-                break;
+                return;
         }
         sendMessageToUser(user, card.getName() + " has been queued up successfully.");
+
+        // Remove the actual card from their hand.
+        hand.removeCard(card);
 
         // Update their monster display to showcase their card's primary flavor.
         MinionMove move = new MinionMove(card.getName(), Main.battle.getViewerMonster(user),

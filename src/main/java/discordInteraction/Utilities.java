@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import discordInteraction.card.Card;
+import discordInteraction.card.Rarity;
 import discordInteraction.command.QueuedCommandTargeted;
 import discordInteraction.command.QueuedCommandTargetless;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -89,7 +90,7 @@ public class Utilities {
 
         String[] result = new String[1 + ((viewerHand.getCards().size() - 1) / 3)];
         for(int x = 0; x < viewerHand.getCards().size(); x+=3) {
-            int widthPerCard = 32;
+            int widthPerCard = 40;
             int width = 1 + ((widthPerCard - 1) * Math.min(3, viewerHand.getCards().size() - x));
             int internalWidthPerCard = widthPerCard - 4;
 
@@ -104,7 +105,19 @@ public class Utilities {
 
             for(int y = x; y < x+3 && y < viewerHand.getCards().size(); y++){
                 Card card = viewerHand.getCards().get(y);
-                sb.append(Utilities.center(card.getName(), 28));
+                sb.append(Utilities.center(card.getName(), widthPerCard - 4));
+                sb.append(" | ");
+            }
+
+            sb.append("\n");
+            sb.append(Utilities.lineBreak(width));
+            sb.append("\n");
+
+            sb.append("| ");
+
+            for(int y = x; y < x+3 && y < viewerHand.getCards().size(); y++){
+                Card card = viewerHand.getCards().get(y);
+                sb.append(Utilities.center("Rarity: " + Rarity.getRarityForCost(card.getCost()), widthPerCard - 4));
                 sb.append(" | ");
             }
 
@@ -136,32 +149,32 @@ public class Utilities {
             }
 
             sb.append(Utilities.lineBreak(width));
-            sb.append("\n");
-
-            ArrayList<ArrayList<String>> flavors = new ArrayList<>();
-            for(int y = x; y < x+3 && y < viewerHand.getCards().size(); y++){
-                Card card = viewerHand.getCards().get(y);
-                flavors.add(Utilities.split(card.getFlavorText(), internalWidthPerCard));
-            }
-
-            max = 0;
-            for (ArrayList<String> list : flavors)
-                max = Math.max(max, list.size());
-
-            for (int y = 0; y < max; y++) {
-                sb.append("| ");
-                for (ArrayList<String> lines : flavors) {
-                    if (y < lines.size())
-                        sb.append(Utilities.center(lines.get(y), internalWidthPerCard));
-                    else
-                        for (int z = 0; z < internalWidthPerCard; z++)
-                            sb.append(' ');
-                    sb.append(" | ");
-                }
-                sb.append("\n");
-            }
-
-            sb.append(Utilities.lineBreak(width));
+//            sb.append("\n");
+//
+//            ArrayList<ArrayList<String>> flavors = new ArrayList<>();
+//            for(int y = x; y < x+3 && y < viewerHand.getCards().size(); y++){
+//                Card card = viewerHand.getCards().get(y);
+//                flavors.add(Utilities.split(card.getFlavorText(), internalWidthPerCard));
+//            }
+//
+//            max = 0;
+//            for (ArrayList<String> list : flavors)
+//                max = Math.max(max, list.size());
+//
+//            for (int y = 0; y < max; y++) {
+//                sb.append("| ");
+//                for (ArrayList<String> lines : flavors) {
+//                    if (y < lines.size())
+//                        sb.append(Utilities.center(lines.get(y), internalWidthPerCard));
+//                    else
+//                        for (int z = 0; z < internalWidthPerCard; z++)
+//                            sb.append(' ');
+//                    sb.append(" | ");
+//                }
+//                sb.append("\n");
+//            }
+//
+//            sb.append(Utilities.lineBreak(width));
 
             sb.append("```");
 
