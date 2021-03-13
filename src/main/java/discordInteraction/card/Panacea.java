@@ -53,7 +53,7 @@ public class Panacea extends CardTargetless {
 
         AbstractCreature target = targets.get(ThreadLocalRandom.current().nextInt(targets.size()));
 
-        Utilities.applyPower(Main.battle.getViewerMonster(user), target, new ArtifactPower(target, 3));
+        Utilities.applyPower(target, new ArtifactPower(target, 3));
 
         return new Result(true, "You applied 3 Artifact to " + target.name + ".");
     }

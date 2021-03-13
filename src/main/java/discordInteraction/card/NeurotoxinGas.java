@@ -51,7 +51,7 @@ public class NeurotoxinGas extends CardTargeted {
     @Override
     protected Result apply(User user, AbstractPlayer player, MonsterGroup targets) {
         AbstractMonster target = targets.monsters.get(0);
-        Utilities.applyPower(Main.battle.getViewerMonster(user), target, new PoisonPower(target, Main.battle.getViewerMonster(user), 3));
+        Utilities.applyPower(target, new PoisonPower(target, Main.battle.getViewerMonster(user), 3));
 
         return new Result(true, "You applied 3 poison to " + target.name + ", for science of course.");
     }

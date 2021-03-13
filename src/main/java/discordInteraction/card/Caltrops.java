@@ -49,7 +49,7 @@ public class Caltrops extends CardTargeted {
 
     @Override
     protected Result apply(User user, AbstractPlayer player, MonsterGroup targets) {
-        Utilities.applyPower(Main.battle.getViewerMonster(user), targets.monsters.get(0), new ThornsPower(targets.monsters.get(0), 2));
+        Utilities.applyPower(targets.monsters.get(0), new ThornsPower(targets.monsters.get(0), 2));
         return new Result(true, "You applied 2 thorns to " + targets.monsters.get(0).name);
     }
 }

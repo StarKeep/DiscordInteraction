@@ -39,7 +39,7 @@ public class LayerItOn extends CardTargetless {
 
     @Override
     public Result activate(User user, AbstractPlayer player) {
-        Utilities.applyPower(Main.battle.getViewerMonster(user), player, new WeakPower(player, 2, false));
+        Utilities.applyPower(player, new WeakPower(player, 2, false));
         player.addBlock(12);
         return new Result(true, "You applied 12 block and 2 weak to the streamer.");
     }

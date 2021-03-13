@@ -41,12 +41,12 @@ public class ToxicAttitude extends CardTargetless {
     public Result activate(User user, AbstractPlayer player) {
         PoisonPower power = new PoisonPower(player, player, 5);
 
-        Utilities.applyPower(player, Main.battle.getViewerMonster(user), power);
+        Utilities.applyPower(player, power);
 
         for (AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters) {
             power = new PoisonPower(monster, Main.battle.getViewerMonster(user), 5);
 
-            Utilities.applyPower(Main.battle.getViewerMonster(user), monster, power);
+            Utilities.applyPower(monster, power);
         }
 
         return new Result(true, "You applied 5 poison to all entities in the battle.");
