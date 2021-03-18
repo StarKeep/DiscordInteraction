@@ -28,6 +28,11 @@ public class RiskingItAllForAFriend extends CardTriggerOnPlayerDamage {
     }
 
     @Override
+    public String getDescriptionForGameDisplay() {
+        return "For the rest of this fight, this viewer will take any unblocked damage the player would take.";
+    }
+
+    @Override
     public String getFlavorText() {
         return "Sometimes sacrifices must be made.";
     }

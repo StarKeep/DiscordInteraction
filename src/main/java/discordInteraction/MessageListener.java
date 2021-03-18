@@ -298,7 +298,7 @@ public class MessageListener extends ListenerAdapter {
 
         // Update their monster display to showcase their card's primary flavor.
         MinionMove move = new MinionMove(card.getName(), Main.battle.getViewerMonster(user),
-                Card.getTextureForCard(card.getClass()), card.getDescription(), () -> {
+                Card.getTextureForCard(card.getClass()), card.getDescriptionForGameDisplay(), () -> {
         });
 
         Main.battle.getViewerMonster(user).addMove(move);

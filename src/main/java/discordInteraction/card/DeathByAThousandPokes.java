@@ -24,6 +24,11 @@ public class DeathByAThousandPokes extends CardTriggerOnPlayerDamage {
     }
 
     @Override
+    public String getDescriptionForGameDisplay() {
+        return "For the rest of this fight, whenever the player is attacked, this viewer will cast a free Poke and UnPoke.";
+    }
+
+    @Override
     public String getFlavorText() {
         return "This death will not be swift.";
     }
