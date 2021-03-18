@@ -93,7 +93,8 @@ public class CommandQueue {
 
         ArrayList<QueuedCommandTriggerOnPlayerDamage> randomized = (ArrayList<QueuedCommandTriggerOnPlayerDamage>) triggerOnPlayerDamage.getCommands().clone();
         for(QueuedCommandTriggerOnPlayerDamage command : randomized ){
-            if (damageToReturn <= 0 || !Main.battle.hasViewerMonster(command.getViewer()))
+            if (damageToReturn <= 0 || !Main.battle.hasViewerMonster(command.getViewer()) ||
+                    Main.battle.getViewerMonster(command.getViewer()).isDeadOrEscaped())
                 break;
             ResultWithInt result = command.getCard().handleOnPlayerDamageTrigger(incomingDamage, damageInfo, AbstractDungeon.player, command.getViewer());
             damageToReturn = result.getReturnInt();
