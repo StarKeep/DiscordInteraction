@@ -21,7 +21,7 @@ public class Antidote extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Remove all poison stacks from the player and heal for 5 + X health, where X is equal to the number of poison stacks removed times 2.";
     }
 

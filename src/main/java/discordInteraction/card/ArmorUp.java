@@ -25,7 +25,7 @@ public class ArmorUp extends CardTargeted {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply 3 Block to an enemy, and 9 Block to the player.";
     }
 

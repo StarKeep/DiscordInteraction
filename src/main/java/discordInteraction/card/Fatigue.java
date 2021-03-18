@@ -27,7 +27,7 @@ public class Fatigue extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Exhaust a random discarded card.";
     }
 

@@ -20,7 +20,7 @@ public class JoyfulNursing extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Heal 5 + X health to the player, where X is equal to the number of alive viewers in the battle.";
     }
 

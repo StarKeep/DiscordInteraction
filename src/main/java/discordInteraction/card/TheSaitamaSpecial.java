@@ -21,7 +21,7 @@ public class TheSaitamaSpecial extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply Ritual 3, Metallicize 12, and Strength - 12 to the player.";
     }
 

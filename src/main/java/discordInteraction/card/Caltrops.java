@@ -21,7 +21,7 @@ public class Caltrops extends CardTargeted {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply Thorns 2 to an enemy.";
     }
 

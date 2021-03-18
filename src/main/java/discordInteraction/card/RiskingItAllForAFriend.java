@@ -23,7 +23,7 @@ public class RiskingItAllForAFriend extends CardTriggerOnPlayerDamage {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "For the rest of this fight, you cannot play additional cards, but any damage that the player would take is instead reflected to you. If multiple viewers play this, a random viewer takes each source of damage.";
     }
 

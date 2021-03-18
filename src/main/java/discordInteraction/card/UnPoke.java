@@ -17,7 +17,7 @@ public class UnPoke extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Restore 3 health to the player.";
     }
 

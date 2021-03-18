@@ -22,7 +22,7 @@ public class ShowdownDevice extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply Ritual 3 to the player and all enemies.";
     }
 

@@ -22,7 +22,7 @@ public class NeurotoxinGas extends CardTargeted {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply 3 Poison to an enemy.";
     }
 

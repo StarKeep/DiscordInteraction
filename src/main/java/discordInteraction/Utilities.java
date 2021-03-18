@@ -6,7 +6,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import discordInteraction.card.Card;
-import discordInteraction.card.Rarity;
 import discordInteraction.command.QueuedCommandTargeted;
 import discordInteraction.command.QueuedCommandTargetless;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -199,7 +198,7 @@ public class Utilities {
         for (Card card : Main.viewers.get(viewer).getCards()) {
             sb.append(card.getName());
             sb.append(" : ");
-            sb.append(card.getDescription());
+            sb.append(card.getDescriptionForViewerDisplay());
             sb.append("\n");
         }
         return sb.toString().trim();

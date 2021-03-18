@@ -21,7 +21,7 @@ public class Poke extends CardTargeted {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Deal 3 damage to an enemy.";
     }
 

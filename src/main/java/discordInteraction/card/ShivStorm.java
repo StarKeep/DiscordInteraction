@@ -21,7 +21,7 @@ public class ShivStorm extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Shuffle 5 + X Shivs in the player's draw pile, where X is equal to the number of exhausted Shivs.";
     }
 

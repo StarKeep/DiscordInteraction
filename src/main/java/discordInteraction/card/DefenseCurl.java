@@ -19,7 +19,7 @@ public class DefenseCurl extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply Intangible 3 to the player.";
     }
 

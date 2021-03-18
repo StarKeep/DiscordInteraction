@@ -19,7 +19,7 @@ public class DeathByAThousandPokes extends CardTriggerOnPlayerDamage {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "For the rest of this fight, you cannot play additional cards, but any time the player takes damage, you will cast a free Poke and UnPoke.";
     }
 

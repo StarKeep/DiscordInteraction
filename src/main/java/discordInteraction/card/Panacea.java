@@ -27,7 +27,7 @@ public class Panacea extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply Artifact 3 to a random target. Can potentially hit the player.";
     }
 

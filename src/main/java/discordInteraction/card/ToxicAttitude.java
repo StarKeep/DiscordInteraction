@@ -21,7 +21,7 @@ public class ToxicAttitude extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply 5 poison to the player and all enemies.";
     }
 

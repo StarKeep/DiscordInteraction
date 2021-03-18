@@ -20,7 +20,7 @@ public class LayerItOn extends CardTargetless {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescriptionForViewerDisplay() {
         return "Apply 12 Block and 2 Weak to the player.";
     }
 
