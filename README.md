@@ -6,8 +6,6 @@ It allows them to draw and play cards to interact with an active game.
 
 # Notes
 
-There is currently no notification IN GAME about actions viewers take, other than the actions themselves.
-AKA, the player will see damage dealt or block applied, but not why it was done.
+The current list of cards can be found here, along with an area to suggest any additional ones:
 
-
-This is my first time using Java in years, and I apologize to whoever views this repository and comes out with a headache.
+https://docs.google.com/spreadsheets/d/17_gbXgz0Ik_LJzCRq1IFa3Fr40ZBcUy5niCY86zi1-o/edit#gid=0
