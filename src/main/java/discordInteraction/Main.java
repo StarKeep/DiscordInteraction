@@ -37,7 +37,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public Main() {
         BaseMod.subscribe(this);
 
-        // Make sure the config file exists. This is used to determine where this streamer's game should read and write messages to.
+        // Make sure the config files exist. If they don't, create some defaults.
         String dir = ConfigUtils.CONFIG_DIR + File.separator + "DiscordInteraction" + File.separator;
         File configDir = new File(dir);
         if (!configDir.exists())
@@ -48,6 +48,14 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
                 config.createNewFile();
                 FileWriter init = new FileWriter(config);
                 init.write("ServerName:ChannelName");
+                init.close();
+            } catch (Exception e) { }
+        File tokenConfig = new File(dir + "botToken.ini");
+        if (!tokenConfig.exists())
+            try {
+                tokenConfig.createNewFile();
+                FileWriter init = new FileWriter(tokenConfig);
+                init.write("botTokenHere");
                 init.close();
             } catch (Exception e) { }
     }
@@ -75,7 +83,13 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         int attempt = 0;
         while (attempt < 100 && bot == null) {
             try {
-                bot = JDABuilder.createDefault(BOT_TOKEN).build().awaitReady();
+                String dir = ConfigUtils.CONFIG_DIR + File.separator + "DiscordInteraction" + File.separator;
+                File configDir = new File(dir);
+                if (!configDir.exists())
+                    configDir.mkdirs();
+                File tokenConfig = new File(dir + "botToken.ini");
+                String data = new String(Files.readAllBytes(tokenConfig.toPath())).trim();
+                bot = JDABuilder.createDefault(data).build().awaitReady();
                 bot.addEventListener(new MessageListener());
             } catch (Exception e) {
                 bot = null;
