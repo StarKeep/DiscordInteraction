@@ -26,7 +26,7 @@ public class ArmorUp extends CardTargeted {
 
     @Override
     public String getDescription() {
-        return "Apply 3 Block to an enemy, and 9 Block to the streamer. If no target is specified, will pick a target at random.";
+        return "Apply 3 Block to an enemy, and 9 Block to the player.";
     }
 
     @Override

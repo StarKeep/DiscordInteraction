@@ -22,7 +22,7 @@ public class Caltrops extends CardTargeted {
 
     @Override
     public String getDescription() {
-        return "Apply Thorns 2 to an enemy. If no target is specified, a random enemy is targeted instead.";
+        return "Apply Thorns 2 to an enemy.";
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Poke extends CardTargeted {
 
     @Override
     public String getDescription() {
-        return "Deal 3 damage to an enemy. If no target is specified, will pick a target at random.";
+        return "Deal 3 damage to an enemy.";
     }
 
     @Override

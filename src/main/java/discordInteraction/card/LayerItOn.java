@@ -21,7 +21,7 @@ public class LayerItOn extends CardTargetless {
 
     @Override
     public String getDescription() {
-        return "Apply 12 Block and 2 Weak to the streamer.";
+        return "Apply 12 Block and 2 Weak to the player.";
     }
 
     @Override

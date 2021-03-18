@@ -21,7 +21,7 @@ public class Syphon extends CardTargetless {
 
     @Override
     public String getDescription() {
-        return "Deal 2 damage to all enemies, restoring health to the streamer equal to the amount of non-blocked damage dealt.";
+        return "Deal 2 damage to all enemies, restoring health to the player equal to the amount of non-blocked damage dealt.";
     }
 
     @Override
