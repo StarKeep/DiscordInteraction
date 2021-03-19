@@ -19,7 +19,7 @@ public class RiskingItAllForAFriend extends CardTriggerOnPlayerDamage {
 
     @Override
     public int getCost() {
-        return 5;
+        return 4;
     }
 
     @Override
