@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static discordInteraction.Utilities.listHandForViewer;
+import static discordInteraction.Utilities.sendMessageToUser;
+
 public class Battle {
     private final Object battleLock = new Object();
     private Boolean inBattle;
@@ -28,7 +31,7 @@ public class Battle {
             return inBattle;
         }
     }
-    public void setIsInBattle(boolean status){
+    private void setIsInBattle(boolean status){
         synchronized (battleLock){
             inBattle = status;
         }
@@ -38,7 +41,7 @@ public class Battle {
             return battleRoom;
         }
     }
-    public void setBattleRoom(AbstractRoom room) {
+    private void setBattleRoom(AbstractRoom room) {
         synchronized (battleLock) {
             battleRoom = room;
         }
@@ -48,9 +51,43 @@ public class Battle {
             return battleMessageID;
         }
     }
-    public void setBattleMessageID(String id){
+    private void setBattleMessageID(String id){
         synchronized (battleLock){
             battleMessageID = id;
+        }
+    }
+
+    public void startBattle(AbstractRoom room, String id){
+        synchronized (battleLock) {
+            setIsInBattle(true);
+            setBattleRoom(room);
+            setBattleMessageID(id);
+
+            // Spawn in viewers.
+            for (User user : viewers.keySet()) {
+                addViewerMonster(user);
+                listHandForViewer(user);
+                sendMessageToUser(user, "A new fight has begun!");
+            }
+        }
+    }
+
+    public void endBattle(){
+        synchronized (battleLock) {
+            // End the battle; edit the battle message to showcase the end result.
+            setLastBattleUpdate(LocalDateTime.now());
+            Main.channel.retrieveMessageById(getBattleMessageID()).queue((message -> {
+                message.editMessage(Utilities.getEndOfBattleMessage()).queue();
+                setBattleMessageID(null);
+            }));
+
+            // Remove all of our stored viewers.
+            removeAllViewerMonsters();
+            viewersDeadUntilNextBattle.clear();
+
+            // Let the rest of the program know the fight ended.
+            setIsInBattle(true);
+            setBattleRoom(null);
         }
     }
 
@@ -110,23 +147,6 @@ public class Battle {
         synchronized (battleTimeLock){
             lastBattleUpdate = time;
         }
-    }
-
-    public void handlePostBattleLogic(){
-        // End the battle; edit the battle message to showcase the end result.
-        setLastBattleUpdate(LocalDateTime.now());
-        Main.channel.retrieveMessageById(getBattleMessageID()).queue((message -> {
-            message.editMessage(Utilities.getEndOfBattleMessage()).queue();
-            setBattleMessageID(null);
-        }));
-
-        // Remove all of our stored viewers.
-        removeAllViewerMonsters();
-        viewersDeadUntilNextBattle.clear();
-
-        // Let the rest of the program know the fight ended.
-        setIsInBattle(true);
-        setBattleRoom(null);
     }
 
     public Battle(){

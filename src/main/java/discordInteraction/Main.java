@@ -173,21 +173,10 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     @Override
     public void receiveOnBattleStart(AbstractRoom abstractRoom) {
         // Let the rest of our program know we're in a fight.
-        battle.setIsInBattle(true);
-        battle.setBattleRoom(abstractRoom);
-
-        // Start the battle information message in the bot channel.
         if (channel != null) {
             channel.sendMessage(Utilities.getStartOfInProgressBattleMessage() + Utilities.getListOfEnemies(true)).queue((message -> {
-                battle.setBattleMessageID(message.getId());
+                battle.startBattle(abstractRoom, message.getId());
             }));
-        }
-
-        // Spawn in viewers.
-        for (User user : viewers.keySet()) {
-            battle.addViewerMonster(user);
-            listHandForViewer(user);
-            sendMessageToUser(user, "A new fight has begun!");
         }
     }
 
@@ -203,7 +192,8 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         // Refund any cards that weren't cast in time due to the player rudely winning the fight.
         commandQueue.handlePostBattleLogic();
 
-        battle.handlePostBattleLogic();
+        // Update our battle information.
+        battle.endBattle();
     }
 
     @Override
