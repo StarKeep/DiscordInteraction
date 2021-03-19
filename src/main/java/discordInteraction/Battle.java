@@ -20,9 +20,17 @@ import static discordInteraction.Utilities.sendMessageToUser;
 
 public class Battle {
     private final Object battleLock = new Object();
+
     private Boolean inBattle;
     private AbstractRoom battleRoom;
     private String battleMessageID;
+
+    // The following is used for secondary start battle logic that triggers at the start of monsters' turns.
+    // Some fights in this game don't properly trigger the pre battle hook, so we will enable battle on a monster turn if it isn't yet.
+    // However, there are potential race conditions between end of battle and monster turns, so we want to stop rapid toggles based purely on monster turns.
+    // Proper start/end battle hooks will always apply regardless of this timing.
+    private LocalDateTime lastBattleToggle;
+
     private HashMap<User, AbstractFriendlyMonster> viewers;
     private HashSet<User> viewersDeadUntilNextBattle;
 
@@ -31,37 +39,24 @@ public class Battle {
             return inBattle;
         }
     }
-    private void setIsInBattle(boolean status){
-        synchronized (battleLock){
-            inBattle = status;
-        }
-    }
     public AbstractRoom getBattleRoom(){
         synchronized (battleLock){
             return battleRoom;
         }
     }
-    private void setBattleRoom(AbstractRoom room) {
+    public String getBattleMessageID() {
         synchronized (battleLock) {
-            battleRoom = room;
-        }
-    }
-    public String getBattleMessageID(){
-        synchronized (battleLock){
             return battleMessageID;
         }
     }
-    private void setBattleMessageID(String id){
-        synchronized (battleLock){
-            battleMessageID = id;
-        }
-    }
 
-    public void startBattle(AbstractRoom room, String id){
+    public void startBattle(AbstractRoom room, String id, boolean isStartOfTurnHook){
         synchronized (battleLock) {
-            setIsInBattle(true);
-            setBattleRoom(room);
-            setBattleMessageID(id);
+            if (!isStartOfTurnHook && LocalDateTime.now().minusSeconds(15).isBefore(lastBattleToggle))
+                return;
+            inBattle = true;
+            battleRoom = room;
+            battleMessageID = id;
 
             // Spawn in viewers.
             for (User user : viewers.keySet()) {
@@ -69,16 +64,17 @@ public class Battle {
                 listHandForViewer(user);
                 sendMessageToUser(user, "A new fight has begun!");
             }
+
+            lastBattleToggle = LocalDateTime.now();
         }
     }
 
     public void endBattle(){
         synchronized (battleLock) {
             // End the battle; edit the battle message to showcase the end result.
-            setLastBattleUpdate(LocalDateTime.now());
             Main.channel.retrieveMessageById(getBattleMessageID()).queue((message -> {
                 message.editMessage(Utilities.getEndOfBattleMessage()).queue();
-                setBattleMessageID(null);
+                battleMessageID = null;
             }));
 
             // Remove all of our stored viewers.
@@ -86,8 +82,10 @@ public class Battle {
             viewersDeadUntilNextBattle.clear();
 
             // Let the rest of the program know the fight ended.
-            setIsInBattle(true);
-            setBattleRoom(null);
+            inBattle = false;
+            battleRoom = null;
+
+            lastBattleToggle = LocalDateTime.now();
         }
     }
 
@@ -136,21 +134,7 @@ public class Battle {
             return null;
     }
 
-    private LocalDateTime lastBattleUpdate;
-    private final Object battleTimeLock = new Object();
-    public LocalDateTime getLastBattleUpdate(){
-        synchronized (battleTimeLock){
-            return lastBattleUpdate;
-        }
-    }
-    public void setLastBattleUpdate(LocalDateTime time){
-        synchronized (battleTimeLock){
-            lastBattleUpdate = time;
-        }
-    }
-
     public Battle(){
-        lastBattleUpdate = LocalDateTime.now();
         inBattle = false;
         battleRoom = null;
         viewers = new HashMap<>();

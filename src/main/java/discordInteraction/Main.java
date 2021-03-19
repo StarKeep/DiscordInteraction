@@ -153,6 +153,14 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
     @Override
     public boolean receivePreMonsterTurn(AbstractMonster monster) {
+        // If a battle isn't going, try to start it.
+        if (!battle.isInBattle())
+            if (channel != null) {
+                channel.sendMessage(Utilities.getStartOfInProgressBattleMessage() + Utilities.getListOfEnemies(true)).queue((message -> {
+                    battle.startBattle(AbstractDungeon.getCurrRoom(), message.getId(), false);
+                }));
+            }
+
         // Add any viewers that join mid fight.
         for(User viewer : viewers.keySet())
             if (!battle.hasViewerMonster(viewer) && battle.canUserSpawnIn(viewer))
@@ -162,7 +170,6 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         commandQueue.handlePerTurnLogic();
 
         // Update our battle message to remove our commands now that they've been executed.
-        Main.battle.setLastBattleUpdate(LocalDateTime.now());
         Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
             message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getListOfEnemies(false)).queue();
         }));
@@ -175,7 +182,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         // Let the rest of our program know we're in a fight.
         if (channel != null) {
             channel.sendMessage(Utilities.getStartOfInProgressBattleMessage() + Utilities.getListOfEnemies(true)).queue((message -> {
-                battle.startBattle(abstractRoom, message.getId());
+                battle.startBattle(abstractRoom, message.getId(), true);
             }));
         }
     }
