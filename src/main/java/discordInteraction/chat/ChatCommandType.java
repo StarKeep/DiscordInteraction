@@ -1,4 +1,4 @@
-package discordInteraction.command;
+package discordInteraction.chat;
 
 public enum ChatCommandType {
     help,

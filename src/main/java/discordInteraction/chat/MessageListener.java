@@ -1,10 +1,15 @@
-package discordInteraction;
+package discordInteraction.chat;
 
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import discordInteraction.FlavorType;
+import discordInteraction.Hand;
+import discordInteraction.Main;
+import discordInteraction.Utilities;
 import discordInteraction.card.Card;
 import discordInteraction.card.CardTargeted;
 import discordInteraction.card.CardTargetless;
 import discordInteraction.card.CardTriggerOnPlayerDamage;
+import discordInteraction.chat.ChatCommandType;
 import discordInteraction.command.*;
 import kobting.friendlyminions.monsters.MinionMove;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -155,7 +160,7 @@ public class MessageListener extends ListenerAdapter {
             failed.add("A battle is not currently in progress");
 
         if (failed.size() > 0) {
-            sendMessageToUser(user, "Command failed, reason(s): " + Utilities.getStringFromArrayList(failed, " "));
+            Utilities.sendMessageToUser(user, "Command failed, reason(s): " + Utilities.getStringFromArrayList(failed, " "));
             return;
         }
 
@@ -305,7 +310,6 @@ public class MessageListener extends ListenerAdapter {
         Main.battle.getViewerMonster(user).rollMove();
 
         // Update our battle message to showcase the newly queued command.
-        Main.battle.setLastBattleUpdate(LocalDateTime.now());
         Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
             message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getListOfEnemies(false) +
                     "\n" + Utilities.getUpcomingViewerCards()).queue();
