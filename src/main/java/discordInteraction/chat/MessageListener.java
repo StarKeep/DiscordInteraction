@@ -1,5 +1,6 @@
 package discordInteraction.chat;
 
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import discordInteraction.FlavorType;
 import discordInteraction.Hand;
@@ -36,6 +37,16 @@ public class MessageListener extends ListenerAdapter {
             switch (ChatCommandType.valueOf(event.getMessage().getContentDisplay().substring(1).toLowerCase())) {
                 case join: // Either initialize a hand for them, or tell them that they're already in.
                     handleJoinCommand(event.getAuthor());
+                    break;
+                case leave: // Get them out of the game, if they're in it.
+                    if (!Main.viewers.containsKey(event.getAuthor()))
+                        Utilities.sendMessageToUser(event.getAuthor(), "You have not joined " + AbstractDungeon.player.name + "'s game.");
+                    else {
+                        Main.viewers.remove(event.getAuthor());
+                        if (Main.battle.isInBattle() && Main.battle.hasViewerMonster(event.getAuthor()));
+                            Main.battle.removeViewerMonster(event.getAuthor(), false);
+                        Utilities.sendMessageToUser(event.getAuthor(), "You have left " + AbstractDungeon.player.name + "'s game.");
+                    }
                     break;
                 default: // If they enter ANYTHING else, and its been 5 minutes since our last notice, let the chat know some basic information.
                     if (LocalDateTime.now().minusMinutes(5).isAfter(Main.lastMessageSent)) {
@@ -87,6 +98,9 @@ public class MessageListener extends ListenerAdapter {
                         break;
                     case removeflavor:
                         handleRemoveFlavorCommand(event.getAuthor(), parts);
+                        break;
+                    case leave:
+                        sendMessageToUser(event.getAuthor(), "Sorry, !leave must be used in the channel of the game in question.");
                         break;
                     default:
                         break;
@@ -331,7 +345,8 @@ public class MessageListener extends ListenerAdapter {
                 "!getallflavors - Show all card flavors currently in game.\n" +
                 "!flavors - Show all flavors that you currently allow.\n" +
                 "!addflavor - Add a flavor to your allowed list.\n" +
-                "!removeflavor - Remove a flavor from your allowed list."
+                "!removeflavor - Remove a flavor from your allowed list.\n" +
+                "!leave - Remove you from an active game. Must be used in the channel of an active game."
         );
     }
 

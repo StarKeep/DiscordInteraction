@@ -3,6 +3,7 @@ package discordInteraction.chat;
 public enum ChatCommandType {
     help,
     join,
+    leave,
     hand,
     handlist,
     cast,
