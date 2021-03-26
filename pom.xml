@@ -4,7 +4,7 @@
 
     <groupId>DiscordInteraction</groupId>
     <artifactId>DiscordInteraction</artifactId>
-    <version>v0.1.30</version>
+    <version>v0.2.0</version>
     <packaging>jar</packaging>
 
     <name>DiscordInteraction</name>
