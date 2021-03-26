@@ -21,7 +21,7 @@ public class JoyfulNursing extends CardTargetless {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Heal 5 + X health to the player, where X is equal to the number of alive viewers in the battle.";
+        return "Heal 5 + X health to the player and all living viewers, where X is equal to the number of alive viewers in the battle.";
     }
 
     @Override
@@ -44,6 +44,9 @@ public class JoyfulNursing extends CardTargetless {
                 viewerCount++;
         int toHeal = 5 + viewerCount;
         player.heal(toHeal);
-        return new Result(true, "You healed the player for " + toHeal);
+        for (AbstractFriendlyMonster viewer : Main.battle.getViewerMonsters().values())
+            if (!viewer.isDeadOrEscaped())
+                viewer.heal(toHeal);
+        return new Result(true, "You healed the player and all viewers for " + toHeal);
     }
 }
