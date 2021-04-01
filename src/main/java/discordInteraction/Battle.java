@@ -49,19 +49,23 @@ public class Battle {
             return battleMessageID;
         }
     }
+    public void setBattleMessageID(String id){
+        synchronized (battleLock){
+            battleMessageID = id;
+        }
+    }
 
-    public void startBattle(AbstractRoom room, String id, boolean isStartOfTurnHook){
+    public void startBattle(AbstractRoom room, boolean isStartOfTurnHook){
         synchronized (battleLock) {
             if (!isStartOfTurnHook && LocalDateTime.now().minusSeconds(15).isBefore(lastBattleToggle))
                 return;
             inBattle = true;
             battleRoom = room;
-            battleMessageID = id;
 
             // Spawn in viewers.
-            for (User user : viewers.keySet()) {
+            for (User user : Main.viewers.keySet()) {
                 addViewerMonster(user);
-                listHandForViewer(user);
+                sendMessageToUser(user, listHandForViewer(user));
                 sendMessageToUser(user, "A new fight has begun!");
             }
 
