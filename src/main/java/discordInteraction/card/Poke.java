@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
+import discordInteraction.Utilities;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
@@ -50,7 +51,7 @@ public class Poke extends CardTargeted {
     @Override
     public Result apply(User user, AbstractPlayer player, MonsterGroup target) {
         AbstractMonster monster = target.monsters.get(0);
-        monster.damage(new DamageInfo(Main.battle.getViewerMonster(user), 3, DamageInfo.DamageType.NORMAL));
-        return new Result(true, "You dealt 3 damage to " + monster.name + ".");
+        int damageDealt = Utilities.applyDamage(Main.battle.getViewerMonster(user), monster, 3, DamageInfo.DamageType.NORMAL);
+        return new Result(true, "You dealt " + damageDealt + " damage to " + monster.name + ".");
     }
 }
