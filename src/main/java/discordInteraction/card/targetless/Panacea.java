@@ -1,21 +1,20 @@
-package discordInteraction.card;
+package discordInteraction.card.targetless;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.powers.ArtifactPower;
-import com.megacrit.cardcrawl.powers.PoisonPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
+import discordInteraction.card.targetless.AbstractCardTargetless;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Panacea extends CardTargetless {
+public class Panacea extends AbstractCardTargetless {
     @Override
     public String getName() {
         return "Panacea";

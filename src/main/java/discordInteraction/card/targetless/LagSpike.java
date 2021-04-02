@@ -1,33 +1,34 @@
-package discordInteraction.card;
+package discordInteraction.card.targetless;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.PoisonPower;
+import com.megacrit.cardcrawl.powers.BufferPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
+import discordInteraction.card.targetless.AbstractCardTargetless;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
-public class ToxicAttitude extends CardTargetless {
+public class LagSpike extends AbstractCardTargetless {
     @Override
     public String getName() {
-        return "Toxic Attitude";
+        return "Lag Spike";
     }
 
     @Override
     public int getCost() {
-        return 4;
+        return 3;
     }
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Apply 5 poison to the player and all enemies.";
+        return "Apply Buffer 2 to the player and all enemies.";
     }
 
     @Override
     public String getFlavorText() {
-        return "A poisonous attitude is contagious.";
+        return "getFlavorText() took too long to respond: Error 504.";
     }
 
     @Override
@@ -39,16 +40,9 @@ public class ToxicAttitude extends CardTargetless {
 
     @Override
     public Result activate(User user, AbstractPlayer player) {
-        PoisonPower power = new PoisonPower(player, player, 5);
-
-        Utilities.applyPower(player, power);
-
-        for (AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters) {
-            power = new PoisonPower(monster, Main.battle.getViewerMonster(user), 5);
-
-            Utilities.applyPower(monster, power);
-        }
-
-        return new Result(true, "You applied 5 poison to all entities in the battle.");
+        Utilities.applyPower(player, new BufferPower(player, 2));
+        for(AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters)
+            Utilities.applyPower(monster, new BufferPower(monster, 2));
+        return new Result(true, "You applied 2 buffer to everyone.");
     }
 }

@@ -1,46 +1,42 @@
-package discordInteraction.card;
+package discordInteraction.card.targeted;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.monsters.MonsterGroup;
+import com.megacrit.cardcrawl.powers.ThornsPower;
 import discordInteraction.FlavorType;
-import discordInteraction.Main;
+import discordInteraction.Utilities;
 import discordInteraction.battle.TargetType;
+import discordInteraction.card.targeted.AbstractedTargetedCard;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
-public class ArmorUp extends CardTargeted {
+public class Caltrops extends AbstractedTargetedCard {
     @Override
     public String getName() {
-        return "Armor Up";
+        return "Caltrops";
     }
 
     @Override
     public int getCost() {
-        return 2;
+        return 4;
     }
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Apply 3 Block to an enemy, and 9 Block to the player.";
+        return "Apply Thorns 2 to an enemy.";
     }
 
     @Override
     public String getFlavorText() {
-        return "You're helping! So what if you make them miss lethal.";
+        return "Watch your step.";
     }
 
     @Override
     public FlavorType[] getFlavorTypes() {
         return new FlavorType[]{
-                FlavorType.chaos,
-                FlavorType.support
+                FlavorType.oppose
         };
     }
 
@@ -62,11 +58,8 @@ public class ArmorUp extends CardTargeted {
     }
 
     @Override
-    public Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
-        AbstractCreature target = targets.get(0);
-        target.addBlock(3);
-        player.addBlock(9);
-
-        return new Result(true, "You applied 3 armor to " + target.name + " and 9 armor to the streamer.");
+    protected Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
+        Utilities.applyPower(targets.get(0), new ThornsPower(targets.get(0), 2));
+        return new Result(true, "You applied 2 thorns to " + targets.get(0).name);
     }
 }

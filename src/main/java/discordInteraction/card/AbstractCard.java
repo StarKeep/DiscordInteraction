@@ -5,7 +5,7 @@ import discordInteraction.FlavorType;
 
 import java.util.HashMap;
 
-public abstract class Card implements Cloneable {
+public abstract class AbstractCard implements Cloneable {
     private static HashMap<String, Texture> cardTextures = new HashMap<String, Texture>();
 
     public static void setTextureForCard(Class card){

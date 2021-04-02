@@ -1,17 +1,15 @@
-package discordInteraction.card;
+package discordInteraction.card.triggered.onPlayerDamage;
 
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
-import discordInteraction.Utilities;
-import discordInteraction.command.Result;
+import discordInteraction.card.triggered.onPlayerDamage.AbstractCardTriggerOnPlayerDamage;
 import discordInteraction.command.ResultWithInt;
 import net.dv8tion.jda.api.entities.User;
 
-public class RiskingItAllForAFriend extends CardTriggerOnPlayerDamage {
+public class RiskingItAllForAFriend extends AbstractCardTriggerOnPlayerDamage {
     @Override
     public String getName() {
         return "Risking it all for a Friend";

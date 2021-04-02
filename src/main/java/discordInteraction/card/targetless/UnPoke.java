@@ -1,43 +1,42 @@
-package discordInteraction.card;
+package discordInteraction.card.targetless;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.powers.IntangiblePlayerPower;
 import discordInteraction.FlavorType;
-import discordInteraction.Utilities;
+import discordInteraction.card.targetless.AbstractCardTargetless;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
-public class DefenseCurl extends CardTargetless {
+public class UnPoke extends AbstractCardTargetless {
     @Override
     public String getName() {
-        return "Defense Curl";
+        return "UnPoke";
     }
 
     @Override
     public int getCost() {
-        return 6;
+        return 1;
     }
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Apply Intangible 3 to the player.";
+        return "Restore 3 health to the player.";
     }
 
     @Override
     public String getFlavorText() {
-        return "Gotta protect those squishy inner bits.";
+        return "Take back one of the many bad things you've said about the streamer, restoring a bit of their will to live.";
     }
 
     @Override
     public FlavorType[] getFlavorTypes() {
         return new FlavorType[]{
-                FlavorType.support
+                FlavorType.basic
         };
     }
 
     @Override
     public Result activate(User user, AbstractPlayer player) {
-        Utilities.applyPower(player, new IntangiblePlayerPower(player, 3));
-        return new Result(true, "You've applied 3 stacks of Intangible to the player.");
+        player.heal(3, true);
+        return new Result(true, "You healed " + player.name + " for 3 health.");
     }
 }

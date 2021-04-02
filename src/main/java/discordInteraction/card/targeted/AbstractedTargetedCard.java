@@ -1,19 +1,17 @@
-package discordInteraction.card;
+package discordInteraction.card.targeted;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import discordInteraction.Main;
 import discordInteraction.battle.TargetType;
+import discordInteraction.card.targetless.AbstractCardTargetless;
+import discordInteraction.card.ViewerCardType;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class CardTargeted extends CardTargetless {
+public abstract class AbstractedTargetedCard extends AbstractCardTargetless {
     @Override
     public ViewerCardType getViewerCardType() {
         return ViewerCardType.targeted;

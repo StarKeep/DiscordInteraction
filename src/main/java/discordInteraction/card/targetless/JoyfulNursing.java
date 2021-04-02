@@ -1,14 +1,14 @@
-package discordInteraction.card;
+package discordInteraction.card.targetless;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
-import discordInteraction.ViewerMinion;
+import discordInteraction.card.targetless.AbstractCardTargetless;
 import discordInteraction.command.Result;
 import kobting.friendlyminions.monsters.AbstractFriendlyMonster;
 import net.dv8tion.jda.api.entities.User;
 
-public class JoyfulNursing extends CardTargetless {
+public class JoyfulNursing extends AbstractCardTargetless {
     @Override
     public String getName() {
         return "Joyful Nursing";

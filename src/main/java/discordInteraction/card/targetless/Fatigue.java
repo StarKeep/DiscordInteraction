@@ -1,21 +1,15 @@
-package discordInteraction.card;
+package discordInteraction.card.targetless;
 
-import com.badlogic.gdx.tools.flame.EventManager;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.GameActionManager;
-import com.megacrit.cardcrawl.actions.common.ExhaustAction;
 import com.megacrit.cardcrawl.actions.common.ExhaustSpecificCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import discordInteraction.FlavorType;
+import discordInteraction.card.targetless.AbstractCardTargetless;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-public class Fatigue extends CardTargetless {
+public class Fatigue extends AbstractCardTargetless {
     @Override
     public String getName() {
         return "Fatigue";

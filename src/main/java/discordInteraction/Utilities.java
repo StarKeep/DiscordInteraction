@@ -5,17 +5,14 @@ import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-import discordInteraction.card.Card;
+import discordInteraction.card.AbstractCard;
 import discordInteraction.command.QueuedCommandTargeted;
 import discordInteraction.command.QueuedCommandTargetless;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class Utilities {
@@ -200,7 +197,7 @@ public class Utilities {
             return "You do not currently have a hand registered with the game. You can request a hand by typing !join in " + Main.channel.getName() + ".";
 
         StringBuilder sb = new StringBuilder();
-        for (Card card : Main.viewers.get(viewer).getCards()) {
+        for (AbstractCard card : Main.viewers.get(viewer).getCards()) {
             sb.append(card.getName());
             sb.append(" : ");
             sb.append(card.getDescriptionForViewerDisplay());

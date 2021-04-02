@@ -1,44 +1,41 @@
-package discordInteraction.card;
+package discordInteraction.card.targeted;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.monsters.MonsterGroup;
-import com.megacrit.cardcrawl.powers.PoisonPower;
 import discordInteraction.FlavorType;
-import discordInteraction.Main;
-import discordInteraction.Utilities;
 import discordInteraction.battle.TargetType;
+import discordInteraction.card.targeted.AbstractedTargetedCard;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public class NeurotoxinGas extends CardTargeted {
+public class ArmorUp extends AbstractedTargetedCard {
     @Override
     public String getName() {
-        return "Neurotoxin Gas";
+        return "Armor Up";
     }
 
     @Override
     public int getCost() {
-        return 1;
+        return 2;
     }
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Apply 3 Poison to a target.";
+        return "Apply 3 Block to an enemy, and 9 Block to the player.";
     }
 
     @Override
     public String getFlavorText() {
-        return "Oh look, it's your old friend; deadly neurotoxin.";
+        return "You're helping! So what if you make them miss lethal.";
     }
 
     @Override
     public FlavorType[] getFlavorTypes() {
         return new FlavorType[]{
-                FlavorType.basic
+                FlavorType.chaos,
+                FlavorType.support
         };
     }
 
@@ -55,17 +52,16 @@ public class NeurotoxinGas extends CardTargeted {
     @Override
     public TargetType[] getTargetTypes() {
         return new TargetType[]{
-                TargetType.player,
-                TargetType.viewer,
                 TargetType.monster
         };
     }
 
     @Override
-    protected Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
+    public Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
         AbstractCreature target = targets.get(0);
-        Utilities.applyPower(target, new PoisonPower(target, Main.battle.getViewerMonster(user), 3));
+        target.addBlock(3);
+        player.addBlock(9);
 
-        return new Result(true, "You applied 3 poison to " + target.name + ", for science of course.");
+        return new Result(true, "You applied 3 armor to " + target.name + " and 9 armor to the streamer.");
     }
 }

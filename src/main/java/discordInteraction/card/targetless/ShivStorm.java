@@ -1,15 +1,16 @@
-package discordInteraction.card;
+package discordInteraction.card.targetless;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.tempCards.Shiv;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import discordInteraction.FlavorType;
+import discordInteraction.card.targetless.AbstractCardTargetless;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public class ShivStorm extends CardTargetless {
+public class ShivStorm extends AbstractCardTargetless {
     @Override
     public String getName() {
         return "Shiv Storm";

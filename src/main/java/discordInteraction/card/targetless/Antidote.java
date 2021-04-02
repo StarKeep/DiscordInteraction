@@ -1,15 +1,14 @@
-package discordInteraction.card;
+package discordInteraction.card.targetless;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import discordInteraction.FlavorType;
+import discordInteraction.card.targetless.AbstractCardTargetless;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
-import java.awt.*;
-
-public class Antidote extends CardTargetless {
+public class Antidote extends AbstractCardTargetless {
     @Override
     public String getName() {
         return "Antidote";

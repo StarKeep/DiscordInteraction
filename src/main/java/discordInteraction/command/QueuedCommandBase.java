@@ -1,10 +1,9 @@
 package discordInteraction.command;
 
-import discordInteraction.card.Card;
-import discordInteraction.card.CardTargetless;
+import discordInteraction.card.AbstractCard;
 import net.dv8tion.jda.api.entities.User;
 
-public class QueuedCommandBase<T extends Card> {
+public class QueuedCommandBase<T extends AbstractCard> {
     protected User viewer;
     protected T card;
 

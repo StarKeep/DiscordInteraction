@@ -2,15 +2,14 @@ package discordInteraction.chat;
 
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import discordInteraction.FlavorType;
 import discordInteraction.Hand;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
-import discordInteraction.card.Card;
-import discordInteraction.card.CardTargeted;
-import discordInteraction.card.CardTargetless;
-import discordInteraction.card.CardTriggerOnPlayerDamage;
+import discordInteraction.card.AbstractCard;
+import discordInteraction.card.targeted.AbstractedTargetedCard;
+import discordInteraction.card.targetless.AbstractCardTargetless;
+import discordInteraction.card.triggered.onPlayerDamage.AbstractCardTriggerOnPlayerDamage;
 import discordInteraction.command.*;
 import kobting.friendlyminions.monsters.MinionMove;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -20,7 +19,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 import static discordInteraction.Utilities.*;
@@ -190,7 +188,7 @@ public class MessageListener extends ListenerAdapter {
 
         // Setup some basic variables to hold their arguments.
         Hand hand = Main.viewers.get(user);
-        Card card = null;
+        AbstractCard card = null;
         ArrayList<AbstractCreature> targets = new ArrayList<AbstractCreature>();
         String rawCardName = "";
 
@@ -223,7 +221,7 @@ public class MessageListener extends ListenerAdapter {
 
             // This is why we needed to get where the name part ended, to figure out where targeting begins.
             // If there is more content after the name, start targeting logic.
-            if (lastCardIndex + 1 < parts.length && card instanceof CardTargeted) {
+            if (lastCardIndex + 1 < parts.length && card instanceof AbstractedTargetedCard) {
                 // Get their target(s). Since we're forcing them to use comma separation, its quite simple.
                 for (String raw : parts[lastCardIndex].split(",")) {
                     int id = -1;
@@ -231,7 +229,7 @@ public class MessageListener extends ListenerAdapter {
                         id = Integer.parseInt(raw);
                     } catch (Exception ee) {
                     }
-                    Result targetingResult = Main.battle.isTargetValid(id, ((CardTargeted) card).getTargetTypes());
+                    Result targetingResult = Main.battle.isTargetValid(id, ((AbstractedTargetedCard) card).getTargetTypes());
                     if (!targetingResult.wasSuccessful())
                         failed.add(targetingResult.getWhatHappened());
                     else
@@ -249,7 +247,7 @@ public class MessageListener extends ListenerAdapter {
                 failed.add("Failed to find card of name " + rawCardName);
 
             // If there is more content after the name, start targeting logic.
-            if (2 < parts.length && card instanceof CardTargeted) {
+            if (2 < parts.length && card instanceof AbstractedTargetedCard) {
                 // Get their target(s). Since we're forcing them to use comma separation, its quite simple.
                 for (String raw : parts[2].split(",")) {
                     int id = -1;
@@ -257,7 +255,7 @@ public class MessageListener extends ListenerAdapter {
                         id = Integer.parseInt(raw);
                     } catch (Exception ee) {
                     }
-                    Result targetingResult = Main.battle.isTargetValid(id, ((CardTargeted) card).getTargetTypes());
+                    Result targetingResult = Main.battle.isTargetValid(id, ((AbstractedTargetedCard) card).getTargetTypes());
                     if (!targetingResult.wasSuccessful())
                         failed.add(targetingResult.getWhatHappened());
                     else
@@ -273,10 +271,10 @@ public class MessageListener extends ListenerAdapter {
 
         // Make sure it isn't violating card targeting requirements.
         if (targets.size() > 0){
-            if (!(card instanceof CardTargeted))
+            if (!(card instanceof AbstractedTargetedCard))
                 failed.add("Attempted to add targets to a targetless card");
             else{
-                CardTargeted cardT = (CardTargeted) card;
+                AbstractedTargetedCard cardT = (AbstractedTargetedCard) card;
                 if (targets.size() > cardT.getTargetCountMax() || targets.size() < cardT.getTargetCountMin())
                     failed.add("Invalid number of targets, " + card.getName() + " supports " +
                             cardT.getTargetCountMin() + " to " + cardT.getTargetCountMax() + " targets");
@@ -292,15 +290,15 @@ public class MessageListener extends ListenerAdapter {
         switch (card.getViewerCardType()){
             case targeted:
                 if (targets.size() > 0)
-                    Main.commandQueue.targeted.add(new QueuedCommandTargeted(user, (CardTargeted) card, targets));
+                    Main.commandQueue.targeted.add(new QueuedCommandTargeted(user, (AbstractedTargetedCard) card, targets));
                 else
-                    Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (CardTargetless) card));
+                    Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (AbstractCardTargetless) card));
                 break;
             case targetless:
-                Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (CardTargetless) card));
+                Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (AbstractCardTargetless) card));
                 break;
             case triggerOnPlayerDamage:
-                Main.commandQueue.triggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (CardTriggerOnPlayerDamage) card));
+                Main.commandQueue.triggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (AbstractCardTriggerOnPlayerDamage) card));
                 break;
             default:
                 return;
@@ -312,7 +310,7 @@ public class MessageListener extends ListenerAdapter {
 
         // Update their monster display to showcase their card's primary flavor.
         MinionMove move = new MinionMove(card.getName(), Main.battle.getViewerMonster(user),
-                Card.getTextureForCard(card.getClass()), card.getDescriptionForGameDisplay(), () -> {
+                AbstractCard.getTextureForCard(card.getClass()), card.getDescriptionForGameDisplay(), () -> {
         });
 
         Main.battle.getViewerMonster(user).addMove(move);

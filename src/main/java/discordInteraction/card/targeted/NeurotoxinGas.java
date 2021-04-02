@@ -1,25 +1,22 @@
-package discordInteraction.card;
+package discordInteraction.card.targeted;
 
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.monsters.MonsterGroup;
-import com.megacrit.cardcrawl.powers.StrengthPower;
+import com.megacrit.cardcrawl.powers.PoisonPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.battle.TargetType;
+import discordInteraction.card.targeted.AbstractedTargetedCard;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
-import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 
-public class Poke extends CardTargeted {
+public class NeurotoxinGas extends AbstractedTargetedCard {
     @Override
     public String getName() {
-        return "Poke";
+        return "Neurotoxin Gas";
     }
 
     @Override
@@ -29,12 +26,12 @@ public class Poke extends CardTargeted {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Deal 2 damage to a target.";
+        return "Apply 3 Poison to a target.";
     }
 
     @Override
     public String getFlavorText() {
-        return "Nothing like a good hard bonk to annoy somebody.";
+        return "Oh look, it's your old friend; deadly neurotoxin.";
     }
 
     @Override
@@ -58,15 +55,16 @@ public class Poke extends CardTargeted {
     public TargetType[] getTargetTypes() {
         return new TargetType[]{
                 TargetType.player,
-                TargetType.monster,
-                TargetType.viewer
+                TargetType.viewer,
+                TargetType.monster
         };
     }
 
     @Override
-    public Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
+    protected Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
         AbstractCreature target = targets.get(0);
-        int damageDealt = Utilities.applyDamage(Main.battle.getViewerMonster(user), target, 2, DamageInfo.DamageType.NORMAL);
-        return new Result(true, "You dealt " + damageDealt + " damage to " + target.name + ".");
+        Utilities.applyPower(target, new PoisonPower(target, Main.battle.getViewerMonster(user), 3));
+
+        return new Result(true, "You applied 3 poison to " + target.name + ", for science of course.");
     }
 }
