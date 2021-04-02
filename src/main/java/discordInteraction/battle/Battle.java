@@ -102,13 +102,18 @@ public class Battle {
         }
     }
     public ArrayList<AbstractCreature> getTargetList(boolean aliveOnly) {
+        return getTargetList(true, null);
+    }
+    public ArrayList<AbstractCreature> getTargetList(boolean aliveOnly, TargetType[] targetTypes){
         synchronized (battleLock) {
             ArrayList<AbstractCreature> toReturn = new ArrayList<>();
             for (int x = 0; x < targets.size(); x++) {
-                AbstractCreature target = targets.get(x).getTarget();
-                if (target.isDeadOrEscaped() && aliveOnly)
+                Target target = targets.get(x);
+                if (target.getTarget().isDeadOrEscaped() && aliveOnly)
                     continue;
-                toReturn.add(target);
+                if (targetTypes != null && !Arrays.asList(targetTypes).contains(target.getTargetType()))
+                    continue;
+                toReturn.add(target.getTarget());
             }
             return toReturn;
         }

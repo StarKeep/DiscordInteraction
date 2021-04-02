@@ -30,11 +30,11 @@ public abstract class CardTargeted extends CardTargetless {
     // if there are enough enemies to meet the minimum target count left.
     @Override
     public Result activate(User user, AbstractPlayer player){
-        if (!hasValidTargets(Main.battle.getTargetList(true)))
+        if (!hasValidTargets(Main.battle.getTargetList(true, getTargetTypes())))
             return new Result(false, "Failed to find valid targets.");
 
         // Trim the target list until we reach our minimum target count, or our maximum with a % chance to stop each step.
-        ArrayList<AbstractCreature> targets = Main.battle.getTargetList(true);
+        ArrayList<AbstractCreature> targets = Main.battle.getTargetList(true, getTargetTypes());
         while (targets.size() > getTargetCountMin())
         {
             targets.remove(Main.random.nextInt(targets.size()));
