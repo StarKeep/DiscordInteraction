@@ -3,7 +3,7 @@
   "name": "Discord Interaction",
   "author_list": ["StarKelp"],
   "description": "Allows viewers to interact with your game via discord bot commands.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "sts_version": "12-22-2020",
   "mts_version": "3.3.0",
   "dependencies": ["basemod", "Friendly_Minions_0987678"]

@@ -3,7 +3,6 @@ package discordInteraction;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -15,6 +14,9 @@ import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class Utilities {
     public static String lineBreak(int width) {
@@ -207,21 +209,23 @@ public class Utilities {
         return sb.toString().trim();
     }
 
-    // Get a comma separated list of enemy names in the current battle.
-    public static String getListOfEnemies(boolean aliveOnly) {
+    // Get a comma separated formatted list of targets.
+    public static String getTargetListForDisplay(boolean aliveOnly) {
         if (Main.battle.getBattleRoom() == null)
-            return "No enemies.";
+            return "Battle has not yet started.";
+
+        if (Main.battle.getTargets(aliveOnly).size() == 0)
+            return "Battle currently has no valid targets.";
 
         StringBuilder sb = new StringBuilder();
-        for(int x = 0; x < Main.battle.getBattleRoom().monsters.monsters.size(); x++){
-            AbstractMonster monster = Main.battle.getBattleRoom().monsters.monsters.get(x);
-            if (monster.isDeadOrEscaped() && aliveOnly)
+        for (Map.Entry<Integer, AbstractCreature> target : Main.battle.getTargets(aliveOnly).entrySet()){
+            if (target.getValue().isDeadOrEscaped() && aliveOnly)
                 continue;
 
             sb.append("| ");
-            sb.append(monster.name);
+            sb.append(target.getValue().name);
             sb.append(" [");
-            sb.append(x + 1);
+            sb.append(target.getKey());
             sb.append("] |");
 
             sb.append("\n");
@@ -241,8 +245,8 @@ public class Utilities {
             sb.append(command.getCard().getName());
             sb.append( " on");
             String targets = "";
-            for(AbstractMonster monster : command.getTargetsList())
-                targets += " " + monster.name;
+            for(AbstractCreature target : command.getTargetsList())
+                targets += " " + target.name;
             sb.append(targets);
             sb.append(".\n");
         }

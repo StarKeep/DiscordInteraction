@@ -3,10 +3,12 @@ package discordInteraction.card;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
+import discordInteraction.battle.TargetType;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
@@ -53,11 +55,18 @@ public class ArmorUp extends CardTargeted {
     }
 
     @Override
-    public Result apply(User user, AbstractPlayer player, MonsterGroup target) {
-        AbstractMonster monster = target.monsters.get(0);
-        monster.addBlock(3);
+    public TargetType[] getTargetTypes() {
+        return new TargetType[]{
+                TargetType.monster
+        };
+    }
+
+    @Override
+    public Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
+        AbstractCreature target = targets.get(0);
+        target.addBlock(3);
         player.addBlock(9);
 
-        return new Result(true, "You applied 3 armor to " + monster.name + " and 9 armor to the streamer.");
+        return new Result(true, "You applied 3 armor to " + target.name + " and 9 armor to the streamer.");
     }
 }

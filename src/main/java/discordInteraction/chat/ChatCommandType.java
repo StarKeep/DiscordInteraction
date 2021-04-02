@@ -8,7 +8,7 @@ public enum ChatCommandType {
     handlist,
     cast,
     play,
-    enemies,
+    targets,
     getallflavors,
     flavors,
     addflavor,

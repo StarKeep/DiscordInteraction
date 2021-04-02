@@ -6,9 +6,11 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import discordInteraction.Main;
+import discordInteraction.battle.TargetType;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class CardTargeted extends CardTargetless {
@@ -18,26 +20,27 @@ public abstract class CardTargeted extends CardTargetless {
     }
 
     // Cards will be declined if they do not have these number of targets defined.
-    // The player does not count for this purpose, purely for monster targets.
     public abstract int getTargetCountMin();
     public abstract int getTargetCountMax();
+
+    // Accepted target types.
+    public abstract TargetType[] getTargetTypes();
 
     // Allow the card to be queued with no target, in which case it will pick random enemies as its target
     // if there are enough enemies to meet the minimum target count left.
     @Override
     public Result activate(User user, AbstractPlayer player){
-        if (!hasValidTargets(Main.battle.getBattleRoom().monsters))
-            return new Result(false, "Failed to find valid monsters.");
+        if (!hasValidTargets(Main.battle.getTargetList(true)))
+            return new Result(false, "Failed to find valid targets.");
 
-        MonsterGroup targets = null;
-        for(AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters)
-            if (targets != null && targets.monsters.size() >= getTargetCountMax())
+        // Trim the target list until we reach our minimum target count, or our maximum with a % chance to stop each step.
+        ArrayList<AbstractCreature> targets = Main.battle.getTargetList(true);
+        while (targets.size() > getTargetCountMin())
+        {
+            targets.remove(Main.random.nextInt(targets.size()));
+            if (targets.size() <= getTargetCountMax() || Main.random.nextBoolean())
                 break;
-            else if (!monster.isDeadOrEscaped())
-                if (targets == null)
-                    targets = new MonsterGroup(monster);
-                else
-                    targets.add(monster);
+        }
 
         if (!hasValidTargets(targets))
             return new Result(false, "Invalid number of targets, one or more may have died before your card activated.");
@@ -45,7 +48,7 @@ public abstract class CardTargeted extends CardTargetless {
         return activate(user, player, targets);
     }
 
-    public Result activate(User user, AbstractPlayer player, MonsterGroup targets){
+    public Result activate(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets){
         if (!hasValidTargets(targets))
             return new Result(false, "Invalid number of targets, one or more may have died before your card activated.");
 
@@ -53,13 +56,11 @@ public abstract class CardTargeted extends CardTargetless {
     }
 
     // The actual application of the effect. This is left pretty open to allow maximum variety.
-    protected abstract Result apply(User user, AbstractPlayer player, MonsterGroup targets);
+    protected abstract Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets);
 
-    protected boolean hasValidTargets(MonsterGroup targets){
+    protected boolean hasValidTargets(ArrayList<AbstractCreature> targets){
         if (targets == null
-         || targets.monsters.size() == 0
-         || targets.areMonstersBasicallyDead()
-         || targets.monsters.size() < getTargetCountMin())
+         || targets.size() < getTargetCountMin())
             return false;
         return true;
     }

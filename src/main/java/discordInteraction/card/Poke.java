@@ -2,16 +2,19 @@ package discordInteraction.card;
 
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
+import discordInteraction.battle.TargetType;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import javax.rmi.CORBA.Util;
+import java.util.ArrayList;
 
 public class Poke extends CardTargeted {
     @Override
@@ -26,7 +29,7 @@ public class Poke extends CardTargeted {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Deal 3 damage to an enemy.";
+        return "Deal 2 damage to a target.";
     }
 
     @Override
@@ -52,9 +55,18 @@ public class Poke extends CardTargeted {
     }
 
     @Override
-    public Result apply(User user, AbstractPlayer player, MonsterGroup target) {
-        AbstractMonster monster = target.monsters.get(0);
-        int damageDealt = Utilities.applyDamage(Main.battle.getViewerMonster(user), monster, 3, DamageInfo.DamageType.NORMAL);
-        return new Result(true, "You dealt " + damageDealt + " damage to " + monster.name + ".");
+    public TargetType[] getTargetTypes() {
+        return new TargetType[]{
+                TargetType.player,
+                TargetType.monster,
+                TargetType.viewer
+        };
+    }
+
+    @Override
+    public Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
+        AbstractCreature target = targets.get(0);
+        int damageDealt = Utilities.applyDamage(Main.battle.getViewerMonster(user), target, 2, DamageInfo.DamageType.NORMAL);
+        return new Result(true, "You dealt " + damageDealt + " damage to " + target.name + ".");
     }
 }

@@ -1,13 +1,17 @@
 package discordInteraction.card;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.powers.ThornsPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
+import discordInteraction.battle.TargetType;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
+
+import java.util.ArrayList;
 
 public class Caltrops extends CardTargeted {
     @Override
@@ -48,8 +52,15 @@ public class Caltrops extends CardTargeted {
     }
 
     @Override
-    protected Result apply(User user, AbstractPlayer player, MonsterGroup targets) {
-        Utilities.applyPower(targets.monsters.get(0), new ThornsPower(targets.monsters.get(0), 2));
-        return new Result(true, "You applied 2 thorns to " + targets.monsters.get(0).name);
+    public TargetType[] getTargetTypes() {
+        return new TargetType[]{
+                TargetType.monster
+        };
+    }
+
+    @Override
+    protected Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
+        Utilities.applyPower(targets.get(0), new ThornsPower(targets.get(0), 2));
+        return new Result(true, "You applied 2 thorns to " + targets.get(0).name);
     }
 }

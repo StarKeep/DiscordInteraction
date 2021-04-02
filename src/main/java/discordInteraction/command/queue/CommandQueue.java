@@ -4,8 +4,6 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
-import discordInteraction.card.CardTargetless;
-import discordInteraction.card.CardTriggerOnPlayerDamage;
 import discordInteraction.command.*;
 import net.dv8tion.jda.api.entities.User;
 
@@ -45,7 +43,7 @@ public class CommandQueue {
         while (targeted.hasAnotherCommand()){
             QueuedCommandTargeted command = targeted.getNextCommand();
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player, command.getTargets());
-            if (result.hadResolved()){
+            if (result.wasSuccessful()){
                 sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
             } else{
                 sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
@@ -57,7 +55,7 @@ public class CommandQueue {
         while (targetless.hasAnotherCommand()){
             QueuedCommandTargetless command = targetless.getNextCommand();
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player);
-            if (result.hadResolved()){
+            if (result.wasSuccessful()){
                 sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
             } else{
                 sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());

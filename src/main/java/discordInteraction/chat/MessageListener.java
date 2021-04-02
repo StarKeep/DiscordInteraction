@@ -1,5 +1,6 @@
 package discordInteraction.chat;
 
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import discordInteraction.FlavorType;
@@ -10,7 +11,6 @@ import discordInteraction.card.Card;
 import discordInteraction.card.CardTargeted;
 import discordInteraction.card.CardTargetless;
 import discordInteraction.card.CardTriggerOnPlayerDamage;
-import discordInteraction.chat.ChatCommandType;
 import discordInteraction.command.*;
 import kobting.friendlyminions.monsters.MinionMove;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 import static discordInteraction.Utilities.*;
@@ -84,8 +85,8 @@ public class MessageListener extends ListenerAdapter {
                     case play:
                         handlePlayCommand(event.getAuthor(), parts);
                         break;
-                    case enemies: // Give them a list of enemies.
-                        sendMessageToUser(event.getAuthor(), getListOfEnemies(true));
+                    case targets: // Give them a list of targets.
+                        sendMessageToUser(event.getAuthor(), getTargetListForDisplay(true));
                         break;
                     case getallflavors: // All flavors registered in the program.
                         sendMessageToUser(event.getAuthor(), getFlavorList());
@@ -190,7 +191,7 @@ public class MessageListener extends ListenerAdapter {
         // Setup some basic variables to hold their arguments.
         Hand hand = Main.viewers.get(user);
         Card card = null;
-        ArrayList<AbstractMonster> targets = new ArrayList<AbstractMonster>();
+        ArrayList<AbstractCreature> targets = new ArrayList<AbstractCreature>();
         String rawCardName = "";
 
         // If they are using the "" surrounding method, we need different logic.
@@ -222,7 +223,7 @@ public class MessageListener extends ListenerAdapter {
 
             // This is why we needed to get where the name part ended, to figure out where targeting begins.
             // If there is more content after the name, start targeting logic.
-            if (lastCardIndex + 1 < parts.length) {
+            if (lastCardIndex + 1 < parts.length && card instanceof CardTargeted) {
                 // Get their target(s). Since we're forcing them to use comma separation, its quite simple.
                 for (String raw : parts[lastCardIndex].split(",")) {
                     int id = -1;
@@ -230,14 +231,11 @@ public class MessageListener extends ListenerAdapter {
                         id = Integer.parseInt(raw);
                     } catch (Exception ee) {
                     }
-                    if (id >= 0 && id < Main.battle.getBattleRoom().monsters.monsters.size()) {
-                        AbstractMonster target = Main.battle.getBattleRoom().monsters.monsters.get(id-1);
-                        if (target.isDeadOrEscaped())
-                            failed.add("Invalid monster id of " + id);
-                        else
-                            targets.add(target);
-                    } else
-                        failed.add("Invalid monster id of " + id);
+                    Result targetingResult = Main.battle.isTargetValid(id, ((CardTargeted) card).getTargetTypes());
+                    if (!targetingResult.wasSuccessful())
+                        failed.add(targetingResult.getWhatHappened());
+                    else
+                        targets.add(Main.battle.getTargetByID(id));
                 }
             }
         } else {
@@ -251,7 +249,7 @@ public class MessageListener extends ListenerAdapter {
                 failed.add("Failed to find card of name " + rawCardName);
 
             // If there is more content after the name, start targeting logic.
-            if (2 < parts.length) {
+            if (2 < parts.length && card instanceof CardTargeted) {
                 // Get their target(s). Since we're forcing them to use comma separation, its quite simple.
                 for (String raw : parts[2].split(",")) {
                     int id = -1;
@@ -259,14 +257,11 @@ public class MessageListener extends ListenerAdapter {
                         id = Integer.parseInt(raw);
                     } catch (Exception ee) {
                     }
-                    if (id >= 0 && id <= Main.battle.getBattleRoom().monsters.monsters.size()) {
-                        AbstractMonster target = Main.battle.getBattleRoom().monsters.monsters.get(id-1);
-                        if (target.isDeadOrEscaped())
-                            failed.add("Invalid monster id of " + id);
-                        else
-                            targets.add(target);
-                    } else
-                        failed.add("Invalid monster id of " + id);
+                    Result targetingResult = Main.battle.isTargetValid(id, ((CardTargeted) card).getTargetTypes());
+                    if (!targetingResult.wasSuccessful())
+                        failed.add(targetingResult.getWhatHappened());
+                    else
+                        targets.add(Main.battle.getTargetByID(id));
                 }
             }
         }
@@ -325,7 +320,7 @@ public class MessageListener extends ListenerAdapter {
 
         // Update our battle message to showcase the newly queued command.
         Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getListOfEnemies(false) +
+            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getTargetListForDisplay(false) +
                     "\n" + Utilities.getUpcomingViewerCards()).queue();
         }));
     }
@@ -341,7 +336,7 @@ public class MessageListener extends ListenerAdapter {
                 "be the name of the card with either no spaces or surrounded by \". " +
                 "Target must be the numeric identifier of a monster, or multiple " +
                 "comma separated numeric identifiers.\n" +
-                "!enemies - Outputs an updated list of monsters and their targeting ids, which are in square brackets.\n" +
+                "!targets - Outputs an updated list of targets and their targeting ids, which are in square brackets.\n" +
                 "!getallflavors - Show all card flavors currently in game.\n" +
                 "!flavors - Show all flavors that you currently allow.\n" +
                 "!addflavor - Add a flavor to your allowed list.\n" +
@@ -361,7 +356,7 @@ public class MessageListener extends ListenerAdapter {
                     "Welcome to the game! Please type !help in this private channel for additional information on commands.");
             if (Main.battle.isInBattle()){
                 sendMessageToUser(user, listHandForViewer(user));
-                sendMessageToUser(user, "A battle is currently occuring, you will appear in game at the start of the next turn: Current enemies and their targeting ID's: " + Utilities.getListOfEnemies(true));
+                sendMessageToUser(user, "A battle is currently occuring, you will appear in game at the start of the next turn: Current targets and their targeting ID's: " + Utilities.getTargetListForDisplay(true));
             }
         } else
             sendMessageToUser(user,
