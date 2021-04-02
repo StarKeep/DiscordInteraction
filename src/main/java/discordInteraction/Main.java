@@ -155,16 +155,8 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     @Override
     public boolean receivePreMonsterTurn(AbstractMonster monster) {
         // If a battle isn't going, try to start it.
-        if (!battle.isInBattle()) {
+        if (!battle.isInBattle())
             battle.startBattle(AbstractDungeon.getCurrRoom(), false);
-
-            // Let our battle know what message to edit for game updates.
-            if (channel != null) {
-                channel.sendMessage(Utilities.getStartOfInProgressBattleMessage() + Utilities.getListOfEnemies(true)).queue((message -> {
-                    battle.setBattleMessageID(message.getId());
-                }));
-            }
-        }
 
         // Add any viewers that join mid fight.
         for (User viewer : viewers.keySet())
@@ -186,13 +178,6 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public void receiveOnBattleStart(AbstractRoom abstractRoom) {
         // Let the rest of our program know we're in a fight.
         battle.startBattle(abstractRoom, true);
-
-        // Let our battle know what message to edit for game updates.
-        if (channel != null) {
-            channel.sendMessage(Utilities.getStartOfInProgressBattleMessage() + Utilities.getListOfEnemies(true)).queue((message -> {
-                battle.setBattleMessageID(message.getId());
-            }));
-        }
     }
 
     @Override

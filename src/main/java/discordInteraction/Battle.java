@@ -69,6 +69,13 @@ public class Battle {
                 sendMessageToUser(user, "A new fight has begun!");
             }
 
+            // Let our battle know what message to edit for game updates.
+            if (Main.channel != null) {
+                Main.channel.sendMessage(Utilities.getStartOfInProgressBattleMessage() + Utilities.getListOfEnemies(true)).queue((message -> {
+                    setBattleMessageID(message.getId());
+                }));
+            }
+
             lastBattleToggle = LocalDateTime.now();
         }
     }
