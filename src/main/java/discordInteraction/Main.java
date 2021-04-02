@@ -32,7 +32,7 @@ import static discordInteraction.Utilities.*;
 
 @SpireInitializer
 public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnStartBattleSubscriber,
-        PostCampfireSubscriber, StartActSubscriber, StartGameSubscriber, OnPlayerDamagedSubscriber {
+        PostCampfireSubscriber, StartActSubscriber, StartGameSubscriber, OnPlayerDamagedSubscriber, PostEnergyRechargeSubscriber {
     public static final Logger logger = LogManager.getLogger(Main.class.getName());
 
     public Main() {
@@ -154,22 +154,11 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
     @Override
     public boolean receivePreMonsterTurn(AbstractMonster monster) {
-        // If a battle isn't going, try to start it.
-        if (!battle.isInBattle())
-            battle.startBattle(AbstractDungeon.getCurrRoom(), false);
-
-        // Add any viewers that join mid fight.
-        for (User viewer : viewers.keySet())
-            if (!battle.hasViewerMonster(viewer) && battle.canUserSpawnIn(viewer))
-                battle.addViewerMonster(viewer);
+        // Handle battle logic.
+        battle.handlePreMonsterTurnLogic();
 
         // Send viewer commands. Start with targeted, so they hopefully don't miss their target
         commandQueue.handlePerTurnLogic();
-
-        // Update our battle message to remove our commands now that they've been executed.
-        Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getListOfEnemies(false)).queue();
-        }));
 
         return true;
     }
@@ -232,5 +221,11 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     @Override
     public int receiveOnPlayerDamaged(int incomingDamage, DamageInfo damageInfo) {
         return commandQueue.handleOnPlayerDamagedLogic(incomingDamage, damageInfo);
+    }
+
+    @Override
+    public void receivePostEnergyRecharge() {
+        // This acts as a pseudo 'player turn' event.
+        battle.handlePostEnergyRecharge();
     }
 }

@@ -151,4 +151,24 @@ public class Battle {
         viewers = new HashMap<>();
         viewersDeadUntilNextBattle = new HashSet<User>();
     }
+
+    public void handlePreMonsterTurnLogic() {
+        // If a battle isn't going, try to start it.
+        if (!isInBattle())
+            startBattle(AbstractDungeon.getCurrRoom(), false);
+
+        // Add any viewers that join mid fight.
+        for (User viewer : viewers.keySet())
+            if (!hasViewerMonster(viewer) && canUserSpawnIn(viewer))
+                addViewerMonster(viewer);
+
+        // Update our battle message to remove our commands now that they've been executed.
+        Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
+            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getListOfEnemies(false)).queue();
+        }));
+    }
+
+    public void handlePostEnergyRecharge() {
+
+    }
 }
