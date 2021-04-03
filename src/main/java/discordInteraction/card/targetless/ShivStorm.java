@@ -34,7 +34,7 @@ public class ShivStorm extends AbstractCardTargetless {
     @Override
     public FlavorType[] getFlavorTypes() {
         return new FlavorType[]{
-                FlavorType.support,
+                FlavorType.oppose,
                 FlavorType.chaos
         };
     }
