@@ -9,6 +9,8 @@ import discordInteraction.Utilities;
 import discordInteraction.card.AbstractCard;
 import discordInteraction.card.targeted.AbstractedTargetedCard;
 import discordInteraction.card.targetless.AbstractCardTargetless;
+import discordInteraction.card.triggered.AbstractCardTriggered;
+import discordInteraction.card.triggered.TriggerType;
 import discordInteraction.card.triggered.onPlayerDamage.AbstractCardTriggerOnPlayerDamage;
 import discordInteraction.command.*;
 import kobting.friendlyminions.monsters.MinionMove;
@@ -298,11 +300,19 @@ public class MessageListener extends ListenerAdapter {
                 Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (AbstractCardTargetless) card));
                 break;
             case triggerOnPlayerDamage:
-                Main.commandQueue.triggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (AbstractCardTriggerOnPlayerDamage) card));
+                switch (((AbstractCardTriggered)card).getTriggerType()){
+                    case continous:
+                        Main.commandQueue.continousTriggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (AbstractCardTriggerOnPlayerDamage) card));
+                        break;
+                    case oneTime:
+                        Main.commandQueue.oneTimeTriggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (AbstractCardTriggerOnPlayerDamage) card));
+                        break;
+                }
                 break;
             default:
                 return;
         }
+
         sendMessageToUser(user, card.getName() + " has been queued up successfully.");
 
         // Remove the actual card from their hand.

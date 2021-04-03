@@ -26,7 +26,7 @@ public class Poke extends AbstractedTargetedCard {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Deal 2 damage to a target.";
+        return "Deal 3 damage to a target.";
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Poke extends AbstractedTargetedCard {
     @Override
     public Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
         AbstractCreature target = targets.get(0);
-        int damageDealt = Utilities.applyDamage(Main.battle.getViewerMonster(user), target, 2, DamageInfo.DamageType.NORMAL);
+        int damageDealt = Utilities.applyDamage(Main.battle.getViewerMonster(user), target, 3, DamageInfo.DamageType.NORMAL);
         return new Result(true, "You dealt " + damageDealt + " damage to " + target.name + ".");
     }
 }

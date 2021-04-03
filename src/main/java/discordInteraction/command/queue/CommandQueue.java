@@ -1,6 +1,7 @@
 package discordInteraction.command.queue;
 
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
@@ -14,12 +15,14 @@ import static discordInteraction.Utilities.sendMessageToUser;
 public class CommandQueue {
     public Queue<QueuedCommandTargeted> targeted;
     public Queue<QueuedCommandTargetless> targetless;
-    public Queue<QueuedCommandTriggerOnPlayerDamage> triggerOnPlayerDamage;
+    public Queue<QueuedCommandTriggerOnPlayerDamage> continousTriggerOnPlayerDamage;
+    public Queue<QueuedCommandTriggerOnPlayerDamage> oneTimeTriggerOnPlayerDamage;
 
     public CommandQueue(){
         targeted = new Queue<QueuedCommandTargeted>();
         targetless = new Queue<QueuedCommandTargetless>();
-        triggerOnPlayerDamage = new Queue<QueuedCommandTriggerOnPlayerDamage>();
+        continousTriggerOnPlayerDamage = new Queue<QueuedCommandTriggerOnPlayerDamage>();
+        oneTimeTriggerOnPlayerDamage = new Queue<QueuedCommandTriggerOnPlayerDamage>();
     }
 
     public boolean hasQueuedCommands(){
@@ -33,7 +36,10 @@ public class CommandQueue {
         for (QueuedCommandBase command : targetless.getCommands())
             if (command.getViewer() == user)
                 return true;
-        for (QueuedCommandBase command : triggerOnPlayerDamage.getCommands())
+        for (QueuedCommandBase command : continousTriggerOnPlayerDamage.getCommands())
+            if (command.getViewer() == user)
+                return true;
+        for (QueuedCommandBase command : oneTimeTriggerOnPlayerDamage.getCommands())
             if (command.getViewer() == user)
                 return true;
         return false;
@@ -66,39 +72,39 @@ public class CommandQueue {
     }
 
     public void handlePostBattleLogic() {
-        while (targeted.hasAnotherCommand()){
-            QueuedCommandTargeted command = targeted.getNextCommand();
-            sendMessageToUser(command.getViewer(), "Your " + command.getCard().getName() +
-                    " failed to cast before the battle ended, and has been refunded.");
-        }
-
-        while (targetless.hasAnotherCommand()){
-            QueuedCommandBase command = targetless.getNextCommand();
-            sendMessageToUser(command.getViewer(), "Your " + command.getCard().getName() +
-                    " failed to cast before the battle ended, and has been refunded.");
-        }
+        targeted.refund();
+        targetless.refund();
+        oneTimeTriggerOnPlayerDamage.refund();
 
         // We don't need to do anything with these triggers except clear them.
-        while (triggerOnPlayerDamage.hasAnotherCommand())
-            triggerOnPlayerDamage.getNextCommand();
+        continousTriggerOnPlayerDamage.clear();
     }
 
     public int handleOnPlayerDamagedLogic(int incomingDamage, DamageInfo damageInfo) {
-        if (damageInfo.type == DamageInfo.DamageType.HP_LOSS || !triggerOnPlayerDamage.hasAnotherCommand())
+        if (damageInfo.type == DamageInfo.DamageType.HP_LOSS || !continousTriggerOnPlayerDamage.hasAnotherCommand())
             return incomingDamage;
 
-        int damageToReturn = incomingDamage;
-
-        ArrayList<QueuedCommandTriggerOnPlayerDamage> randomized = (ArrayList<QueuedCommandTriggerOnPlayerDamage>) triggerOnPlayerDamage.getCommands().clone();
-        for(QueuedCommandTriggerOnPlayerDamage command : randomized ){
-            if (damageToReturn <= 0 || !Main.battle.hasViewerMonster(command.getViewer()) ||
-                    Main.battle.getViewerMonster(command.getViewer()).isDeadOrEscaped())
-                break;
-            ResultWithInt result = command.getCard().handleOnPlayerDamageTrigger(incomingDamage, damageInfo, AbstractDungeon.player, command.getViewer());
-            damageToReturn = result.getReturnInt();
-            Utilities.sendMessageToUser(command.getViewer(), result.getWhatHappened());
+        // Handle one time triggers first.
+        while (oneTimeTriggerOnPlayerDamage.hasAnotherCommand() && incomingDamage > 0){
+            QueuedCommandTriggerOnPlayerDamage command = oneTimeTriggerOnPlayerDamage.getNextCommand();
+            incomingDamage = handleTriggerOnPlayerDamageCommand(incomingDamage, damageInfo, command, true);
         }
 
-        return damageToReturn;
+        while (continousTriggerOnPlayerDamage.hasAnotherCommand() && incomingDamage > 0){
+            QueuedCommandTriggerOnPlayerDamage command = continousTriggerOnPlayerDamage.getNextCommand();
+            incomingDamage = handleTriggerOnPlayerDamageCommand(incomingDamage, damageInfo, command, false);
+        }
+
+        return incomingDamage;
+    }
+    private int handleTriggerOnPlayerDamageCommand(int incomingDamage, DamageInfo damageInfo, QueuedCommandTriggerOnPlayerDamage command, boolean refundOnFail){
+        ResultWithInt result = command.getCard().handleOnPlayerDamageTrigger(incomingDamage, damageInfo, AbstractDungeon.player, command.getViewer());
+        if (result.wasSuccessful()){
+            sendMessageToUser( command.getViewer(), result.getWhatHappened());
+        } else if (refundOnFail){
+            sendMessageToUser(command.getViewer(), command.getCard().getName() + " failed to trigger, and has been refunded. " + result.getWhatHappened());
+            Main.viewers.get(command.getViewer()).insertCard(command.getCard());
+        }
+        return result.getReturnInt();
     }
 }
