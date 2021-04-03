@@ -8,7 +8,7 @@ import discordInteraction.card.triggered.AbstractCardTriggered;
 import discordInteraction.command.ResultWithInt;
 import net.dv8tion.jda.api.entities.User;
 
-public abstract class AbstractCardTriggerOnPlayerDamage extends AbstractCardTriggered {
+public abstract class AbstractCardTriggeredOnPlayerDamage extends AbstractCardTriggered {
     @Override
     public ViewerCardType getViewerCardType() {
         return ViewerCardType.triggerOnPlayerDamage;

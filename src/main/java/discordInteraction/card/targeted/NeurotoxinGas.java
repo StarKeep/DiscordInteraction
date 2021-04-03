@@ -7,13 +7,12 @@ import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.Utilities;
 import discordInteraction.battle.TargetType;
-import discordInteraction.card.targeted.AbstractedTargetedCard;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public class NeurotoxinGas extends AbstractedTargetedCard {
+public class NeurotoxinGas extends AbstractCardTargeted {
     @Override
     public String getName() {
         return "Neurotoxin Gas";

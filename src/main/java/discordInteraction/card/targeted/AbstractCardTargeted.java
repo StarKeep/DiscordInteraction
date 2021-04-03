@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public abstract class AbstractedTargetedCard extends AbstractCardTargetless {
+public abstract class AbstractCardTargeted extends AbstractCardTargetless {
     @Override
     public ViewerCardType getViewerCardType() {
         return ViewerCardType.targeted;

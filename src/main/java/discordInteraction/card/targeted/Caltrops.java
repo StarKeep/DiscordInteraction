@@ -6,13 +6,12 @@ import com.megacrit.cardcrawl.powers.ThornsPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Utilities;
 import discordInteraction.battle.TargetType;
-import discordInteraction.card.targeted.AbstractedTargetedCard;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public class Caltrops extends AbstractedTargetedCard {
+public class Caltrops extends AbstractCardTargeted {
     @Override
     public String getName() {
         return "Caltrops";

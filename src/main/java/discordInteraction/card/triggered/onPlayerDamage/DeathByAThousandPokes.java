@@ -6,14 +6,13 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import discordInteraction.FlavorType;
 import discordInteraction.card.targeted.Poke;
 import discordInteraction.card.targetless.UnPoke;
-import discordInteraction.card.triggered.AbstractCardTriggered;
 import discordInteraction.card.triggered.TriggerType;
 import discordInteraction.command.ResultWithInt;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public class DeathByAThousandPokes extends AbstractCardTriggerOnPlayerDamage {
+public class DeathByAThousandPokes extends AbstractCardTriggeredOnPlayerDamage {
     @Override
     public String getName() {
         return "Death By A Thousand Pokes";

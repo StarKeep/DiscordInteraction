@@ -6,11 +6,10 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.card.triggered.TriggerType;
-import discordInteraction.card.triggered.onPlayerDamage.AbstractCardTriggerOnPlayerDamage;
 import discordInteraction.command.ResultWithInt;
 import net.dv8tion.jda.api.entities.User;
 
-public class RiskingItAllForAFriend extends AbstractCardTriggerOnPlayerDamage {
+public class RiskingItAllForAFriend extends AbstractCardTriggeredOnPlayerDamage {
     @Override
     public String getName() {
         return "Risking it all for a Friend";

@@ -4,13 +4,12 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import discordInteraction.FlavorType;
 import discordInteraction.battle.TargetType;
-import discordInteraction.card.targeted.AbstractedTargetedCard;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 
-public class ArmorUp extends AbstractedTargetedCard {
+public class ArmorUp extends AbstractCardTargeted {
     @Override
     public String getName() {
         return "Armor Up";
