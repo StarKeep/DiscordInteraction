@@ -153,7 +153,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
         // Reload config.
         try {
-            SpireConfig config = getDefaultConfig();
+            config = getDefaultConfig();
 
             config.load();
             config.save();
@@ -188,10 +188,10 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
         ModPanel settingsPanel = new ModPanel();
 
-        ModLabeledButton openConfig = new ModLabeledButton("Configuration Folder", 350f, 700f, Settings.BLUE_TEXT_COLOR,
+        ModLabeledButton openConfig = new ModLabeledButton("Bot Configuration", 350f, 700f, Settings.BLUE_TEXT_COLOR,
                 Settings.RED_TEXT_COLOR, settingsPanel, (button) ->{
             File configFile = new File(SpireConfig.makeFilePath(modName, botConfigName));
-            FileSystem.openFileDirectoryForViewing(configFile);
+            FileSystem.openFileWithDefault(configFile);
         });
 
         settingsPanel.addUIElement(openConfig);
