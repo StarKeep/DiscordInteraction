@@ -5,7 +5,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
-import discordInteraction.Utilities;
+import discordInteraction.util.Combat;
 import discordInteraction.battle.TargetType;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
@@ -62,7 +62,7 @@ public class Poke extends AbstractCardTargeted {
     @Override
     public Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
         AbstractCreature target = targets.get(0);
-        int damageDealt = Utilities.applyDamage(Main.battle.getViewerMonster(user), target, 3, DamageInfo.DamageType.NORMAL);
+        int damageDealt = Combat.applyDamage(Main.battle.getViewerMonster(user), target, 3, DamageInfo.DamageType.NORMAL);
         return new Result(true, "You dealt " + damageDealt + " damage to " + target.name + ".");
     }
 }

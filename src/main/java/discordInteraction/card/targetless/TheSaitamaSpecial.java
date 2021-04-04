@@ -5,8 +5,7 @@ import com.megacrit.cardcrawl.powers.MetallicizePower;
 import com.megacrit.cardcrawl.powers.RitualPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import discordInteraction.FlavorType;
-import discordInteraction.Utilities;
-import discordInteraction.card.targetless.AbstractCardTargetless;
+import discordInteraction.util.Combat;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
@@ -41,9 +40,9 @@ public class TheSaitamaSpecial extends AbstractCardTargetless {
 
     @Override
     public Result activate(User user, AbstractPlayer player) {
-        Utilities.applyPower(player, new RitualPower(player, 2, true));
-        Utilities.applyPower(player, new MetallicizePower(player, 7));
-        Utilities.applyPower(player, new StrengthPower(player, -7));
+        Combat.applyPower(player, new RitualPower(player, 2, true));
+        Combat.applyPower(player, new MetallicizePower(player, 7));
+        Combat.applyPower(player, new StrengthPower(player, -7));
         player.addBlock(7);
         return new Result(true, "The player has begun their accent into hero hood.");
     }

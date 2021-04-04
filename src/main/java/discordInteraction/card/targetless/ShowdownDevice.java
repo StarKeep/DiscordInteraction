@@ -5,8 +5,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.RitualPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
-import discordInteraction.Utilities;
-import discordInteraction.card.targetless.AbstractCardTargetless;
+import discordInteraction.util.Combat;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
@@ -40,10 +39,10 @@ public class ShowdownDevice extends AbstractCardTargetless {
 
     @Override
     public Result activate(User user, AbstractPlayer player) {
-        Utilities.applyPower(player, new RitualPower(player, 3, true));
+        Combat.applyPower(player, new RitualPower(player, 3, true));
         for (AbstractMonster monster : Main.battle.getBattleRoom().monsters.monsters)
             if (!monster.isDeadOrEscaped())
-                Utilities.applyPower(monster, new RitualPower(monster, 3, false));
+                Combat.applyPower(monster, new RitualPower(monster, 3, false));
 
         return new Result(true, "You have started the showdown device. Ritual 3 has been applied to all targets.");
     }

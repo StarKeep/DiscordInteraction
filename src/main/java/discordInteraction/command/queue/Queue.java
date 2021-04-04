@@ -6,7 +6,7 @@ import discordInteraction.command.QueuedCommandBase;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import static discordInteraction.Utilities.sendMessageToUser;
+import static discordInteraction.util.Output.sendMessageToUser;
 
 // This class is designed to be safe from multiple queries.
 public class Queue<T extends QueuedCommandBase> {

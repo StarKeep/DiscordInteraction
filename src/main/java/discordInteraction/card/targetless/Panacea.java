@@ -6,8 +6,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.ArtifactPower;
 import discordInteraction.FlavorType;
 import discordInteraction.Main;
-import discordInteraction.Utilities;
-import discordInteraction.card.targetless.AbstractCardTargetless;
+import discordInteraction.util.Combat;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
@@ -52,7 +51,7 @@ public class Panacea extends AbstractCardTargetless {
 
         AbstractCreature target = targets.get(ThreadLocalRandom.current().nextInt(targets.size()));
 
-        Utilities.applyPower(target, new ArtifactPower(target, 3));
+        Combat.applyPower(target, new ArtifactPower(target, 3));
 
         return new Result(true, "You applied 3 Artifact to " + target.name + ".");
     }

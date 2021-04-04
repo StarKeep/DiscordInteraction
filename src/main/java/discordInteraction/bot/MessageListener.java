@@ -1,11 +1,12 @@
-package discordInteraction.chat;
+package discordInteraction.bot;
 
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.FlavorType;
 import discordInteraction.Hand;
 import discordInteraction.Main;
-import discordInteraction.Utilities;
+import discordInteraction.util.Formatting;
+import discordInteraction.util.Output;
 import discordInteraction.card.AbstractCard;
 import discordInteraction.card.targeted.AbstractCardTargeted;
 import discordInteraction.card.targetless.AbstractCardTargetless;
@@ -22,8 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import static discordInteraction.Utilities.*;
-
 // This big ugly fella is responsible for just about everything related to viewer input.
 public class MessageListener extends ListenerAdapter {
     @Override
@@ -33,24 +32,24 @@ public class MessageListener extends ListenerAdapter {
 
         // Handle any input from the main discord channel.
         // We want to restrict our output as much as possible in order to keep it as clean as possible.
-        if (Main.channel != null && event.getChannel().getId().equalsIgnoreCase(Main.channel.getId())) {
+        if (Main.bot.channel != null && event.getChannel().getId().equalsIgnoreCase(Main.bot.channel.getId())) {
             switch (ChatCommandType.valueOf(event.getMessage().getContentDisplay().substring(1).toLowerCase())) {
                 case join: // Either initialize a hand for them, or tell them that they're already in.
                     handleJoinCommand(event.getAuthor());
                     break;
                 case leave: // Get them out of the game, if they're in it.
                     if (!Main.viewers.containsKey(event.getAuthor()))
-                        Utilities.sendMessageToUser(event.getAuthor(), "You have not joined " + AbstractDungeon.player.name + "'s game.");
+                        Output.sendMessageToUser(event.getAuthor(), "You have not joined " + AbstractDungeon.player.name + "'s game.");
                     else {
                         Main.viewers.remove(event.getAuthor());
                         if (Main.battle.isInBattle() && Main.battle.hasViewerMonster(event.getAuthor()));
                             Main.battle.removeViewerMonster(event.getAuthor(), false);
-                        Utilities.sendMessageToUser(event.getAuthor(), "You have left " + AbstractDungeon.player.name + "'s game.");
+                        Output.sendMessageToUser(event.getAuthor(), "You have left " + AbstractDungeon.player.name + "'s game.");
                     }
                     break;
                 default: // If they enter ANYTHING else, and its been 5 minutes since our last notice, let the chat know some basic information.
-                    if (LocalDateTime.now().minusMinutes(5).isAfter(Main.lastMessageSent)) {
-                        Main.lastMessageSent = LocalDateTime.now();
+                    if (LocalDateTime.now().minusMinutes(5).isAfter(Main.bot.lastMessageSent)) {
+                        Main.bot.lastMessageSent = LocalDateTime.now();
                         if (Main.deck == null)
                             event.getChannel().sendMessage("The game has not yet been started. Keep an eye out for a notification when the game can be joined. Please message me !help for any additional assistance.").queue();
                         else
@@ -74,21 +73,21 @@ public class MessageListener extends ListenerAdapter {
                         break;
                     case debugmeafullhandofcards: // Shh.
                         Main.viewers.get(event.getAuthor()).drawNewHand(10, 2);
-                        sendMessageToUser(event.getAuthor(), listHandForViewer(event.getAuthor()));
+                        Output.sendMessageToUser(event.getAuthor(), Output.listHandForViewer(event.getAuthor()));
                         break;
                     case hand: // Show them their cards.
                     case handlist:
-                        sendMessageToUser(event.getAuthor(), listHandForViewer(event.getAuthor()));
+                        Output.sendMessageToUser(event.getAuthor(), Output.listHandForViewer(event.getAuthor()));
                         break;
                     case cast:
                     case play:
                         handlePlayCommand(event.getAuthor(), parts);
                         break;
                     case targets: // Give them a list of targets.
-                        sendMessageToUser(event.getAuthor(), getTargetListForDisplay(true));
+                        Output.sendMessageToUser(event.getAuthor(), Output.getTargetListForDisplay(true));
                         break;
                     case getallflavors: // All flavors registered in the program.
-                        sendMessageToUser(event.getAuthor(), getFlavorList());
+                        Output.sendMessageToUser(event.getAuthor(), Output.getFlavorList());
                         break;
                     case flavors: // All flavors that the user specifically has.
                         handleGetFlavorsCommand(event.getAuthor());
@@ -100,13 +99,13 @@ public class MessageListener extends ListenerAdapter {
                         handleRemoveFlavorCommand(event.getAuthor(), parts);
                         break;
                     case leave:
-                        sendMessageToUser(event.getAuthor(), "Sorry, !leave must be used in the channel of the game in question.");
+                        Output.sendMessageToUser(event.getAuthor(), "Sorry, !leave must be used in the channel of the game in question.");
                         break;
                     default:
                         break;
                 }
             } catch (IllegalArgumentException ee) {
-                sendMessageToUser(event.getAuthor(), "Unknown command. Please type !help for assistance.");
+                Output.sendMessageToUser(event.getAuthor(), "Unknown command. Please type !help for assistance.");
             }
         }
     }
@@ -116,13 +115,13 @@ public class MessageListener extends ListenerAdapter {
             FlavorType flavor = FlavorType.valueOf(parts[1]);
             Hand hand = Main.viewers.get(user);
             if (!hand.getFlavorTypes().contains(flavor))
-                sendMessageToUser(user, "You don't have " + parts[1] + " as an allowed flavor.");
+                Output.sendMessageToUser(user, "You don't have " + parts[1] + " as an allowed flavor.");
             else {
                 hand.removeFlavor(flavor);
-                sendMessageToUser(user, "Flavor removed.");
+                Output.sendMessageToUser(user, "Flavor removed.");
             }
         } catch (IllegalArgumentException e){
-            sendMessageToUser(user, parts[1] + " is not a valid flavor.");
+            Output.sendMessageToUser(user, parts[1] + " is not a valid flavor.");
         }
     }
 
@@ -131,13 +130,13 @@ public class MessageListener extends ListenerAdapter {
             FlavorType flavor = FlavorType.valueOf(parts[1]);
             Hand hand = Main.viewers.get(user);
             if (hand.getFlavorTypes().contains(flavor))
-                sendMessageToUser(user, "You already have " + parts[1] + " as an allowed flavor.");
+                Output.sendMessageToUser(user, "You already have " + parts[1] + " as an allowed flavor.");
             else {
                 hand.addFlavor(flavor);
-                sendMessageToUser(user, "Flavor added.");
+                Output.sendMessageToUser(user, "Flavor added.");
             }
         } catch (IllegalArgumentException e){
-            sendMessageToUser(user, parts[1] + " is not a valid flavor.");
+            Output.sendMessageToUser(user, parts[1] + " is not a valid flavor.");
         }
     }
 
@@ -149,22 +148,22 @@ public class MessageListener extends ListenerAdapter {
                 continue;
             else
                 output += " " + flavor.toString();
-        sendMessageToUser(user, output);
+        Output.sendMessageToUser(user, output);
     }
 
     private void handlePlayCommand(User user, String[] parts) {
         // If they join middle battle; they have to wait to spawn in first.
         if (!Main.battle.hasViewerMonster(user)){
             if (Main.battle.canUserSpawnIn(user))
-                sendMessageToUser(user, "You have not yet spawned into the game, please wait until the next turn.");
+                Output.sendMessageToUser(user, "You have not yet spawned into the game, please wait until the next turn.");
             else
-                sendMessageToUser(user, "You cannot play cards until the next battle begins.");
+                Output.sendMessageToUser(user, "You cannot play cards until the next battle begins.");
             return;
         }
 
         // If they send us only !cast or !play, we can't really do much.
         if (parts.length < 2) {
-            sendMessageToUser(user, "Unsupported command. You must include at least a card name or number.");
+            Output.sendMessageToUser(user, "Unsupported command. You must include at least a card name or number.");
             return;
         }
 
@@ -174,7 +173,7 @@ public class MessageListener extends ListenerAdapter {
             failed.add("A battle is not currently in progress");
 
         if (failed.size() > 0) {
-            Utilities.sendMessageToUser(user, "Command failed, reason(s): " + Utilities.getStringFromArrayList(failed, " "));
+            Output.sendMessageToUser(user, "Command failed, reason(s): " + Formatting.getStringFromArrayList(failed, " "));
             return;
         }
 
@@ -183,7 +182,7 @@ public class MessageListener extends ListenerAdapter {
             failed.add("You have already queued up a card this turn");
 
         if (failed.size() > 0) {
-            sendMessageToUser(user, "Command failed, reason(s): " + Utilities.getStringFromArrayList(failed, " "));
+            Output.sendMessageToUser(user, "Command failed, reason(s): " + Formatting.getStringFromArrayList(failed, " "));
             return;
         }
 
@@ -266,7 +265,7 @@ public class MessageListener extends ListenerAdapter {
         }
 
         if (failed.size() > 0) {
-            sendMessageToUser(user, "Command failed, reason(s): " + Utilities.getStringFromArrayList(failed, " "));
+            Output.sendMessageToUser(user, "Command failed, reason(s): " + Formatting.getStringFromArrayList(failed, " "));
             return;
         }
 
@@ -283,7 +282,7 @@ public class MessageListener extends ListenerAdapter {
         }
 
         if (failed.size() > 0) {
-            sendMessageToUser(user, "Command failed, reason(s): " + Utilities.getStringFromArrayList(failed, " "));
+            Output.sendMessageToUser(user, "Command failed, reason(s): " + Formatting.getStringFromArrayList(failed, " "));
             return;
         }
 
@@ -312,7 +311,7 @@ public class MessageListener extends ListenerAdapter {
                 return;
         }
 
-        sendMessageToUser(user, card.getName() + " has been queued up successfully.");
+        Output.sendMessageToUser(user, card.getName() + " has been queued up successfully.");
 
         // Remove the actual card from their hand.
         hand.removeCard(card);
@@ -326,16 +325,16 @@ public class MessageListener extends ListenerAdapter {
         Main.battle.getViewerMonster(user).rollMove();
 
         // Update our battle message to showcase the newly queued command.
-        Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getTargetListForDisplay(false) +
-                    "\n" + Utilities.getUpcomingViewerCards()).queue();
+        Main.bot.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
+            message.editMessage(Output.getEndOfBattleMessage() + Output.getTargetListForDisplay(false) +
+                    "\n" + Output.getUpcomingViewerCards()).queue();
         }));
     }
 
 
 
     private void handleHelpCommand(User user) {
-        sendMessageToUser(user, "" +
+        Output.sendMessageToUser(user, "" +
                 "!hand - Show your hand. Recommended for wider screens.\n" +
                 "!handList - List your hand. Recommended for narrow screens.\n" +
                 "!(play/cast) card target - (Examples: !play \"A Cool Spell\" 1, " +
@@ -355,18 +354,18 @@ public class MessageListener extends ListenerAdapter {
     private void handleJoinCommand(User user){
         if (!Main.viewers.containsKey(user.getId())) {
             if (Main.deck == null) {
-                sendMessageToUser(user, "Sorry, the game has yet to be started. Please wait for a notice to join.");
+                Output.sendMessageToUser(user, "Sorry, the game has yet to be started. Please wait for a notice to join.");
                 return;
             }
             Main.viewers.put(user, new Hand());
-            sendMessageToUser(user,
+            Output.sendMessageToUser(user,
                     "Welcome to the game! Please type !help in this private channel for additional information on commands.");
             if (Main.battle.isInBattle()){
-                sendMessageToUser(user, listHandForViewer(user));
-                sendMessageToUser(user, "A battle is currently occuring, you will appear in game at the start of the next turn: Current targets and their targeting ID's: " + Utilities.getTargetListForDisplay(true));
+                Output.sendMessageToUser(user, Output.listHandForViewer(user));
+                Output.sendMessageToUser(user, "A battle is currently occuring, you will appear in game at the start of the next turn: Current targets and their targeting ID's: " + Output.getTargetListForDisplay(true));
             }
         } else
-            sendMessageToUser(user,
+            Output.sendMessageToUser(user,
                     "You have already joined a game, type !help in this private chat for additional information.");
     }
 }

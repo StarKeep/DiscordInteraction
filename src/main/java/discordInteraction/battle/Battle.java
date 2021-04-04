@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import discordInteraction.Main;
-import discordInteraction.Utilities;
+import discordInteraction.util.Output;
 import discordInteraction.ViewerMinion;
 import discordInteraction.command.Result;
 import kobting.friendlyminions.helpers.BasePlayerMinionHelper;
@@ -18,8 +18,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static discordInteraction.Utilities.listHandForViewer;
-import static discordInteraction.Utilities.sendMessageToUser;
+import static discordInteraction.util.Output.listHandForViewer;
+import static discordInteraction.util.Output.sendMessageToUser;
 
 public class Battle {
     private final Object battleLock = new Object();
@@ -136,8 +136,8 @@ public class Battle {
             updateTargets();
 
             // Let our battle know what message to edit for game updates.
-            if (Main.channel != null) {
-                Main.channel.sendMessage(Utilities.getStartOfInProgressBattleMessage() + Utilities.getTargetListForDisplay(true)).queue((message -> {
+            if (Main.bot.channel != null) {
+                Main.bot.channel.sendMessage(Output.getStartOfInProgressBattleMessage() + Output.getTargetListForDisplay(true)).queue((message -> {
                     setBattleMessageID(message.getId());
                 }));
             }
@@ -149,8 +149,8 @@ public class Battle {
     public void endBattle(){
         synchronized (battleLock) {
             // End the battle; edit the battle message to showcase the end result.
-            Main.channel.retrieveMessageById(getBattleMessageID()).queue((message -> {
-                message.editMessage(Utilities.getEndOfBattleMessage()).queue();
+            Main.bot.channel.retrieveMessageById(getBattleMessageID()).queue((message -> {
+                message.editMessage(Output.getEndOfBattleMessage()).queue();
                 battleMessageID = null;
             }));
 
@@ -234,8 +234,8 @@ public class Battle {
         updateTargets();
 
         // Update our battle message to remove our commands now that they've been executed.
-        Main.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Utilities.getEndOfBattleMessage() + Utilities.getTargetListForDisplay(false)).queue();
+        Main.bot.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
+            message.editMessage(Output.getEndOfBattleMessage() + Output.getTargetListForDisplay(false)).queue();
         }));
     }
 

@@ -4,7 +4,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.powers.ThornsPower;
 import discordInteraction.FlavorType;
-import discordInteraction.Utilities;
+import discordInteraction.util.Combat;
 import discordInteraction.battle.TargetType;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
@@ -58,7 +58,7 @@ public class Caltrops extends AbstractCardTargeted {
 
     @Override
     protected Result apply(User user, AbstractPlayer player, ArrayList<AbstractCreature> targets) {
-        Utilities.applyPower(targets.get(0), new ThornsPower(targets.get(0), 2));
+        Combat.applyPower(targets.get(0), new ThornsPower(targets.get(0), 2));
         return new Result(true, "You applied 2 thorns to " + targets.get(0).name);
     }
 }

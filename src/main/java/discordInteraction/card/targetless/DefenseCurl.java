@@ -3,8 +3,7 @@ package discordInteraction.card.targetless;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.powers.IntangiblePlayerPower;
 import discordInteraction.FlavorType;
-import discordInteraction.Utilities;
-import discordInteraction.card.targetless.AbstractCardTargetless;
+import discordInteraction.util.Combat;
 import discordInteraction.command.Result;
 import net.dv8tion.jda.api.entities.User;
 
@@ -38,7 +37,7 @@ public class DefenseCurl extends AbstractCardTargetless {
 
     @Override
     public Result activate(User user, AbstractPlayer player) {
-        Utilities.applyPower(player, new IntangiblePlayerPower(player, 3));
+        Combat.applyPower(player, new IntangiblePlayerPower(player, 3));
         return new Result(true, "You've applied 3 stacks of Intangible to the player.");
     }
 }

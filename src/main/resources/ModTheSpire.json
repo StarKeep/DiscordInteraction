@@ -2,7 +2,7 @@
   "modid": "DiscordInteraction",
   "name": "Discord Interaction",
   "author_list": ["StarKelp"],
-  "description": "Allows viewers to interact with your game via discord bot commands.",
+  "description": "Allows viewers to interact with your game via in game viewer monsters, using discord chat commands to control their actions.",
   "version": "0.3.0",
   "sts_version": "12-22-2020",
   "mts_version": "3.3.0",

@@ -1,16 +1,12 @@
 package discordInteraction.command.queue;
 
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.Main;
-import discordInteraction.Utilities;
 import discordInteraction.command.*;
 import net.dv8tion.jda.api.entities.User;
 
-import java.util.ArrayList;
-
-import static discordInteraction.Utilities.sendMessageToUser;
+import static discordInteraction.util.Output.sendMessageToUser;
 
 public class CommandQueue {
     public Queue<QueuedCommandTargeted> targeted;
