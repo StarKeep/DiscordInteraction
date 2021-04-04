@@ -45,22 +45,11 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
     public Main() {
         BaseMod.subscribe(this);
-
-        try {
-            config = getDefaultConfig();
-
-            config.load();
-            config.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     // Various important aspects.
     public static Bot bot;
     public static Random random;
-    public static SpireConfig config;
 
     // Holds a list of viewers along with their respective hands.
     public static HashMap<User, Hand> viewers;
@@ -78,17 +67,8 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         bot = new Bot();
         viewers = new HashMap<User, Hand>();
         commandQueue = new CommandQueue();
+
         new Main();
-    }
-
-    public SpireConfig getDefaultConfig() throws IOException {
-        SpireConfig config = new SpireConfig(modName, botConfigName);
-
-        config.setString("BotToken", "");
-        config.setString("ChannelName", "");
-        config.setString("ServerName", "");
-
-        return config;
     }
 
     @Override
@@ -150,16 +130,6 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         // Register our cards.
         if (deck == null)
             deck = new Deck();
-
-        // Reload config.
-        try {
-            config = getDefaultConfig();
-
-            config.load();
-            config.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         // Attempt to connect the bot; if needed.
         // Done here, to allow the player to adjust settings before starting.
