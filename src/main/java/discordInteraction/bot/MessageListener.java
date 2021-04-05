@@ -5,6 +5,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.FlavorType;
 import discordInteraction.Hand;
 import discordInteraction.Main;
+import discordInteraction.card.triggered.TriggerTimingType;
 import discordInteraction.util.Formatting;
 import discordInteraction.util.Output;
 import discordInteraction.card.AbstractCard;
@@ -298,14 +299,7 @@ public class MessageListener extends ListenerAdapter {
                 Main.commandQueue.targetless.add(new QueuedCommandTargetless(user, (AbstractCardTargetless) card));
                 break;
             case triggerOnPlayerDamage:
-                switch (((AbstractCardTriggered)card).getTriggerType()){
-                    case continous:
-                        Main.commandQueue.continousTriggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (AbstractCardTriggeredOnPlayerDamage) card));
-                        break;
-                    case oneTime:
-                        Main.commandQueue.oneTimeTriggerOnPlayerDamage.add(new QueuedCommandTriggerOnPlayerDamage(user, (AbstractCardTriggeredOnPlayerDamage) card));
-                        break;
-                }
+                Main.commandQueue.triggerOnPlayerDamage.add(new QueuedCommandTriggered(user, (AbstractCardTriggeredOnPlayerDamage) card));
                 break;
             default:
                 return;

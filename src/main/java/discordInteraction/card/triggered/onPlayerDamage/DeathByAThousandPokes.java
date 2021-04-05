@@ -6,7 +6,7 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import discordInteraction.FlavorType;
 import discordInteraction.card.targeted.Poke;
 import discordInteraction.card.targetless.UnPoke;
-import discordInteraction.card.triggered.TriggerType;
+import discordInteraction.card.triggered.TriggerTimingType;
 import discordInteraction.command.ResultWithInt;
 import net.dv8tion.jda.api.entities.User;
 
@@ -60,7 +60,7 @@ public class DeathByAThousandPokes extends AbstractCardTriggeredOnPlayerDamage {
     }
 
     @Override
-    public TriggerType getTriggerType() {
-        return TriggerType.continous;
+    public TriggerTimingType getTriggerTimingType() {
+        return TriggerTimingType.infinite;
     }
 }
