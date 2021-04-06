@@ -5,7 +5,7 @@ public enum ChatCommandType {
     join,
     leave,
     hand,
-    handlist,
+    cards,
     cast,
     play,
     targets,

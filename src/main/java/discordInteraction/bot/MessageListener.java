@@ -77,7 +77,7 @@ public class MessageListener extends ListenerAdapter {
                         Output.sendMessageToUser(event.getAuthor(), Output.listHandForViewer(event.getAuthor()));
                         break;
                     case hand: // Show them their cards.
-                    case handlist:
+                    case cards:
                         Output.sendMessageToUser(event.getAuthor(), Output.listHandForViewer(event.getAuthor()));
                         break;
                     case cast:
@@ -329,8 +329,7 @@ public class MessageListener extends ListenerAdapter {
 
     private void handleHelpCommand(User user) {
         Output.sendMessageToUser(user, "Welcome to the game!\n" +
-                "!hand - Show your hand. Recommended for wider screens.\n" +
-                "!handList - List your hand. Recommended for narrow screens.\n" +
+                "!hand/cards - Show your hand.\n" +
                 "!(play/cast) card target - (Examples: !play \"A Cool Spell\" 1, " +
                 "!cast ACoolSpell 1,3) - Play a card from your hand. Card should " +
                 "be the name of the card with either no spaces or surrounded by \". " +
