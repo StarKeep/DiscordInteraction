@@ -104,7 +104,7 @@ public class Output {
     }
 
     public static String getStartOfInProgressBattleMessage() {
-        return "Enemies in " + AbstractDungeon.player.name + "'s current room that is updated every minute. " +
+        return "Enemies in " + AbstractDungeon.player.name + "'s current room that is updated every turn. " +
                 "You may request an updated list of enemies with !enemies in a private message." +
                 "Their targeting IDs can be found in the brackets:\n";
     }

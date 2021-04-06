@@ -230,16 +230,16 @@ public class Battle {
         addMissingMonsters();
 
         updateTargets();
-
-        // Update our battle message to remove our commands now that they've been executed.
-        Main.bot.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Output.getEndOfBattleMessage() + Output.getTargetListForDisplay(false)).queue();
-        }));
     }
 
     public void handlePostEnergyRecharge() {
         addMissingMonsters();
         updateTargets();
+
+        // Update our battle message to remove any commands that have been executed.
+        Main.bot.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
+            message.editMessage(Output.getStartOfInProgressBattleMessage() + Output.getTargetListForDisplay(false)).queue();
+        }));
     }
 
     public void updateTargets() {
