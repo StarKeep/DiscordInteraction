@@ -104,8 +104,9 @@ public class Output {
     }
 
     public static String getStartOfInProgressBattleMessage() {
-        return "Enemies in " + AbstractDungeon.player.name + "'s current room that is updated every turn. " +
-                "You may request an updated list of enemies with !enemies in a private message." +
+        return "Enemies in " + AbstractDungeon.player.name + "'s current room that is updated every turn.\n" +
+                "If you have not yet joined in, you can type !join to join the game!\n" +
+                "You may request an updated list of enemies with !target in a private message.\n" +
                 "Their targeting IDs can be found in the brackets:\n";
     }
 
