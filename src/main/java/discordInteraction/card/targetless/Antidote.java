@@ -21,7 +21,7 @@ public class Antidote extends AbstractCardTargetless {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Remove all poison stacks from the player and heal for 5 + X health, where X is equal to the number of poison stacks removed times 2.";
+        return "Remove all poison stacks from the player and heal for 5 + X health, where X is equal to half the number of poison stacks removed.";
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Antidote extends AbstractCardTargetless {
             poison = power.amount;
             power.reducePower(poison);
         }
-        int toHeal = 5 + (poison * 2);
+        int toHeal = 5 + (poison / 2);
         player.heal(5 + (toHeal));
         return new Result(true, "You removed any existing poison effects from the player and restored " + toHeal + " health.");
     }
