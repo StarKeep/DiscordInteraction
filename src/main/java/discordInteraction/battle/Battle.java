@@ -227,9 +227,7 @@ public class Battle {
             startBattle(AbstractDungeon.getCurrRoom(), false);
 
         // Add any viewers that join mid fight.
-        for (User viewer : viewers.keySet())
-            if (!hasViewerMonster(viewer) && canUserSpawnIn(viewer))
-                addViewerMonster(viewer);
+        addMissingMonsters();
 
         updateTargets();
 
@@ -240,6 +238,7 @@ public class Battle {
     }
 
     public void handlePostEnergyRecharge() {
+        addMissingMonsters();
         updateTargets();
     }
 
@@ -249,5 +248,11 @@ public class Battle {
                 attemptToAddTarget(creature, TargetType.monster);
             for (AbstractCreature creature : viewers.values())
                 attemptToAddTarget(creature, TargetType.viewer);
+    }
+
+    public void addMissingMonsters(){
+        for (User viewer : Main.viewers.keySet())
+            if (!hasViewerMonster(viewer) && canUserSpawnIn(viewer))
+                addViewerMonster(viewer);
     }
 }
