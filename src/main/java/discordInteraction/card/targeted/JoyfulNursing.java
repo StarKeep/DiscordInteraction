@@ -20,12 +20,12 @@ public class JoyfulNursing extends AbstractCardTargeted {
 
     @Override
     public int getCost() {
-        return 3;
+        return 4;
     }
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Heal up to 6 friendly targets for 5 + 10% of their missing health.";
+        return "Heal up to 3 friendly targets for 10 + 10% of their missing health.";
     }
 
     @Override
@@ -65,7 +65,7 @@ public class JoyfulNursing extends AbstractCardTargeted {
         for (AbstractCreature target : targets){
             if (target.isDeadOrEscaped())
                 continue;
-            int toHeal = 5 + ((target.maxHealth - target.currentHealth) / 10);
+            int toHeal = 10 + ((target.maxHealth - target.currentHealth) / 10);
             toHeal = Math.min(toHeal, target.maxHealth - target.currentHealth);
             target.heal(toHeal);
             totalHealed += toHeal;
