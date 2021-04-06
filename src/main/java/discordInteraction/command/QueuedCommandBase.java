@@ -26,4 +26,8 @@ public class QueuedCommandBase<T extends AbstractCard> {
         this.viewer = viewer;
         this.card = card;
     }
+
+    public boolean hasLivingViewerMonster(){
+        return Main.battle.hasLivingViewerMonster(viewer);
+    }
 }

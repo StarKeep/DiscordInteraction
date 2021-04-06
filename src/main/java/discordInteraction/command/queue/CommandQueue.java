@@ -39,6 +39,11 @@ public class CommandQueue {
     public void handlePerTurnLogic(){
         while (targeted.hasAnotherCommand()){
             QueuedCommandTargeted command = targeted.getNextCommand();
+
+            // Viewer died to something, pop their command off the list.
+            if (!command.hasLivingViewerMonster())
+                continue;
+
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player, command.getTargets());
             if (result.wasSuccessful()){
                 sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
@@ -52,6 +57,11 @@ public class CommandQueue {
 
         while (targetless.hasAnotherCommand()){
             QueuedCommandTargetless command = targetless.getNextCommand();
+
+            // Viewer died to something, pop their command off the list.
+            if (!command.hasLivingViewerMonster())
+                continue;
+
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player);
             if (result.wasSuccessful()){
                 sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
@@ -83,6 +93,11 @@ public class CommandQueue {
         Queue<QueuedCommandTriggered> toRetain = new Queue<QueuedCommandTriggered>();
         while (triggerOnPlayerDamage.hasAnotherCommand()) {
             QueuedCommandTriggered command = triggerOnPlayerDamage.getNextCommand();
+
+            // Viewer died to something, pop their command off the list.
+            if (!command.hasLivingViewerMonster())
+                continue;
+
             ResultWithInt result = ((AbstractCardTriggeredOnPlayerDamage) command.getCard()).handleOnPlayerDamageTrigger(incomingDamage, damageInfo, AbstractDungeon.player, command.getViewer());
 
             command.handleAfterTriggerLogic();

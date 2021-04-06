@@ -203,6 +203,11 @@ public class Battle {
     public boolean hasViewerMonster(User user){
         return viewers.containsKey(user);
     }
+    public boolean hasLivingViewerMonster(User user){
+        if (!hasViewerMonster(user))
+            return false;
+        return !getViewerMonster(user).isDeadOrEscaped();
+    }
     public HashMap<User, AbstractFriendlyMonster> getViewerMonsters(){
         return viewers;
     }

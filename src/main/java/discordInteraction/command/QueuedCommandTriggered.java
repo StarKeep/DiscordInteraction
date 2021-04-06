@@ -18,7 +18,7 @@ public class QueuedCommandTriggered extends QueuedCommandBase<AbstractCardTrigge
     }
 
     public boolean shouldBeRetained(){
-        return timeLeft != 0;
+        return hasLivingViewerMonster() && timeLeft != 0;
     }
 
     public boolean shouldBeRefundedOnFail(){
