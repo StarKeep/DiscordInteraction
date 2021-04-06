@@ -22,7 +22,7 @@ public class TheSaitamaSpecial extends AbstractCardTargetless {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Apply Ritual 2, Metallicize 7, and Strength - 7 to the player.";
+        return "Apply Ritual 3, Metallicize 7, and Strength - 7 to the player.";
     }
 
     @Override
@@ -40,7 +40,7 @@ public class TheSaitamaSpecial extends AbstractCardTargetless {
 
     @Override
     public Result activate(User user, AbstractPlayer player) {
-        Combat.applyPower(player, new RitualPower(player, 2, true));
+        Combat.applyPower(player, new RitualPower(player, 3, true));
         Combat.applyPower(player, new MetallicizePower(player, 7));
         Combat.applyPower(player, new StrengthPower(player, -7));
         player.addBlock(7);
