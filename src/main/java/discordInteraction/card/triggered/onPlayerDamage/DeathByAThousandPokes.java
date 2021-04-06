@@ -25,12 +25,12 @@ public class DeathByAThousandPokes extends AbstractCardTriggeredOnPlayerDamage {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "For the rest of this fight, you cannot play additional cards, but any time the player takes damage, you will cast a free Poke, aimed at the attacker, and a free UnPoke.";
+        return "For the rest of this fight, you cannot play additional cards, but any time the player takes damage, you will cast a free Poke, aimed at the attacker, and a free UnPoke, aimed at the player.";
     }
 
     @Override
     public String getDescriptionForGameDisplay() {
-        return "For the rest of this fight, whenever the player is attacked, this viewer will cast a free Poke, aimed at the attacker, and a free UnPoke.";
+        return "For the rest of this fight, whenever the player is attacked, this viewer will cast a free Poke, aimed at the attacker, and a free UnPoke, aimed at the player.";
     }
 
     @Override
@@ -54,7 +54,9 @@ public class DeathByAThousandPokes extends AbstractCardTriggeredOnPlayerDamage {
             attacker.add(damageInfo.owner);
             new Poke().activate(user, player, attacker);
         }
-        new UnPoke().activate(user, player);
+        ArrayList<AbstractCreature> toHeal = new ArrayList<>();
+        toHeal.add(player);
+        new UnPoke().activate(user, player, toHeal);
 
         return new ResultWithInt(true, "You cast a free Poke and UnPoke.", incomingDamage);
     }
