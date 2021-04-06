@@ -5,7 +5,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import discordInteraction.FlavorType;
 import discordInteraction.card.targeted.Poke;
-import discordInteraction.card.targetless.UnPoke;
+import discordInteraction.card.targeted.UnPoke;
 import discordInteraction.card.triggered.TriggerTimingType;
 import discordInteraction.command.ResultWithInt;
 import net.dv8tion.jda.api.entities.User;
