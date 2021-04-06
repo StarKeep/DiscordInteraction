@@ -328,7 +328,7 @@ public class MessageListener extends ListenerAdapter {
 
 
     private void handleHelpCommand(User user) {
-        Output.sendMessageToUser(user, "" +
+        Output.sendMessageToUser(user, "Welcome to the game!\n" +
                 "!hand - Show your hand. Recommended for wider screens.\n" +
                 "!handList - List your hand. Recommended for narrow screens.\n" +
                 "!(play/cast) card target - (Examples: !play \"A Cool Spell\" 1, " +
@@ -352,8 +352,7 @@ public class MessageListener extends ListenerAdapter {
                 return;
             }
             Main.viewers.put(user, new Hand());
-            Output.sendMessageToUser(user,
-                    "Welcome to the game! Please type !help in this private channel for additional information on commands.");
+            handleHelpCommand(user);
             if (Main.battle.isInBattle()){
                 Output.sendMessageToUser(user, Output.listHandForViewer(user));
                 Output.sendMessageToUser(user, "A battle is currently occuring, you will appear in game at the start of the next turn: Current targets and their targeting ID's: " + Output.getTargetListForDisplay(true));
