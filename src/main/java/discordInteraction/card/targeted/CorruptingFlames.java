@@ -25,7 +25,7 @@ public class CorruptingFlames extends AbstractCardTargeted {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Heal 5 health to a target. Than apply Poison 3.";
+        return "Heal 2 targets for 5 and apply Poison 3.";
     }
 
     @Override

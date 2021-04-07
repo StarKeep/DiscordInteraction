@@ -27,7 +27,7 @@ public class PurifyingFlames extends AbstractCardTargeted {
 
     @Override
     public String getDescriptionForViewerDisplay() {
-        return "Deal 6 damage to 2 targets. This damage cannot kill the target. Than apply Regen 4.";
+        return "Deal 5 damage to 2 targets. This damage cannot kill the target. Than apply Regen 4.";
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PurifyingFlames extends AbstractCardTargeted {
 
             target.damage(new DamageInfo(target, damage, DamageInfo.DamageType.NORMAL));
 
-            Combat.applyPower(target, new RegenPower(target, 3));
+            Combat.applyPower(target, new RegenPower(target, 4));
         }
         return new Result(true, "You bathed your targets in purifying flames.");
     }
