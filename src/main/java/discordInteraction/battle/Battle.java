@@ -130,6 +130,7 @@ public class Battle {
             for (User user : Main.viewers.keySet()) {
                 addViewerMonster(user);
                 sendMessageToUser(user, listHandForViewer(user));
+                sendMessageToUser(user, Output.getTargetListForDisplay(true));
                 sendMessageToUser(user, "A new fight has begun!");
             }
 
