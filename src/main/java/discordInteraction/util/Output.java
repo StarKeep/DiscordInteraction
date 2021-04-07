@@ -10,6 +10,7 @@ import discordInteraction.command.QueuedCommandTargetless;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 
+import java.text.Format;
 import java.util.Map;
 
 public class Output {
@@ -111,5 +112,35 @@ public class Output {
 
     public static String getEndOfBattleMessage() {
         return "This battle has ended; any cards in the queue have been refunded.\n";
+    }
+
+    // An 'all in one' display of sorts.
+    public static String getStatusForUser(User user){
+        StringBuilder sb = new StringBuilder();
+        sb.append(Formatting.putInCodeBlock("Cards"));
+        sb.append(listHandForViewer(user));
+        if (Main.battle.isInBattle()) {
+            sb.append(Formatting.putInCodeBlock("Targets [TargetingID]"));
+            sb.append(getTargetListForDisplay(true));
+            sb.append(Formatting.putInCodeBlock("Status"));
+            if (Main.battle.hasLivingViewerMonster(user)) {
+                AbstractCreature viewer = Main.battle.getViewerMonster(user);
+                sb.append("Health: ");
+                sb.append(viewer.currentHealth);
+                sb.append('/');
+                sb.append(viewer.maxHealth);
+                sb.append("\n");
+                sb.append("Command Queued: ");
+                sb.append(Main.commandQueue.userHasCommandQueued(user));
+                sb.append("\n");
+            } else if (Main.battle.canUserSpawnIn(user))
+                sb.append("You have not yet spawned in, and should at the start of the next turn.");
+            else
+                sb.append("You are currently dead, and are unable to play any cards until the next battle.");
+        } else{
+            sb.append(Formatting.putInCodeBlock("Status"));
+            sb.append("There is currently no battle in progress.");
+        }
+        return sb.toString();
     }
 }

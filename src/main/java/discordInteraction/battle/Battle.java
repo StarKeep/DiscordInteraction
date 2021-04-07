@@ -129,12 +129,15 @@ public class Battle {
             // Spawn in viewers.
             for (User user : Main.viewers.keySet()) {
                 addViewerMonster(user);
-                sendMessageToUser(user, listHandForViewer(user));
-                sendMessageToUser(user, Output.getTargetListForDisplay(true));
-                sendMessageToUser(user, "A new fight has begun!");
             }
 
             updateTargets();
+
+            // Give viewers some initial information.
+            for(User user : Main.viewers.keySet()){
+                sendMessageToUser(user, Output.getStatusForUser(user));
+            }
+
 
             // Let our battle know what message to edit for game updates.
             if (Main.bot.channel != null) {

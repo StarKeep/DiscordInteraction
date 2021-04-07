@@ -58,4 +58,8 @@ public class Formatting {
             result += divider + list.get(x);
         return  result;
     }
+
+    public static String putInCodeBlock(String string){
+        return "```\n" + string + "```";
+    }
 }

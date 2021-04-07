@@ -72,6 +72,10 @@ public class MessageListener extends ListenerAdapter {
                     case help:
                         handleHelpCommand(event.getAuthor());
                         break;
+                    case other:
+                    case extra:
+                        handleOtherCommand(event.getAuthor());
+                        break;
                     case debugmeafullhandofcards: // Shh.
                         Main.viewers.get(event.getAuthor()).drawNewHand(10, 2);
                         Output.sendMessageToUser(event.getAuthor(), Output.listHandForViewer(event.getAuthor()));
@@ -101,6 +105,9 @@ public class MessageListener extends ListenerAdapter {
                         break;
                     case leave:
                         Output.sendMessageToUser(event.getAuthor(), "Sorry, !leave must be used in the channel of the game in question.");
+                        break;
+                    case status: // Display all information they may need for the turn.
+                        Output.sendMessageToUser(event.getAuthor(), Output.getStatusForUser(event.getAuthor()));
                         break;
                     default:
                         break;
@@ -328,19 +335,24 @@ public class MessageListener extends ListenerAdapter {
 
 
     private void handleHelpCommand(User user) {
-        Output.sendMessageToUser(user, "Welcome to the game!\n" +
-                "!hand/cards - Show your hand.\n" +
+        Output.sendMessageToUser(user, "!status - Show your hand, targets, and your current health.\n" +
                 "!(play/cast) card target - (Examples: !play \"A Cool Spell\" 1, " +
                 "!cast ACoolSpell 1,3) - Play a card from your hand. Card should " +
                 "be the name of the card with either no spaces or surrounded by \". " +
                 "Target must be the numeric identifier of a monster, or multiple " +
                 "comma separated numeric identifiers.\n" +
-                "!targets - Outputs an updated list of targets and their targeting ids, which are in square brackets.\n" +
-                "!getallflavors - Show all card flavors currently in game.\n" +
                 "!flavors - Show all flavors that you currently allow.\n" +
                 "!addflavor - Add a flavor to your allowed list.\n" +
                 "!removeflavor - Remove a flavor from your allowed list.\n" +
-                "!leave - Remove you from an active game. Must be used in the channel of an active game."
+                "!leave - Remove you from an active game. Must be used in the channel of an active game.\n" +
+                "!(extra/other) - Get information on some lesser used commands."
+        );
+    }
+
+    private void handleOtherCommand(User user){
+        Output.sendMessageToUser(user, "!hand/cards - Show your hand.\n" +
+                "!targets - Outputs an updated list of targets and their targeting ids, which are in square brackets.\n" +
+                "!getallflavors - Show all card flavors currently in game.\n"
         );
     }
 
