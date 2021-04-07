@@ -327,7 +327,7 @@ public class MessageListener extends ListenerAdapter {
 
         // Update our battle message to showcase the newly queued command.
         Main.bot.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Output.getStartOfInProgressBattleMessage() + Output.getTargetListForDisplay(false) +
+            message.editMessage(Output.getStartOfInProgressBattleMessage() +
                     "\n" + Output.getUpcomingViewerCards()).queue();
         }));
     }

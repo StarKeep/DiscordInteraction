@@ -141,7 +141,7 @@ public class Battle {
 
             // Let our battle know what message to edit for game updates.
             if (Main.bot.channel != null) {
-                Main.bot.channel.sendMessage(Output.getStartOfInProgressBattleMessage() + Output.getTargetListForDisplay(true)).queue((message -> {
+                Main.bot.channel.sendMessage(Output.getStartOfInProgressBattleMessage()).queue((message -> {
                     setBattleMessageID(message.getId());
                 }));
             }
@@ -247,7 +247,7 @@ public class Battle {
 
         // Update our battle message to remove any commands that have been executed.
         Main.bot.channel.retrieveMessageById(Main.battle.getBattleMessageID()).queue((message -> {
-            message.editMessage(Output.getStartOfInProgressBattleMessage() + Output.getTargetListForDisplay(false)).queue();
+            message.editMessage(Output.getStartOfInProgressBattleMessage()).queue();
         }));
     }
 
