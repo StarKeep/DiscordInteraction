@@ -14,6 +14,7 @@ import discordInteraction.battle.Battle;
 import discordInteraction.bot.Bot;
 import discordInteraction.bot.MessageListener;
 import discordInteraction.command.queue.CommandQueue;
+import discordInteraction.config.Config;
 import discordInteraction.util.FileSystem;
 import discordInteraction.util.Output;
 import kobting.friendlyminions.helpers.MinionConfigHelper;
@@ -40,7 +41,6 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         PostCampfireSubscriber, StartActSubscriber, StartGameSubscriber, OnPlayerDamagedSubscriber,
         PostEnergyRechargeSubscriber, PostInitializeSubscriber {
     public static final String modName = "DiscordInteraction";
-    public static final String botConfigName = "BotConfig";
     public static final Logger logger = LogManager.getLogger(Main.class.getName());
 
     public Main() {
@@ -59,6 +59,8 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public static Battle battle;
     // Holds current viewer command information.
     public static CommandQueue commandQueue;
+    // Holds various configuration options.
+    public static Config config;
 
     public static void initialize() {
         // Setup the mod.
@@ -67,6 +69,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
         bot = new Bot();
         viewers = new HashMap<User, Hand>();
         commandQueue = new CommandQueue();
+        config = new Config();
 
         new Main();
     }
@@ -75,9 +78,6 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public boolean receivePreMonsterTurn(AbstractMonster monster) {
         // Handle battle logic.
         battle.handlePreMonsterTurnLogic();
-
-        // Send viewer commands. Start with targeted, so they hopefully don't miss their target
-        commandQueue.handlePerTurnLogic();
 
         return true;
     }
@@ -148,24 +148,12 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
 
     @Override
     public void receivePostEnergyRecharge() {
-        // This acts as a pseudo 'player turn' event.
+        // This acts as a pseudo 'pre player turn' event.
         battle.handlePostEnergyRecharge();
     }
 
     @Override
     public void receivePostInitialize() {
-        Texture badgeTexture = new Texture("images/discord.png");
-
-        ModPanel settingsPanel = new ModPanel();
-
-        ModLabeledButton openConfig = new ModLabeledButton("Bot Configuration", 350f, 700f, Settings.BLUE_TEXT_COLOR,
-                Settings.RED_TEXT_COLOR, settingsPanel, (button) ->{
-            File configFile = new File(SpireConfig.makeFilePath(modName, botConfigName));
-            FileSystem.openFileWithDefault(configFile);
-        });
-
-        settingsPanel.addUIElement(openConfig);
-
-        BaseMod.registerModBadge(badgeTexture, "Discord Interaction", "StarKelp", "Allows viewers to interact with your game via in game viewer monsters, using discord chat commands to control their actions.", settingsPanel);
+       config.registerConfigMenu();
     }
 }

@@ -36,43 +36,6 @@ public class CommandQueue {
         return false;
     }
 
-    public void handlePerTurnLogic(){
-        while (targeted.hasAnotherCommand()){
-            QueuedCommandTargeted command = targeted.getNextCommand();
-
-            // Viewer died to something, pop their command off the list.
-            if (!command.hasLivingViewerMonster())
-                continue;
-
-            Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player, command.getTargets());
-            if (result.wasSuccessful()){
-                sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
-                command.handleRemovalLogic(false);
-            } else{
-                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
-                command.handleRemovalLogic(true);
-            }
-
-        }
-
-        while (targetless.hasAnotherCommand()){
-            QueuedCommandTargetless command = targetless.getNextCommand();
-
-            // Viewer died to something, pop their command off the list.
-            if (!command.hasLivingViewerMonster())
-                continue;
-
-            Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player);
-            if (result.wasSuccessful()){
-                sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
-                command.handleRemovalLogic(false);
-            } else{
-                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
-                command.handleRemovalLogic(true);
-            }
-        }
-    }
-
     public void handlePostBattleLogic() {
         targeted.refund();
         targetless.refund();
@@ -126,7 +89,42 @@ public class CommandQueue {
         return incomingDamage;
     }
 
-    public void handleEndTurnLogic(){
+    public void handleEndOfPlayerTurnLogic(){
+        while (targeted.hasAnotherCommand()){
+            QueuedCommandTargeted command = targeted.getNextCommand();
+
+            // Viewer died to something, pop their command off the list.
+            if (!command.hasLivingViewerMonster())
+                continue;
+
+            Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player, command.getTargets());
+            if (result.wasSuccessful()){
+                sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
+                command.handleRemovalLogic(false);
+            } else{
+                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
+                command.handleRemovalLogic(true);
+            }
+
+        }
+
+        while (targetless.hasAnotherCommand()){
+            QueuedCommandTargetless command = targetless.getNextCommand();
+
+            // Viewer died to something, pop their command off the list.
+            if (!command.hasLivingViewerMonster())
+                continue;
+
+            Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player);
+            if (result.wasSuccessful()){
+                sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
+                command.handleRemovalLogic(false);
+            } else{
+                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
+                command.handleRemovalLogic(true);
+            }
+        }
+
         triggerOnPlayerDamage = handleEndTurnLogicHelper(triggerOnPlayerDamage);
     }
     private Queue<QueuedCommandTriggered> handleEndTurnLogicHelper(Queue<QueuedCommandTriggered> queue){
