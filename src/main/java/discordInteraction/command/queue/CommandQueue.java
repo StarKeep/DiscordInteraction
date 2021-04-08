@@ -4,9 +4,10 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import discordInteraction.card.triggered.onPlayerDamage.AbstractCardTriggeredOnPlayerDamage;
 import discordInteraction.command.*;
-import net.dv8tion.jda.api.entities.User;
+import discordInteraction.viewer.Viewer;
 
-import static discordInteraction.util.Output.sendMessageToUser;
+import static discordInteraction.util.Output.sendMessageToChannel;
+import static discordInteraction.util.Output.sendMessageToViewer;
 
 public class CommandQueue {
     public Queue<QueuedCommandTargeted> targeted;
@@ -23,15 +24,15 @@ public class CommandQueue {
         return targeted.hasAnotherCommand() || targetless.hasAnotherCommand();
     }
 
-    public boolean userHasCommandQueued(User user) {
+    public boolean viewerHasCommandQueued(Viewer viewer) {
         for (QueuedCommandBase command : targeted.getCommands())
-            if (command.getViewer() == user)
+            if (command.getViewer() == viewer)
                 return true;
         for (QueuedCommandBase command : targetless.getCommands())
-            if (command.getViewer() == user)
+            if (command.getViewer() == viewer)
                 return true;
         for (QueuedCommandBase command : triggerOnPlayerDamage.getCommands())
-            if (command.getViewer() == user)
+            if (command.getViewer() == viewer)
                 return true;
         return false;
     }
@@ -69,16 +70,16 @@ public class CommandQueue {
                 toRetain.add(command); // Move it back into the queue.
 
                 // Let them know what they did.
-                sendMessageToUser(command.getViewer(), result.getWhatHappened());
+                sendMessageToViewer(command.getViewer(), result.getWhatHappened());
             } else {
 
                 // If needed, give the card back and let them know.
                 if (command.shouldBeRefundedOnFail()) {
-                    sendMessageToUser(command.getViewer(), command.getCard().getName() + " failed to trigger, and has been refunded. " + result.getWhatHappened());
+                    sendMessageToViewer(command.getViewer(), command.getCard().getName() + " failed to trigger, and has been refunded. " + result.getWhatHappened());
                     command.handleRemovalLogic(true);
                 }
                 else {
-                    sendMessageToUser(command.getViewer(), result.getWhatHappened());
+                    sendMessageToViewer(command.getViewer(), result.getWhatHappened());
                     command.handleRemovalLogic(false);
                 }
             }
@@ -99,10 +100,10 @@ public class CommandQueue {
 
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player, command.getTargets());
             if (result.wasSuccessful()){
-                sendMessageToUser(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
+                sendMessageToViewer(command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
                 command.handleRemovalLogic(false);
             } else{
-                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
+                sendMessageToViewer(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
                 command.handleRemovalLogic(true);
             }
 
@@ -117,10 +118,10 @@ public class CommandQueue {
 
             Result result = command.getCard().activate(command.getViewer(), AbstractDungeon.player);
             if (result.wasSuccessful()){
-                sendMessageToUser( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
+                sendMessageToViewer( command.getViewer(), "You successfully casted " + command.getCard().getName() + ". " + result.getWhatHappened());
                 command.handleRemovalLogic(false);
             } else{
-                sendMessageToUser(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
+                sendMessageToViewer(command.getViewer(), "You failed to cast " + command.getCard().getName() + ". " + result.getWhatHappened());
                 command.handleRemovalLogic(true);
             }
         }

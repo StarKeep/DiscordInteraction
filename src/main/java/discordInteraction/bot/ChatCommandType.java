@@ -12,9 +12,5 @@ public enum ChatCommandType {
     play,
     status,
     targets,
-    getallflavors,
-    flavors,
-    addflavor,
-    removeflavor,
     debugmeafullhandofcards
 }

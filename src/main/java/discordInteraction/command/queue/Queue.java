@@ -6,7 +6,8 @@ import discordInteraction.command.QueuedCommandBase;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import static discordInteraction.util.Output.sendMessageToUser;
+import static discordInteraction.util.Output.sendMessageToChannel;
+import static discordInteraction.util.Output.sendMessageToViewer;
 
 // This class is designed to be safe from multiple queries.
 public class Queue<T extends QueuedCommandBase> {
@@ -46,9 +47,9 @@ public class Queue<T extends QueuedCommandBase> {
         synchronized (lock){
             while (hasAnotherCommand()) {
                 QueuedCommandBase command = getNextCommand();
-                if (Main.viewers.containsKey(command.getViewer())) {
-                    Main.viewers.get(command.getViewer()).insertCard(command.getCard());
-                    sendMessageToUser(command.getViewer(), "Your " + command.getCard().getName() +
+                if (Main.viewers.contains(command.getViewer())) {
+                    command.getViewer().insertCard(command.getCard());
+                    sendMessageToViewer(command.getViewer(), "Your " + command.getCard().getName() +
                             " failed to cast before the battle ended, and has been refunded.");
                 }
             }

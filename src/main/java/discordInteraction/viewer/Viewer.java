@@ -1,43 +1,53 @@
-package discordInteraction;
+package discordInteraction.viewer;
 
+import discordInteraction.Main;
 import discordInteraction.card.AbstractCard;
+import discordInteraction.card.Rarity;
+import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.requests.RestAction;
 
 import java.util.ArrayList;
 
-public class Hand {
-    private int capacity;
+public class Viewer {
+    private User user;
+    private String viewerClass;
+    private int handCapacity;
     private ArrayList<AbstractCard> cards;
-    private ArrayList<FlavorType> flavorTypes;
+
+    public String getId(){
+        return user.getId();
+    }
+
+    public String getName(){
+        return user.getName();
+    }
+
+    public String getAvatarUrl(){
+        return user.getAvatarUrl();
+    }
+
+    public RestAction<PrivateChannel> openPrivateChannel(){
+        return user.openPrivateChannel();
+    }
+
+    public String getViewerClass(){
+        return viewerClass;
+    }
+
+    public Viewer(User user, String viewerClass){
+        this.user = user;
+        this.viewerClass = "Page";
+        this.handCapacity = 10;
+        cards = new ArrayList<AbstractCard>();
+    }
 
     public ArrayList<AbstractCard> getCards(){
         return cards;
     }
-    public ArrayList<FlavorType> getFlavorTypes(){
-        return flavorTypes;
-    }
-    public void addFlavor(FlavorType flavor){
-        if (!flavorTypes.contains(flavor))
-            flavorTypes.add(flavor);
-    }
-    public void removeFlavor(FlavorType flavor){
-        if (flavorTypes.contains(flavor))
-            flavorTypes.remove(flavor);
-    }
-
-    public Hand(){
-        capacity = 10;
-        cards = new ArrayList<AbstractCard>();
-
-        flavorTypes = new ArrayList<>();
-        for (FlavorType flavor : FlavorType.values())
-            if (flavor != FlavorType.basic)
-                flavorTypes.add(flavor);
-
-        drawNewHand(5, 2);
-    }
 
     public void insertCard(AbstractCard card){
-        if (cards.size() < capacity)
+        if (cards.size() < handCapacity)
             cards.add(card);
     }
 
@@ -60,12 +70,12 @@ public class Hand {
     public void draw(int pointsToDraw, int basicsToDraw){
         ArrayList<AbstractCard> cardPool = new ArrayList<AbstractCard>();
 
-        for(FlavorType type : flavorTypes)
-            for(AbstractCard card : Main.deck.getCardsByFlavorType(type))
-                for(int x = 0; x < Main.deck.getHighestCost(); x++)
+        for(AbstractCard card : Main.deck.getCardsByViewerClass(viewerClass))
+            if (card.getCost() > 1)
+                for(int x = card.getCost(); x <= Rarity.getHighestCost(); x++)
                     cardPool.add(card);
 
-        while(pointsToDraw > 0 && cards.size() < capacity){
+        while(pointsToDraw > 0 && cards.size() < handCapacity){
             int toDraw = Main.random.nextInt(cardPool.size() + 1) - 1;
             if (toDraw < 0)
                 toDraw = 0;
@@ -85,10 +95,11 @@ public class Hand {
     public void drawBasics(int pointsToDraw){
         ArrayList<AbstractCard> cardPool = new ArrayList<AbstractCard>();
 
-        for(AbstractCard card : Main.deck.getCardsByFlavorType(FlavorType.basic))
-            cardPool.add(card);
+        for(AbstractCard card : Main.deck.getCardsByViewerClass(viewerClass))
+            if (card.getCost() == 1)
+                    cardPool.add(card);
 
-        while(pointsToDraw > 0 && cards.size() < capacity){
+        while(pointsToDraw > 0 && cards.size() < handCapacity){
             int toDraw = Main.random.nextInt(cardPool.size() + 1) - 1;
             if (toDraw < 0)
                 toDraw = 0;
@@ -96,5 +107,12 @@ public class Hand {
             pointsToDraw -= drawnCard.getCost();
             cards.add(drawnCard);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Viewer))
+            return false;
+        return this.getId().equals(((Viewer)obj).getId());
     }
 }

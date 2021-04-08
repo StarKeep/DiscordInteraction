@@ -1,8 +1,9 @@
 package discordInteraction.card;
 
 import com.badlogic.gdx.graphics.Texture;
-import discordInteraction.FlavorType;
+import com.megacrit.cardcrawl.powers.AfterImagePower;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class AbstractCard implements Cloneable {
@@ -22,7 +23,6 @@ public abstract class AbstractCard implements Cloneable {
     public abstract int getCost();
     public abstract String getDescriptionForViewerDisplay();
     public String getDescriptionForGameDisplay(){ return getDescriptionForViewerDisplay(); }
-    public abstract String getFlavorText();
-    public abstract FlavorType[] getFlavorTypes();
+    public abstract ArrayList<String> getViewerClasses();
     public abstract ViewerCardType getViewerCardType();
 }

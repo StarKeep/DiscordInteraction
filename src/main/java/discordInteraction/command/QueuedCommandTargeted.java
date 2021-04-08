@@ -2,6 +2,7 @@ package discordInteraction.command;
 
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import discordInteraction.card.targeted.AbstractCardTargeted;
+import discordInteraction.viewer.Viewer;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class QueuedCommandTargeted extends QueuedCommandBase<AbstractCardTargete
         return targets;
     }
 
-    public QueuedCommandTargeted(User player, AbstractCardTargeted card, ArrayList<AbstractCreature> targets){
-        super(player, card);
+    public QueuedCommandTargeted(Viewer viewer, AbstractCardTargeted card, ArrayList<AbstractCreature> targets){
+        super(viewer, card);
 
         this.targets = targets;
     }

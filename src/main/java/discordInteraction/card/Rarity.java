@@ -15,6 +15,12 @@ public enum Rarity {
                 return rarity.toString();
         return "Unknown";
     }
+    public static int getHighestCost(){
+        int highest = 1;
+        for(Rarity rarity : Rarity.values())
+            highest = Math.max(highest, rarity.cost);
+        return highest;
+    }
     private Rarity(int i) {
         this.cost = i;
     }

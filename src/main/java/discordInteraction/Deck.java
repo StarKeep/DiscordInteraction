@@ -10,25 +10,24 @@ import java.util.HashMap;
 import org.reflections.Reflections;
 
 public class Deck {
-    private HashMap<FlavorType, ArrayList<AbstractCard>> cards;
+    private HashMap<String, ArrayList<AbstractCard>> cardsByClass;
 
-    public ArrayList<AbstractCard> getCardsByFlavorType(FlavorType type){
-        return cards.get(type);
+    public ArrayList<AbstractCard> getCardsByViewerClass(String viewerClass){
+        return cardsByClass.get(viewerClass);
     }
 
-    private int highestCost;
-
-    public int getHighestCost(){ return highestCost; }
+    public ArrayList<String> getViewerClasses(){
+        ArrayList<String> viewerClasses = new ArrayList<>();
+        for (String viewerClass : cardsByClass.keySet())
+            viewerClasses.add(viewerClass);
+        return viewerClasses;
+    }
 
     public Deck() {
-        cards = new HashMap<FlavorType, ArrayList<AbstractCard>>();
-        highestCost = 1;
-
-        for (FlavorType type : FlavorType.values())
-            cards.put(type, new ArrayList<AbstractCard>());
+        cardsByClass = new HashMap<String, ArrayList<AbstractCard>>();
 
         // So this part is... fun.
-        // It will look through the entire project and add all defined subclasses of Card into the above Lists based on their Flavor.
+        // It will look through the entire project and add all defined subclasses of Card into the above Lists based on their ViewerClass.
         Reflections reflections = new Reflections(AbstractCard.class);
 
         for( Class<? extends AbstractCard> cardType : reflections.getSubTypesOf(AbstractCard.class)){
@@ -36,21 +35,18 @@ public class Deck {
                 continue;
             try {
                 AbstractCard.setTextureForCard(cardType);
-
                 AbstractCard card = cardType.newInstance();
-                highestCost = Math.max(highestCost, card.getCost());
-                if (Arrays.stream(card.getFlavorTypes()).anyMatch(FlavorType.basic::equals))
-                    cards.get(FlavorType.basic).add(card);
-                if (Arrays.stream(card.getFlavorTypes()).anyMatch(FlavorType.support::equals))
-                    cards.get(FlavorType.support).add(card);
-                if (Arrays.stream(card.getFlavorTypes()).anyMatch(FlavorType.oppose::equals))
-                    cards.get(FlavorType.oppose).add(card);
-                if (Arrays.stream(card.getFlavorTypes()).anyMatch(FlavorType.chaos::equals))
-                    cards.get(FlavorType.chaos).add(card);
+
+                // For each class it says its part of, add it to that respective class's card list.
+                for (String viewerClass : card.getViewerClasses()) {
+                    // If its the first card type of its class, create a new entry for it.
+                    if (!cardsByClass.containsKey(viewerClass))
+                        cardsByClass.put(viewerClass, new ArrayList<AbstractCard>());
+                    cardsByClass.get(viewerClass).add(card);
+                }
             } catch (Exception e){
                 Main.logger.debug(e);
             }
-
         }
     }
 }

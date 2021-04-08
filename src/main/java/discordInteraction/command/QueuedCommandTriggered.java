@@ -2,6 +2,7 @@ package discordInteraction.command;
 
 import discordInteraction.card.triggered.AbstractCardTriggered;
 import discordInteraction.card.triggered.TriggerTimingType;
+import discordInteraction.viewer.Viewer;
 import net.dv8tion.jda.api.entities.User;
 
 public class QueuedCommandTriggered extends QueuedCommandBase<AbstractCardTriggered> {
@@ -25,7 +26,7 @@ public class QueuedCommandTriggered extends QueuedCommandBase<AbstractCardTrigge
         return card.getTriggerTimingType() != TriggerTimingType.infinite && card.getTimesToBeTriggered() == 1;
     }
 
-    public QueuedCommandTriggered(User viewer, AbstractCardTriggered card){
+    public QueuedCommandTriggered(Viewer viewer, AbstractCardTriggered card){
         super(viewer, card);
         if (card.getTriggerTimingType() == TriggerTimingType.infinite || card.getTimesToBeTriggered() <= 0)
             timeLeft = -1;

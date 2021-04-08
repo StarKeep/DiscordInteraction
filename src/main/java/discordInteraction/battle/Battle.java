@@ -5,12 +5,12 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import discordInteraction.Main;
 import discordInteraction.util.Output;
-import discordInteraction.ViewerMinion;
+import discordInteraction.viewer.Viewer;
+import discordInteraction.viewer.ViewerMinion;
 import discordInteraction.command.Result;
 import kobting.friendlyminions.helpers.BasePlayerMinionHelper;
 import kobting.friendlyminions.monsters.AbstractFriendlyMonster;
 import kobting.friendlyminions.patches.PlayerAddFieldsPatch;
-import net.dv8tion.jda.api.entities.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,8 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static discordInteraction.util.Output.listHandForViewer;
-import static discordInteraction.util.Output.sendMessageToUser;
+import static discordInteraction.util.Output.sendMessageToViewer;
 
 public class Battle {
     private final Object battleLock = new Object();
@@ -34,8 +33,8 @@ public class Battle {
     // Proper start/end battle hooks will always apply regardless of this timing.
     private LocalDateTime lastBattleToggle;
 
-    private HashMap<User, AbstractFriendlyMonster> viewers;
-    private HashSet<User> viewersDeadUntilNextBattle;
+    private HashMap<Viewer, AbstractFriendlyMonster> viewers;
+    private HashSet<Viewer> viewersDeadUntilNextBattle;
 
     // I have baked in +1 to the index in the getters and setters since this is often used for viewer display.
     private ArrayList<Target> targets;
@@ -127,15 +126,15 @@ public class Battle {
             battleRoom = room;
 
             // Spawn in viewers.
-            for (User user : Main.viewers.keySet()) {
-                addViewerMonster(user);
+            for (Viewer viewer : Main.viewers) {
+                addViewerMonster(viewer);
             }
 
             updateTargets();
 
             // Give viewers some initial information.
-            for(User user : Main.viewers.keySet()){
-                sendMessageToUser(user, Output.getStatusForUser(user));
+            for (Viewer viewer : Main.viewers) {
+                sendMessageToViewer(viewer, Output.getStatusForViewer(viewer));
             }
 
 
@@ -172,12 +171,12 @@ public class Battle {
         }
     }
 
-    public boolean canUserSpawnIn(User user){
-        return !viewersDeadUntilNextBattle.contains(user);
+    public boolean canViewerSpawnIn(Viewer viewer){
+        return !viewersDeadUntilNextBattle.contains(viewer);
     }
 
-    public void addViewerMonster(User user){
-        if (!viewers.containsKey(user)){
+    public void addViewerMonster(Viewer viewer){
+        if (!viewers.containsKey(viewer)){
             int x = -1200;
             int y = 500;
 
@@ -190,34 +189,34 @@ public class Battle {
             }
             x += (count * 120);
 
-            AbstractFriendlyMonster viewer = new ViewerMinion(user, x, y);
-            BasePlayerMinionHelper.addMinion(AbstractDungeon.player, viewer);
-            viewers.put(user, viewer);
+            AbstractFriendlyMonster viewerMonster = new ViewerMinion(viewer, x, y);
+            BasePlayerMinionHelper.addMinion(AbstractDungeon.player, viewerMonster);
+            viewers.put(viewer, viewerMonster);
         }
     }
-    public void removeViewerMonster(User user, boolean untilEndOfBattle){
-        if (viewers.containsKey(user))
-            viewers.remove(user);
+    public void removeViewerMonster(Viewer viewer, boolean untilEndOfBattle){
+        if (viewers.containsKey(viewer))
+            viewers.remove(viewer);
         if (untilEndOfBattle)
-            viewersDeadUntilNextBattle.add(user);
+            viewersDeadUntilNextBattle.add(viewer);
     }
     public void removeAllViewerMonsters(){
         viewers.clear();
     }
-    public boolean hasViewerMonster(User user){
-        return viewers.containsKey(user);
+    public boolean hasViewerMonster(Viewer viewer){
+        return viewers.containsKey(viewer);
     }
-    public boolean hasLivingViewerMonster(User user){
-        if (!hasViewerMonster(user))
+    public boolean hasLivingViewerMonster(Viewer viewer){
+        if (!hasViewerMonster(viewer))
             return false;
-        return !getViewerMonster(user).isDeadOrEscaped();
+        return !getViewerMonster(viewer).isDeadOrEscaped();
     }
-    public HashMap<User, AbstractFriendlyMonster> getViewerMonsters(){
+    public HashMap<Viewer, AbstractFriendlyMonster> getViewerMonsters(){
         return viewers;
     }
-    public AbstractFriendlyMonster getViewerMonster(User user){
-        if (viewers.containsKey(user))
-            return viewers.get(user);
+    public AbstractFriendlyMonster getViewerMonster(Viewer viewer){
+        if (viewers.containsKey(viewer))
+            return viewers.get(viewer);
         else
             return null;
     }
@@ -226,7 +225,7 @@ public class Battle {
         inBattle = false;
         battleRoom = null;
         viewers = new HashMap<>();
-        viewersDeadUntilNextBattle = new HashSet<User>();
+        viewersDeadUntilNextBattle = new HashSet<>();
         targets = new ArrayList<>();
     }
 
@@ -260,8 +259,8 @@ public class Battle {
     }
 
     public void addMissingMonsters(){
-        for (User viewer : Main.viewers.keySet())
-            if (!hasViewerMonster(viewer) && canUserSpawnIn(viewer))
+        for (Viewer viewer : Main.viewers)
+            if (!hasViewerMonster(viewer) && canViewerSpawnIn(viewer))
                 addViewerMonster(viewer);
     }
 }

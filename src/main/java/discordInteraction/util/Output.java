@@ -1,39 +1,44 @@
 package discordInteraction.util;
 
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import discordInteraction.FlavorType;
 import discordInteraction.Main;
 import discordInteraction.card.AbstractCard;
 import discordInteraction.command.QueuedCommandTargeted;
 import discordInteraction.command.QueuedCommandTargetless;
-import net.dv8tion.jda.api.entities.PrivateChannel;
+import discordInteraction.viewer.Viewer;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import java.text.Format;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Output {
     // Shortcut to send messages to a user.
-    public static void sendMessageToUser(User user, String message) {
+    public static void sendMessageToUser(User user, String message){
         user.openPrivateChannel().queue((channel) ->
         {
-            sendMessageToUser(channel, message);
+            sendMessageToChannel(channel, message);
+        });
+    }
+    public static void sendMessageToViewer(Viewer viewer, String message){
+        viewer.openPrivateChannel().queue((channel) ->
+        {
+            sendMessageToChannel(channel, message);
         });
     }
 
     // Shortcut to send message to a private channel.
-    public static void sendMessageToUser(PrivateChannel channel, String message) {
+    public static void sendMessageToChannel(MessageChannel channel, String message) {
         channel.sendMessage(message).queue();
     }
 
     // Send a simplified list of cards to a viewer. No formatting.
-    public static String listHandForViewer(User viewer) {
-        if (!Main.viewers.containsKey(viewer))
+    public static String listHandForViewer(Viewer viewer) {
+        if (!Main.viewers.contains(viewer))
             return "You do not currently have a hand registered with the game. You can request a hand by typing !join in " + Main.bot.channel.getName() + ".";
 
         StringBuilder sb = new StringBuilder();
-        for (AbstractCard card : Main.viewers.get(viewer).getCards()) {
+        for (AbstractCard card : viewer.getCards()) {
             sb.append(card.getName());
             sb.append(" : ");
             sb.append(card.getDescriptionForViewerDisplay());
@@ -93,15 +98,26 @@ public class Output {
         return sb.toString().replace('\n', ' ');
     }
 
-    // List all FlavorTypes currently supported by the game, excluding basic.
-    public static String getFlavorList() {
-        String output = "The current flavors are:";
-        for (FlavorType flavor : FlavorType.values())
-            if (flavor == FlavorType.basic)
-                continue;
-            else
-                output += " " + flavor.toString();
-        return output;
+    // List all classes in the game.
+    public static String getViewerClassesList(boolean listOnly){
+        StringBuilder sb = new StringBuilder();
+        if (!listOnly)
+            sb.append("Classes currently available: ");
+
+        ArrayList<String> viewerClasses = Main.deck.getViewerClasses();
+        switch (viewerClasses.size()){
+            case 0:
+                sb.append("None");
+                break;
+            case 1:
+                sb.append(viewerClasses.get(0));
+                break;
+            default:
+                sb.append(Formatting.getStringFromArrayList(viewerClasses, ", "));
+                break;
+        }
+
+        return sb.toString();
     }
 
     public static String getStartOfInProgressBattleMessage() {
@@ -115,25 +131,25 @@ public class Output {
     }
 
     // An 'all in one' display of sorts.
-    public static String getStatusForUser(User user){
+    public static String getStatusForViewer(Viewer viewer){
         StringBuilder sb = new StringBuilder();
         sb.append(Formatting.putInCodeBlock("Cards"));
-        sb.append(listHandForViewer(user));
+        sb.append(listHandForViewer(viewer));
         if (Main.battle.isInBattle()) {
             sb.append(Formatting.putInCodeBlock("Targets [TargetingID]"));
             sb.append(getTargetListForDisplay(true));
             sb.append(Formatting.putInCodeBlock("Status"));
-            if (Main.battle.hasLivingViewerMonster(user)) {
-                AbstractCreature viewer = Main.battle.getViewerMonster(user);
+            if (Main.battle.hasLivingViewerMonster(viewer)) {
+                AbstractCreature viewerMonster = Main.battle.getViewerMonster(viewer);
                 sb.append("Health: ");
-                sb.append(viewer.currentHealth);
+                sb.append(viewerMonster.currentHealth);
                 sb.append('/');
-                sb.append(viewer.maxHealth);
+                sb.append(viewerMonster.maxHealth);
                 sb.append("\n");
                 sb.append("Command Queued: ");
-                sb.append(Main.commandQueue.userHasCommandQueued(user));
+                sb.append(Main.commandQueue.viewerHasCommandQueued(viewer));
                 sb.append("\n");
-            } else if (Main.battle.canUserSpawnIn(user))
+            } else if (Main.battle.canViewerSpawnIn(viewer))
                 sb.append("You have not yet spawned in, and should at the start of the next turn.");
             else
                 sb.append("You are currently dead, and are unable to play any cards until the next battle.");

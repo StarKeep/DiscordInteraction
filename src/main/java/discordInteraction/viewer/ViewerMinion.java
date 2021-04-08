@@ -1,10 +1,11 @@
-package discordInteraction;
+package discordInteraction.viewer;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import discordInteraction.Main;
 import kobting.friendlyminions.monsters.AbstractFriendlyMonster;
 import kobting.friendlyminions.monsters.MinionMove;
 import net.dv8tion.jda.api.entities.User;
@@ -25,15 +26,15 @@ public class ViewerMinion extends AbstractFriendlyMonster {
     private static String ID = "Viewer";
     private AbstractMonster target;
 
-    private static String getImageDirectory(User user){
+    private static String getImageDirectory(Viewer viewer){
         String dir = ConfigUtils.CONFIG_DIR + File.separator + "DiscordInteraction" + File.separator + "CachedImages" + File.separator;
         if (!(new File(dir).exists()))
             new File(dir).mkdirs();
-        File imageFile = new File(dir + user.getName() + ".png");
+        File imageFile = new File(dir + viewer.getName() + ".png");
 
         if (!imageFile.exists()) {
             try {
-                URL url = new URL(user.getAvatarUrl());
+                URL url = new URL(viewer.getAvatarUrl());
                 HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
                 httpcon.addRequestProperty("User-Agent", "");
                 BufferedImage bImage = ImageIO.read(httpcon.getInputStream());
@@ -57,9 +58,9 @@ public class ViewerMinion extends AbstractFriendlyMonster {
             return "images/monsters/Viewer.png";
     }
 
-    public ViewerMinion(User user, int offsetX, int offsetY) {
-        super(user.getName(), ID, 35, -3.0F, 10.0F, 5.0F, 5.0F,
-                getImageDirectory(user),
+    public ViewerMinion(Viewer viewer, int offsetX, int offsetY) {
+        super(viewer.getName(), ID, 35, -3.0F, 10.0F, 5.0F, 5.0F,
+                getImageDirectory(viewer),
                 offsetX, offsetY);
     }
 }
