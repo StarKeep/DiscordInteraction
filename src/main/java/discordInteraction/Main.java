@@ -51,7 +51,7 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     public static ArrayList<Viewer> viewers;
     public static Viewer getViewerFromUserOrNull(User user) {
         for (Viewer viewer : viewers)
-            if (viewer.getId() == user.getId())
+            if (viewer.getId().equals(user.getId()))
                 return viewer;
         return null;
     }

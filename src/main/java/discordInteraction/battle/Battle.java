@@ -253,7 +253,7 @@ public class Battle {
     public void updateTargets() {
             attemptToAddTarget(AbstractDungeon.player, TargetType.player);
             for (AbstractCreature creature : battleRoom.monsters.monsters)
-                attemptToAddTarget(creature, TargetType.monster);
+                attemptToAddTarget(creature, TargetType.enemy);
             for (AbstractCreature creature : viewers.values())
                 attemptToAddTarget(creature, TargetType.viewer);
     }

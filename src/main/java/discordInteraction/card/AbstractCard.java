@@ -23,6 +23,6 @@ public abstract class AbstractCard implements Cloneable {
     public abstract int getCost();
     public abstract String getDescriptionForViewerDisplay();
     public String getDescriptionForGameDisplay(){ return getDescriptionForViewerDisplay(); }
-    public abstract ArrayList<String> getViewerClasses();
+    public abstract String[] getViewerClasses();
     public abstract ViewerCardType getViewerCardType();
 }

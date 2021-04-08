@@ -37,7 +37,7 @@ public class MessageListener extends ListenerAdapter {
         // Handle any input from the main discord channel.
         // We want to restrict our output as much as possible in order to keep it as clean as possible.
         if (Main.bot.channel != null && event.getChannel().getId().equalsIgnoreCase(Main.bot.channel.getId())) {
-            switch (ChatCommandType.valueOf(event.getMessage().getContentDisplay().substring(1).toLowerCase())) {
+            switch (ChatCommandType.valueOf(parts[0].substring(1))) {
                 case join: // Either initialize a hand for them, or tell them that they're already in.
                     handleJoinCommand(event.getAuthor(), parts);
                     break;
@@ -97,6 +97,10 @@ public class MessageListener extends ListenerAdapter {
                         break;
                     case status: // Display all information they may need for the turn.
                         Output.sendMessageToViewer(viewer, Output.getStatusForViewer(viewer));
+                        break;
+                    case classes:
+                    case classlist:
+                        Output.sendMessageToViewer(viewer, Output.getViewerClassesList(false));
                         break;
                     default:
                         break;

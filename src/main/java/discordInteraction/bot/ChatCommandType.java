@@ -12,5 +12,7 @@ public enum ChatCommandType {
     play,
     status,
     targets,
+    classes,
+    classlist,
     debugmeafullhandofcards
 }

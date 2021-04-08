@@ -37,9 +37,10 @@ public class Viewer {
 
     public Viewer(User user, String viewerClass){
         this.user = user;
-        this.viewerClass = "Page";
+        this.viewerClass = viewerClass;
         this.handCapacity = 10;
         cards = new ArrayList<AbstractCard>();
+        drawNewHand(5, 2);
     }
 
     public ArrayList<AbstractCard> getCards(){
