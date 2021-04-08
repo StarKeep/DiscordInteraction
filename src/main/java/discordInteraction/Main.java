@@ -143,7 +143,8 @@ public class Main implements PreMonsterTurnSubscriber, PostBattleSubscriber, OnS
     @Override
     public void receivePostEnergyRecharge() {
         // This acts as a pseudo 'pre player turn' event.
-        battle.handlePostEnergyRecharge();
+        battle.handleStartOfPlayerTurnLogic();
+        commandQueue.handleStartOfPlayerTurnLogic();
     }
 
     @Override

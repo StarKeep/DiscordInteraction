@@ -2,6 +2,7 @@ package discordInteraction.card.triggered;
 
 public enum TriggerTimingType {
     infinite,
-    perTurn,
+    perTurnStart,
+    perTurnEnd,
     perTrigger
 }

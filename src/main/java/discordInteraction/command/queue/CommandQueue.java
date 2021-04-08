@@ -6,7 +6,6 @@ import discordInteraction.card.triggered.onPlayerDamage.AbstractCardTriggeredOnP
 import discordInteraction.command.*;
 import discordInteraction.viewer.Viewer;
 
-import static discordInteraction.util.Output.sendMessageToChannel;
 import static discordInteraction.util.Output.sendMessageToViewer;
 
 public class CommandQueue {
@@ -132,7 +131,24 @@ public class CommandQueue {
         Queue<QueuedCommandTriggered> toRetain = new Queue<QueuedCommandTriggered>();
         while(queue.hasAnotherCommand()){
             QueuedCommandTriggered command = queue.getNextCommand();
-            command.handleEndTurnLogic();
+            command.handleEndOfPlayerTurnLogic();
+            if (command.shouldBeRetained())
+                toRetain.add(command);
+            else
+                command.handleRemovalLogic(false);
+        }
+        return toRetain;
+    }
+
+    public void handleStartOfPlayerTurnLogic() {
+        triggerOnPlayerDamage = handleStartTurnLogicHelper(triggerOnPlayerDamage);
+    }
+
+    private Queue<QueuedCommandTriggered> handleStartTurnLogicHelper(Queue<QueuedCommandTriggered> queue){
+        Queue<QueuedCommandTriggered> toRetain = new Queue<QueuedCommandTriggered>();
+        while(queue.hasAnotherCommand()){
+            QueuedCommandTriggered command = queue.getNextCommand();
+            command.handleStartOfPlayerTurnLogic();
             if (command.shouldBeRetained())
                 toRetain.add(command);
             else

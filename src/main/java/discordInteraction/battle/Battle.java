@@ -240,7 +240,7 @@ public class Battle {
         updateTargets();
     }
 
-    public void handlePostEnergyRecharge() {
+    public void handleStartOfPlayerTurnLogic() {
         addMissingMonsters();
         updateTargets();
 

@@ -8,8 +8,13 @@ import net.dv8tion.jda.api.entities.User;
 public class QueuedCommandTriggered extends QueuedCommandBase<AbstractCardTriggered> {
     private int timeLeft;
 
-    public void handleEndTurnLogic() {
-        if (card.getTriggerTimingType() == TriggerTimingType.perTurn && timeLeft > 0)
+    public void handleStartOfPlayerTurnLogic(){
+        if (card.getTriggerTimingType() == TriggerTimingType.perTurnStart && timeLeft > 0)
+            timeLeft--;
+    }
+
+    public void handleEndOfPlayerTurnLogic() {
+        if (card.getTriggerTimingType() == TriggerTimingType.perTurnEnd && timeLeft > 0)
             timeLeft--;
     }
 

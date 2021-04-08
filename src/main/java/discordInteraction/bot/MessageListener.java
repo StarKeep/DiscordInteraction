@@ -327,6 +327,10 @@ public class MessageListener extends ListenerAdapter {
                         found = true;
                         break;
                     }
+                if (!found) {
+                    Output.sendMessageToUser(user, "Sorry, that class could not be found. " + Output.getViewerClassesList(false));
+                    return;
+                }
             }
             Viewer viewer = new Viewer(user, requestedClass);
             Main.viewers.add(viewer);
