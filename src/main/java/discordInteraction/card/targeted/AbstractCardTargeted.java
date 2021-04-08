@@ -37,7 +37,7 @@ public abstract class AbstractCardTargeted extends AbstractCardTargetless {
         while (targets.size() > getTargetCountMin())
         {
             targets.remove(Main.random.nextInt(targets.size()));
-            if (targets.size() <= getTargetCountMax() || Main.random.nextBoolean())
+            if (targets.size() <= getTargetCountMax() && Main.random.nextBoolean())
                 break;
         }
 
@@ -58,8 +58,15 @@ public abstract class AbstractCardTargeted extends AbstractCardTargetless {
     protected abstract Result apply(Viewer viewer, AbstractPlayer player, ArrayList<AbstractCreature> targets);
 
     protected boolean hasValidTargets(ArrayList<AbstractCreature> targets){
+        for(int x = 0; x < targets.size(); x++)
+            if (targets.get(x).isDeadOrEscaped())
+            {
+                targets.remove(x);
+                x--;
+            }
         if (targets == null
-         || targets.size() < getTargetCountMin())
+         || targets.size() < getTargetCountMin()
+         || targets.size() > getTargetCountMax())
             return false;
         return true;
     }
